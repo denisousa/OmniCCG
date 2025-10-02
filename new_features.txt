@@ -1,9 +1,10 @@
-Pegar histórico de commits por tempo
+Pegar histórico de commits por dias
 Atualização para o Nicad6
-Bug Fixes - O código não funcionava ao só utilizar ele
+Fix code - O código não estava funcional
 Pegar todos os commits independente do tempo
 Quantidade que estão no mesmo arquivo
 Quantidade dos que estão em arquivos diferentes
 Pegar os primeiros commits e não os últimos
 Saber quando um arquivo foi movido
+Exibir os tipos de NASCIMENTO DE UMA GENEALOGIA
 

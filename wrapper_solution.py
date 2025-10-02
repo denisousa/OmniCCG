@@ -9,7 +9,6 @@ from typing import List, Dict
 import subprocess, os
 import subprocess
 
-
 def check_snippet_existence(repo_path: str, file_path: str, start_line: str, end_line: str, commit_hash: str):
     file_path = file_path.replace('../../', './').replace('workspace/dataset/production', repo_path)
 
@@ -63,5 +62,3 @@ def check_snippet_existence(repo_path: str, file_path: str, start_line: str, end
 
 
 
-def get_origim_type(list_snippet_existence):
-    pass

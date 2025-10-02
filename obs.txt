@@ -10,6 +10,6 @@ Pq não existe o commit 69 - R: O repositório ele elemina uma pasta e depois ap
 A ferramenta gera o nó com Evolution=None e Change=None
 
 Caso não exista uma evolução, a ferramenta irá acusar 
-
-Se eu colocar 
-
+1. Mover o code snippet dentro do mesmo arquivo 
+2. ⁠Mudar o path do code snippet
+3. ⁠Posso fazer 1 e 2
