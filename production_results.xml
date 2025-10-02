@@ -1,0 +1,1748 @@
+<lineages>
+<lineage>
+	<version nr="1" hash="c42b086" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/org.eclipse.search/search/org/eclipse/search/internal/ui/SearchPageDescriptor.java" startline="99" endline="111" function="getImage" hash="-4513937020091475621"></source>
+			<source file="../../workspace/dataset/production/org.eclipse.search/search/org/eclipse/search/internal/ui/SorterDescriptor.java" startline="68" endline="80" function="getImage" hash="976040250278428897"></source>
+		</class>
+	</version>
+	<version nr="68" hash="229d10e" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/org.eclipse.search/search/org/eclipse/search/internal/ui/SearchPageDescriptor.java" startline="99" endline="111" function="getImage" hash="-4513937020091475621"></source>
+			<source file="../../workspace/dataset/production/org.eclipse.search/search/org/eclipse/search/internal/ui/SorterDescriptor.java" startline="68" endline="80" function="getImage" hash="976040250278428897"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Text Editor/org/eclipse/ui/texteditor/MarkerUpdater.java" startline="38" endline="56" function="updateMarker" hash="-1312488020784783251"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Text Editor/org/eclipse/ui/texteditor/BasicMarkerUpdater.java" startline="50" endline="68" function="updateMarker" hash="-1312488020784783251"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Text Editor/org/eclipse/ui/texteditor/MarkerUpdater.java" startline="38" endline="56" function="updateMarker" hash="-1312488020784783251"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Text Editor/org/eclipse/ui/texteditor/BasicMarkerUpdater.java" startline="50" endline="68" function="updateMarker" hash="-1312488020784783251"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace Text/org/eclipse/jface/text/AbstractDocument.java" startline="285" endline="309" function="fireDocumentAboutToBeChanged" hash="-7724097397135142263"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace Text/org/eclipse/jface/text/AbstractDocument.java" startline="315" endline="337" function="fireDocumentChanged" hash="1022956581618722892"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace Text/org/eclipse/jface/text/AbstractDocument.java" startline="285" endline="309" function="fireDocumentAboutToBeChanged" hash="-7724097397135142263"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace Text/org/eclipse/jface/text/AbstractDocument.java" startline="315" endline="337" function="fireDocumentChanged" hash="1022956581618722892"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace Text/org/eclipse/jface/text/TextHoveringController.java" startline="154" endline="162" function="focusLost" hash="614297765488554699"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace Text/org/eclipse/jface/text/source/VerticalRulerHoveringController.java" startline="119" endline="127" function="focusLost" hash="-5858195339086819074"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace Text/org/eclipse/jface/text/TextHoveringController.java" startline="154" endline="162" function="focusLost" hash="614297765488554699"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace Text/org/eclipse/jface/text/source/VerticalRulerHoveringController.java" startline="119" endline="127" function="focusLost" hash="-5858195339086819074"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/properties/FilterAction.java" startline="25" endline="33" function="run" hash="1018042262522299678"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/properties/CategoriesAction.java" startline="23" endline="31" function="run" hash="7373712632683466792"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/properties/FilterAction.java" startline="25" endline="33" function="run" hash="1018042262522299678"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/properties/CategoriesAction.java" startline="23" endline="31" function="run" hash="7373712632683466792"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="8">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/properties/PropertySheetPage.java" startline="105" endline="122" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/FileSystemExportWizard.java" startline="69" endline="86" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/internal/framelist/FrameAction.java" startline="52" endline="69" function="getImageDescriptor" hash="3808226554282200934"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileImportWizard.java" startline="69" endline="86" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/FileSystemImportWizard.java" startline="70" endline="87" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportWizard.java" startline="69" endline="86" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/bookmarkexplorer/BookmarkNavigator.java" startline="147" endline="163" function="getImageDescriptor" hash="-4239591704045435671"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/tasklist/MarkerUtil.java" startline="38" endline="53" function="createImageDescriptor" hash="5424607839765917244"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="8">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/properties/PropertySheetPage.java" startline="105" endline="122" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/FileSystemExportWizard.java" startline="69" endline="86" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/internal/framelist/FrameAction.java" startline="52" endline="69" function="getImageDescriptor" hash="3808226554282200934"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileImportWizard.java" startline="69" endline="86" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/FileSystemImportWizard.java" startline="70" endline="87" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportWizard.java" startline="69" endline="86" function="getImageDescriptor" hash="1336819715146430800"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/bookmarkexplorer/BookmarkNavigator.java" startline="147" endline="163" function="getImageDescriptor" hash="-4239591704045435671"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/tasklist/MarkerUtil.java" startline="38" endline="53" function="createImageDescriptor" hash="5424607839765917244"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/properties/PropertySheet.java" startline="179" endline="188" function="registerAdapters" hash="6639678136674739176"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/model/WorkbenchAdapterBuilder.java" startline="19" endline="28" function="registerAdapters" hash="39082402409792426"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/views/properties/PropertySheet.java" startline="179" endline="188" function="registerAdapters" hash="6639678136674739176"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/model/WorkbenchAdapterBuilder.java" startline="19" endline="28" function="registerAdapters" hash="39082402409792426"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/newresource/BasicNewResourceWizard.java" startline="80" endline="96" function="initializeDefaultPageImageDescriptor" hash="-7422644472842103184"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/newresource/BasicNewProjectResourceWizard.java" startline="219" endline="235" function="initializeDefaultPageImageDescriptor" hash="6104614352787775090"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/newresource/BasicNewFolderResourceWizard.java" startline="67" endline="83" function="initializeDefaultPageImageDescriptor" hash="1001193341027806083"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/newresource/BasicNewFileResourceWizard.java" startline="69" endline="85" function="initializeDefaultPageImageDescriptor" hash="-4175438760678324892"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/newresource/BasicNewResourceWizard.java" startline="80" endline="96" function="initializeDefaultPageImageDescriptor" hash="-7422644472842103184"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/newresource/BasicNewProjectResourceWizard.java" startline="219" endline="235" function="initializeDefaultPageImageDescriptor" hash="6104614352787775090"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/newresource/BasicNewFolderResourceWizard.java" startline="67" endline="83" function="initializeDefaultPageImageDescriptor" hash="1001193341027806083"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/newresource/BasicNewFileResourceWizard.java" startline="69" endline="85" function="initializeDefaultPageImageDescriptor" hash="-4175438760678324892"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="64" endline="87" function="createOptionsGroup" hash="-1508859694275129743"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="65" endline="88" function="createOptionsGroup" hash="-1508859694275129743"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="64" endline="87" function="createOptionsGroup" hash="-1508859694275129743"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="65" endline="88" function="createOptionsGroup" hash="-1508859694275129743"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="69" endline="92" function="createOptionsGroup" hash="-7657328168563414309"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="64" endline="87" function="createOptionsGroup" hash="-7657328168563414309"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="77" endline="100" function="createOptionsGroup" hash="-7657328168563414309"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="64" endline="87" function="createOptionsGroup" hash="-7657328168563414309"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="104" endline="125" function="ensureTargetFileIsValid" hash="3386160968723771508"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="109" endline="130" function="ensureTargetFileIsValid" hash="3386160968723771508"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="104" endline="125" function="ensureTargetFileIsValid" hash="3386160968723771508"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="109" endline="130" function="ensureTargetFileIsValid" hash="3386160968723771508"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="109" endline="130" function="ensureTargetFileIsValid" hash="8431908951555162361"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="108" endline="129" function="ensureTargetFileIsValid" hash="8431908951555162361"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="117" endline="138" function="ensureTargetFileIsValid" hash="8431908951555162361"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="108" endline="129" function="ensureTargetFileIsValid" hash="8431908951555162361"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="6">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="145" endline="168" function="executeExportOperation" hash="-4352234936883818181"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="175" endline="199" function="executeExportOperation" hash="-5523941103724585770"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="174" endline="197" function="executeExportOperation" hash="-313068566113073988"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="221" endline="243" function="executeImportOperation" hash="-1621881191055733244"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="154" endline="177" function="executeExportOperation" hash="-4352234936883818181"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="325" endline="347" function="executeImportOperation" hash="-1621881191055733244"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="6">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="145" endline="168" function="executeExportOperation" hash="-4352234936883818181"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="175" endline="199" function="executeExportOperation" hash="-5523941103724585770"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="174" endline="197" function="executeExportOperation" hash="-313068566113073988"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="221" endline="243" function="executeImportOperation" hash="-1621881191055733244"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="154" endline="177" function="executeExportOperation" hash="-4352234936883818181"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="325" endline="347" function="executeImportOperation" hash="-1621881191055733244"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="6">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="150" endline="173" function="executeExportOperation" hash="-1638760325406769077"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="177" endline="200" function="executeExportOperation" hash="-3898175494293939814"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="316" endline="338" function="executeImportOperation" hash="886812495103536240"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="153" endline="176" function="executeExportOperation" hash="-1638760325406769077"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="221" endline="243" function="executeImportOperation" hash="886812495103536240"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="174" endline="198" function="executeExportOperation" hash="6509086581654720051"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="6">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="158" endline="181" function="executeExportOperation" hash="-1638760325406769077"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="221" endline="243" function="executeImportOperation" hash="886812495103536240"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="317" endline="339" function="executeImportOperation" hash="886812495103536240"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="174" endline="198" function="executeExportOperation" hash="6509086581654720051"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="179" endline="202" function="executeExportOperation" hash="-3898175494293939814"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="153" endline="176" function="executeExportOperation" hash="-1638760325406769077"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="251" endline="279" function="internalSaveWidgetValues" hash="1029086358621171750"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="264" endline="292" function="internalSaveWidgetValues" hash="1029086358621171750"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="251" endline="279" function="internalSaveWidgetValues" hash="1029086358621171750"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="264" endline="292" function="internalSaveWidgetValues" hash="1029086358621171750"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Add" change="Same">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="256" endline="280" function="internalSaveWidgetValues" hash="4402686051442045346"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="289" endline="310" function="internalSaveWidgetValues" hash="-3175091724676656815"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="284" endline="311" function="internalSaveWidgetValues" hash="-5534851074722025863"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="263" endline="291" function="internalSaveWidgetValues" hash="1029086358621171750"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="264" endline="288" function="internalSaveWidgetValues" hash="4402686051442045346"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="284" endline="311" function="internalSaveWidgetValues" hash="-5534851074722025863"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="291" endline="312" function="internalSaveWidgetValues" hash="-3175091724676656815"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="263" endline="291" function="internalSaveWidgetValues" hash="1029086358621171750"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="284" endline="306" function="restoreWidgetValues" hash="5786912669137188100"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="311" endline="331" function="restoreWidgetValues" hash="-4031733386540623059"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="297" endline="319" function="restoreWidgetValues" hash="5786912669137188100"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="317" endline="339" function="restoreWidgetValues" hash="-6437695144204539002"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="284" endline="306" function="restoreWidgetValues" hash="5786912669137188100"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="311" endline="331" function="restoreWidgetValues" hash="-4031733386540623059"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="297" endline="319" function="restoreWidgetValues" hash="5786912669137188100"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="317" endline="339" function="restoreWidgetValues" hash="-6437695144204539002"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Inconsistent">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="285" endline="307" function="restoreWidgetValues" hash="5786912669137188100"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="315" endline="334" function="restoreWidgetValues" hash="8909080516275586538"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="316" endline="338" function="restoreWidgetValues" hash="-6437695144204539002"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="296" endline="318" function="restoreWidgetValues" hash="5786912669137188100"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceExportPage1.java" startline="293" endline="315" function="restoreWidgetValues" hash="5786912669137188100"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileExportPage1.java" startline="296" endline="318" function="restoreWidgetValues" hash="5786912669137188100"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="316" endline="338" function="restoreWidgetValues" hash="-6437695144204539002"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="317" endline="336" function="restoreWidgetValues" hash="8909080516275586538"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileImportPage1.java" startline="155" endline="166" function="getSpecifiedSourceFile" hash="1026686989956148084"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="204" endline="218" function="getSpecifiedSourceFile" hash="7006875055950963188"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileImportPage1.java" startline="155" endline="166" function="getSpecifiedSourceFile" hash="1026686989956148084"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="204" endline="218" function="getSpecifiedSourceFile" hash="7006875055950963188"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileImportPage1.java" startline="154" endline="165" function="getSpecifiedSourceFile" hash="2946316135154368422"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="213" endline="227" function="getSpecifiedSourceFile" hash="-1758662216113678115"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileImportPage1.java" startline="154" endline="165" function="getSpecifiedSourceFile" hash="2946316135154368422"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="221" endline="235" function="getSpecifiedSourceFile" hash="-1758662216113678115"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileImportPage1.java" startline="288" endline="321" function="saveWidgetValues" hash="-6676573453694443436"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="310" endline="332" function="saveWidgetValues" hash="2279530494211967452"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="568" endline="607" function="saveWidgetValues" hash="5997606774867422345"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="616" endline="637" function="saveWidgetValues" hash="-5700792853485871987"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileImportPage1.java" startline="288" endline="321" function="saveWidgetValues" hash="-6676573453694443436"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="310" endline="332" function="saveWidgetValues" hash="2279530494211967452"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="568" endline="607" function="saveWidgetValues" hash="5997606774867422345"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="616" endline="637" function="saveWidgetValues" hash="-5700792853485871987"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="91" endline="106" function="createOptionsGroup" hash="3280967978701008031"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="227" endline="242" function="createOptionsGroup" hash="3280967978701008031"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="91" endline="106" function="createOptionsGroup" hash="3280967978701008031"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="227" endline="242" function="createOptionsGroup" hash="3280967978701008031"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="90" endline="105" function="createOptionsGroup" hash="970889679685279915"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="209" endline="224" function="createOptionsGroup" hash="970889679685279915"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="90" endline="105" function="createOptionsGroup" hash="970889679685279915"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="210" endline="225" function="createOptionsGroup" hash="970889679685279915"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="441" endline="472" function="handleTypesEditButtonPressed" hash="4493433543679780652"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="504" endline="537" function="handleTypesEditButtonPressed" hash="561904843925962986"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemImportPage1.java" startline="441" endline="472" function="handleTypesEditButtonPressed" hash="4493433543679780652"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="504" endline="537" function="handleTypesEditButtonPressed" hash="561904843925962986"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="139" endline="150" function="getFileProvider" hash="2755930450610350697"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="372" endline="383" function="getFileProvider" hash="191613738060906766"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="139" endline="150" function="getFileProvider" hash="2755930450610350697"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="372" endline="383" function="getFileProvider" hash="191613738060906766"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="170" endline="193" function="getFolderProvider" hash="-2570374660847299266"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="401" endline="424" function="getFolderProvider" hash="-2793971362013091107"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="170" endline="193" function="getFolderProvider" hash="-2570374660847299266"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="401" endline="424" function="getFolderProvider" hash="-2793971362013091107"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="286" endline="302" function="restoreWidgetValues" hash="-8805359379673491236"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="591" endline="611" function="restoreWidgetValues" hash="-4254361419970160824"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="286" endline="302" function="restoreWidgetValues" hash="-8805359379673491236"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="591" endline="611" function="restoreWidgetValues" hash="-4254361419970160824"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/Base64Encoder.java" startline="23" endline="61" function="encode" hash="6155026234545482988"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/InternalBase64Encoder.java" startline="23" endline="61" function="encode" hash="6155026234545482988"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/Base64Encoder.java" startline="23" endline="61" function="encode" hash="6155026234545482988"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/InternalBase64Encoder.java" startline="23" endline="61" function="encode" hash="6155026234545482988"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="78" endline="103" function="createDestinationGroup" hash="-628858951480900760"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="81" endline="106" function="createDestinationGroup" hash="-628858951480900760"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="78" endline="103" function="createDestinationGroup" hash="-628858951480900760"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="81" endline="106" function="createDestinationGroup" hash="-628858951480900760"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="77" endline="102" function="createDestinationGroup" hash="2005152843055413018"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="84" endline="109" function="createDestinationGroup" hash="2005152843055413018"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="77" endline="102" function="createDestinationGroup" hash="2005152843055413018"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="86" endline="111" function="createDestinationGroup" hash="2005152843055413018"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="109" endline="132" function="createOptionsGroup" hash="-8690304828905841855"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="112" endline="131" function="createOptionsGroup" hash="7439644593110610558"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="109" endline="132" function="createOptionsGroup" hash="-8690304828905841855"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="112" endline="131" function="createOptionsGroup" hash="7439644593110610558"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="108" endline="131" function="createOptionsGroup" hash="-354558106144996501"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="115" endline="134" function="createOptionsGroup" hash="4499886135716899927"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="108" endline="131" function="createOptionsGroup" hash="-354558106144996501"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="117" endline="136" function="createOptionsGroup" hash="4499886135716899927"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="140" endline="153" function="ensureDirectoryExists" hash="-6051752686018939016"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="139" endline="152" function="ensureDirectoryExists" hash="-6051752686018939016"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="140" endline="153" function="ensureDirectoryExists" hash="-6051752686018939016"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="139" endline="152" function="ensureDirectoryExists" hash="-6051752686018939016"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="139" endline="152" function="ensureDirectoryExists" hash="-8765618896472448007"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="142" endline="155" function="ensureDirectoryExists" hash="-8765618896472448007"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="139" endline="152" function="ensureDirectoryExists" hash="-8765618896472448007"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="144" endline="157" function="ensureDirectoryExists" hash="-8765618896472448007"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="285" endline="312" function="internalSaveWidgetValues" hash="-5534851074722025863"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="283" endline="306" function="internalSaveWidgetValues" hash="7459266193941601637"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemExportPage1.java" startline="285" endline="312" function="internalSaveWidgetValues" hash="-5534851074722025863"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceExportPage1.java" startline="283" endline="306" function="internalSaveWidgetValues" hash="7459266193941601637"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/FileSystemExporter.java" startline="52" endline="73" function="writeFile" hash="-3248936091952022156"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileSystemResourceExporter.java" startline="52" endline="73" function="writeFile" hash="-3248936091952022156"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/FileSystemExporter.java" startline="52" endline="73" function="writeFile" hash="-3248936091952022156"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileSystemResourceExporter.java" startline="52" endline="73" function="writeFile" hash="-3248936091952022156"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="38" endline="51" function="ZipFileExportOperation" hash="8865253351009831889"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="38" endline="51" function="ZipFileResourceExportOperation" hash="7174428370638229865"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="38" endline="51" function="ZipFileExportOperation" hash="8865253351009831889"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="38" endline="51" function="ZipFileResourceExportOperation" hash="7174428370638229865"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="128" endline="157" function="exportResource" hash="3792037030518353656"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="128" endline="159" function="exportResource" hash="4504343943544935066"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="128" endline="157" function="exportResource" hash="3792037030518353656"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="128" endline="159" function="exportResource" hash="4504343943544935066"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="129" endline="162" function="exportResource" hash="6280183034878526691"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="128" endline="159" function="exportResource" hash="3784327845348370594"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="129" endline="162" function="exportResource" hash="6280183034878526691"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="128" endline="159" function="exportResource" hash="3784327845348370594"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="241" endline="279" function="run" hash="-4976429435064784274"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="243" endline="281" function="run" hash="-4976429435064784274"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="241" endline="279" function="run" hash="-4976429435064784274"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="243" endline="281" function="run" hash="-4976429435064784274"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="246" endline="288" function="run" hash="6124179945750503174"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="243" endline="281" function="run" hash="490090688182400347"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExportOperation.java" startline="246" endline="288" function="run" hash="6124179945750503174"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExportOperation.java" startline="243" endline="281" function="run" hash="490090688182400347"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="68" endline="80" function="aboutToOpen" hash="-3979854193008772185"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="68" endline="80" function="aboutToOpen" hash="-3979854193008772185"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="68" endline="80" function="aboutToOpen" hash="-3979854193008772185"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="68" endline="80" function="aboutToOpen" hash="-3979854193008772185"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="138" endline="151" function="checkStateChanged" hash="5602600461259396693"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="152" endline="165" function="checkStateChanged" hash="5602600461259396693"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="138" endline="151" function="checkStateChanged" hash="5602600461259396693"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="152" endline="165" function="checkStateChanged" hash="5602600461259396693"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="159" endline="174" function="createContents" hash="5125583990721857807"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="173" endline="188" function="createContents" hash="5125583990721857807"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="159" endline="174" function="createContents" hash="5125583990721857807"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="173" endline="188" function="createContents" hash="5125583990721857807"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="178" endline="187" function="createListViewer" hash="-3269394298049434099"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="192" endline="201" function="createListViewer" hash="-3269394298049434099"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="178" endline="187" function="createListViewer" hash="-3269394298049434099"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="192" endline="201" function="createListViewer" hash="-3269394298049434099"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="191" endline="204" function="createTreeViewer" hash="3477308501030022149"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="205" endline="218" function="createTreeViewer" hash="3477308501030022149"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="191" endline="204" function="createTreeViewer" hash="3477308501030022149"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="205" endline="218" function="createTreeViewer" hash="3477308501030022149"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="446" endline="471" function="listItemChecked" hash="5986405514918339966"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="382" endline="407" function="listItemChecked" hash="5986405514918339966"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="446" endline="471" function="listItemChecked" hash="5986405514918339966"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="382" endline="407" function="listItemChecked" hash="5986405514918339966"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Inconsistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="381" endline="406" function="listItemChecked" hash="5986405514918339966"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ResourceTreeAndListGroup.java" startline="498" endline="528" function="listItemChecked" hash="8566061550374170740"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Inconsistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="380" endline="405" function="listItemChecked" hash="5986405514918339966"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ResourceTreeAndListGroup.java" startline="497" endline="528" function="listItemChecked" hash="-5304617205497589027"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="545" endline="559" function="selectionChanged" hash="-8541363310064088185"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="447" endline="461" function="selectionChanged" hash="-8541363310064088185"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="545" endline="559" function="selectionChanged" hash="-8541363310064088185"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="447" endline="461" function="selectionChanged" hash="-8541363310064088185"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="618" endline="640" function="setTreeChecked" hash="2979845902851527092"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="505" endline="530" function="setTreeChecked" hash="3114146333394932734"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="618" endline="640" function="setTreeChecked" hash="2979845902851527092"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="505" endline="530" function="setTreeChecked" hash="3114146333394932734"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="717" endline="732" function="updateHierarchy" hash="-3056417886939420306"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="615" endline="630" function="updateHierarchy" hash="-3056417886939420306"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ResourceTreeAndListGroup.java" startline="717" endline="732" function="updateHierarchy" hash="-3056417886939420306"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="615" endline="630" function="updateHierarchy" hash="-3056417886939420306"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Inconsistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="614" endline="629" function="updateHierarchy" hash="-3056417886939420306"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ResourceTreeAndListGroup.java" startline="775" endline="792" function="updateHierarchy" hash="519726527929919525"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/CheckboxTreeAndListGroup.java" startline="613" endline="628" function="updateHierarchy" hash="-3056417886939420306"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ResourceTreeAndListGroup.java" startline="779" endline="796" function="updateHierarchy" hash="519726527929919525"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExporter.java" startline="58" endline="95" function="appendToManifest" hash="-7444974787962055141"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExporter.java" startline="58" endline="95" function="appendToManifest" hash="-3877994897505861497"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExporter.java" startline="58" endline="95" function="appendToManifest" hash="-7444974787962055141"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExporter.java" startline="58" endline="95" function="appendToManifest" hash="-3877994897505861497"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExporter.java" startline="116" endline="131" function="write" hash="9122535342920873627"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExporter.java" startline="116" endline="131" function="write" hash="9122535342920873627"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExporter.java" startline="116" endline="131" function="write" hash="9122535342920873627"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExporter.java" startline="116" endline="131" function="write" hash="9122535342920873627"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExporter.java" startline="140" endline="165" function="write" hash="-7754301796763201621"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExporter.java" startline="140" endline="165" function="write" hash="-7754301796763201621"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/ZipFileExporter.java" startline="140" endline="165" function="write" hash="-7754301796763201621"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/ZipFileResourceExporter.java" startline="140" endline="165" function="write" hash="-7754301796763201621"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="104" endline="127" function="createButton" hash="-2128466801688086790"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/dialogs/Dialog.java" startline="196" endline="223" function="createButton" hash="-9220915868072064037"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="114" endline="137" function="createButton" hash="-2128466801688086790"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/PerspectivesPreferencePage.java" startline="105" endline="130" function="createVerticalButton" hash="-3044084521386467537"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Same">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="104" endline="127" function="createButton" hash="-2128466801688086790"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/dialogs/Dialog.java" startline="196" endline="223" function="createButton" hash="-9220915868072064037"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="114" endline="137" function="createButton" hash="-2128466801688086790"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/PerspectivesPreferencePage.java" startline="105" endline="130" function="createVerticalButton" hash="-3044084521386467537"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Subtract" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="98" endline="121" function="createButton" hash="-2128466801688086790"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="120" endline="143" function="createButton" hash="-2128466801688086790"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="134" endline="185" function="createButtonsGroup" hash="-1324758810032646531"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="144" endline="195" function="createButtonsGroup" hash="-1772670285637257362"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="134" endline="185" function="createButtonsGroup" hash="-1324758810032646531"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="144" endline="195" function="createButtonsGroup" hash="-1772670285637257362"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="127" endline="197" function="createButtonsGroup" hash="-762737597089242013"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="150" endline="219" function="createButtonsGroup" hash="-6312077767510260419"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="128" endline="198" function="createButtonsGroup" hash="-762737597089242013"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="150" endline="219" function="createButtonsGroup" hash="-6312077767510260419"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/NewWizardAction.java" startline="53" endline="76" function="run" hash="6544249178095416094"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/ImportResourcesAction.java" startline="43" endline="64" function="run" hash="-8807118514663605660"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/ExportResourcesAction.java" startline="43" endline="64" function="run" hash="8917431017540839782"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/NewProjectAction.java" startline="55" endline="83" function="run" hash="-7823350690651611967"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Same">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/NewWizardAction.java" startline="53" endline="76" function="run" hash="6544249178095416094"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/ImportResourcesAction.java" startline="43" endline="64" function="run" hash="-8807118514663605660"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/ExportResourcesAction.java" startline="43" endline="64" function="run" hash="8917431017540839782"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/NewProjectAction.java" startline="55" endline="83" function="run" hash="-7823350690651611967"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Inconsistent">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/NewWizardAction.java" startline="52" endline="75" function="run" hash="6544249178095416094"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/NewProjectAction.java" startline="53" endline="81" function="run" hash="-8898012902515478760"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/ExportResourcesAction.java" startline="41" endline="63" function="run" hash="-2611339904677775269"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/ImportResourcesAction.java" startline="41" endline="63" function="run" hash="7022201685449884945"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CreateFileAction.java" startline="74" endline="86" function="updateSelection" hash="4528942037169831131"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CreateFolderAction.java" startline="75" endline="87" function="updateSelection" hash="4528942037169831131"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CreateFileAction.java" startline="74" endline="86" function="updateSelection" hash="4528942037169831131"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CreateFolderAction.java" startline="75" endline="87" function="updateSelection" hash="4528942037169831131"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyProjectAction.java" startline="163" endline="202" function="performCopy" hash="7139867313333829950"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/MoveProjectAction.java" startline="57" endline="104" function="performMove" hash="-6836556313049771293"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyProjectAction.java" startline="163" endline="202" function="performCopy" hash="7139867313333829950"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/MoveProjectAction.java" startline="57" endline="104" function="performMove" hash="-6836556313049771293"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyProjectAction.java" startline="136" endline="175" function="performCopy" hash="3587480226796705550"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/MoveProjectAction.java" startline="63" endline="107" function="performMove" hash="-897280670377176096"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyProjectAction.java" startline="136" endline="175" function="performCopy" hash="3587480226796705550"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/MoveProjectAction.java" startline="63" endline="107" function="performMove" hash="-897280670377176096"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyProjectAction.java" startline="227" endline="251" function="run" hash="8910642826837502489"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/MoveProjectAction.java" startline="108" endline="129" function="run" hash="5613621060230138810"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyProjectAction.java" startline="227" endline="251" function="run" hash="8910642826837502489"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/MoveProjectAction.java" startline="108" endline="129" function="run" hash="5613621060230138810"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Inconsistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyProjectAction.java" startline="200" endline="221" function="run" hash="5799827856298345680"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/MoveProjectAction.java" startline="111" endline="132" function="run" hash="5613621060230138810"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyProjectAction.java" startline="200" endline="224" function="run" hash="-6959855499137427499"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/MoveProjectAction.java" startline="111" endline="135" function="run" hash="-3530769287144432019"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/WorkspaceAction.java" startline="198" endline="209" function="isAccessible" hash="-4552474535309295353"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyResourceAction.java" startline="241" endline="252" function="isAccessible" hash="-4552474535309295353"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/WorkspaceAction.java" startline="198" endline="209" function="isAccessible" hash="-4552474535309295353"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyResourceAction.java" startline="241" endline="252" function="isAccessible" hash="-4552474535309295353"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/RenameResourceAction.java" startline="90" endline="112" function="checkOverwrite" hash="-7947675889310110192"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyResourceAction.java" startline="100" endline="122" function="checkOverwrite" hash="-7947675889310110192"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/RenameResourceAction.java" startline="90" endline="112" function="checkOverwrite" hash="-7947675889310110192"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyResourceAction.java" startline="100" endline="122" function="checkOverwrite" hash="-7947675889310110192"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/RenameResourceAction.java" startline="90" endline="112" function="checkOverwrite" hash="8573841589295014976"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyResourceAction.java" startline="101" endline="123" function="checkOverwrite" hash="-5765601509849336612"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/RenameResourceAction.java" startline="90" endline="112" function="checkOverwrite" hash="8573841589295014976"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/actions/CopyResourceAction.java" startline="100" endline="122" function="checkOverwrite" hash="-5765601509849336612"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ProjectLocationSelectionDialog.java" startline="171" endline="199" function="createProjectLocationGroup" hash="-3960090536492568229"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.java" startline="100" endline="128" function="createProjectLocationGroup" hash="-7683693709809671795"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ProjectLocationSelectionDialog.java" startline="171" endline="199" function="createProjectLocationGroup" hash="-3960090536492568229"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.java" startline="100" endline="128" function="createProjectLocationGroup" hash="-7683693709809671795"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ProjectLocationSelectionDialog.java" startline="189" endline="220" function="createProjectLocationGroup" hash="6103721657131837414"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.java" startline="102" endline="133" function="createProjectLocationGroup" hash="2953781217121198925"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ProjectLocationSelectionDialog.java" startline="205" endline="236" function="createProjectLocationGroup" hash="6103721657131837414"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.java" startline="104" endline="135" function="createProjectLocationGroup" hash="2953781217121198925"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="109" endline="137" function="createControl" hash="-1757227970327003173"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardImportPage.java" startline="94" endline="118" function="createControl" hash="7522207429437954091"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardResourceImportPage.java" startline="101" endline="128" function="createControl" hash="-1174523672772722584"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="109" endline="137" function="createControl" hash="-1757227970327003173"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardImportPage.java" startline="94" endline="118" function="createControl" hash="7522207429437954091"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardResourceImportPage.java" startline="101" endline="128" function="createControl" hash="-1174523672772722584"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="109" endline="137" function="createControl" hash="-509811016575864413"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardImportPage.java" startline="94" endline="118" function="createControl" hash="5481510244648195573"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardResourceImportPage.java" startline="109" endline="136" function="createControl" hash="7188496492430582348"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="108" endline="136" function="createControl" hash="-509811016575864413"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardImportPage.java" startline="94" endline="118" function="createControl" hash="5481510244648195573"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardResourceImportPage.java" startline="109" endline="136" function="createControl" hash="7188496492430582348"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="258" endline="320" function="ensureResourcesLocal" hash="-5793891766760329845"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="284" endline="346" function="ensureResourcesLocal" hash="-5793891766760329845"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="258" endline="320" function="ensureResourcesLocal" hash="-5793891766760329845"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="284" endline="346" function="ensureResourcesLocal" hash="-5793891766760329845"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="258" endline="320" function="ensureResourcesLocal" hash="-7031440905958374178"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="310" endline="365" function="ensureResourcesLocal" hash="8745212512512653068"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Inconsistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="257" endline="308" function="ensureResourcesLocal" hash="-8613715647896312327"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="310" endline="365" function="ensureResourcesLocal" hash="8745212512512653068"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="536" endline="553" function="hasExportableExtension" hash="4972933118131558553"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="463" endline="480" function="hasExportableExtension" hash="4972933118131558553"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="536" endline="553" function="hasExportableExtension" hash="4972933118131558553"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="463" endline="480" function="hasExportableExtension" hash="4972933118131558553"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="594" endline="621" function="queryResourceTypesToExport" hash="-2692091809745557515"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="489" endline="516" function="queryResourceTypesToExport" hash="-2524100605743791337"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportPage.java" startline="594" endline="621" function="queryResourceTypesToExport" hash="-2692091809745557515"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="489" endline="516" function="queryResourceTypesToExport" hash="-2524100605743791337"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardImportPage.java" startline="124" endline="151" function="createDestinationGroup" hash="5539478797863190894"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardResourceImportPage.java" startline="134" endline="161" function="createDestinationGroup" hash="5539478797863190894"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardImportPage.java" startline="124" endline="151" function="createDestinationGroup" hash="5539478797863190894"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardResourceImportPage.java" startline="134" endline="161" function="createDestinationGroup" hash="5539478797863190894"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardImportPage.java" startline="124" endline="151" function="createDestinationGroup" hash="2991891114174296716"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardResourceImportPage.java" startline="142" endline="169" function="createDestinationGroup" hash="4092757830223050258"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardImportPage.java" startline="124" endline="151" function="createDestinationGroup" hash="2991891114174296716"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardResourceImportPage.java" startline="142" endline="169" function="createDestinationGroup" hash="4092757830223050258"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="372" endline="403" function="getResourceProvider" hash="1907946147014922804"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ResourceSelectionDialog.java" startline="137" endline="168" function="getResourceProvider" hash="1907946147014922804"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardExportResourcesPage.java" startline="372" endline="403" function="getResourceProvider" hash="1907946147014922804"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ResourceSelectionDialog.java" startline="137" endline="168" function="getResourceProvider" hash="1907946147014922804"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFolderMainPage.java" startline="133" endline="142" function="execute" hash="7889715400277905022"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFileCreationPage.java" startline="159" endline="170" function="execute" hash="8928252085706498192"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFolderMainPage.java" startline="133" endline="142" function="execute" hash="7889715400277905022"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFileCreationPage.java" startline="159" endline="170" function="execute" hash="8928252085706498192"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFolderMainPage.java" startline="208" endline="229" function="validatePage" hash="5847204239176591991"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFileCreationPage.java" startline="309" endline="329" function="validatePage" hash="7883457096198306752"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFolderMainPage.java" startline="208" endline="229" function="validatePage" hash="5847204239176591991"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFileCreationPage.java" startline="309" endline="329" function="validatePage" hash="7883457096198306752"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFolderMainPage.java" startline="225" endline="247" function="validatePage" hash="-845312802665082186"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewFileCreationPage.java" startline="325" endline="346" function="validatePage" hash="3256515676698860465"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/FileSelectionDialog.java" startline="174" endline="183" function="getFileProvider" hash="5974230477847972632"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/FileSelectionDialog.java" startline="188" endline="197" function="getFolderProvider" hash="5461671287102884871"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/FileSelectionDialog.java" startline="174" endline="183" function="getFileProvider" hash="5974230477847972632"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/FileSelectionDialog.java" startline="188" endline="197" function="getFolderProvider" hash="5461671287102884871"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/WorkbenchPart.java" startline="76" endline="92" function="firePropertyChange" hash="2140602524121033763"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/registry/EditorRegistry.java" startline="159" endline="175" function="firePropertyChange" hash="1319799796894624075"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/WorkbenchPart.java" startline="76" endline="92" function="firePropertyChange" hash="2140602524121033763"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/registry/EditorRegistry.java" startline="159" endline="175" function="firePropertyChange" hash="1319799796894624075"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveListenerListOld.java" startline="33" endline="49" function="firePerspectiveActivated" hash="1430636438024456574"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveListenerListOld.java" startline="53" endline="69" function="firePerspectiveChanged" hash="-5911865182487644065"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveListenerList.java" startline="52" endline="68" function="firePerspectiveReset" hash="8479473623112082281"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveListenerList.java" startline="32" endline="48" function="firePerspectiveActivated" hash="1430636438024456574"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="4">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveListenerListOld.java" startline="33" endline="49" function="firePerspectiveActivated" hash="1430636438024456574"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveListenerListOld.java" startline="53" endline="69" function="firePerspectiveChanged" hash="-5911865182487644065"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveListenerList.java" startline="52" endline="68" function="firePerspectiveReset" hash="8479473623112082281"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveListenerList.java" startline="32" endline="48" function="firePerspectiveActivated" hash="1430636438024456574"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/EditorWorkbook.java" startline="468" endline="505" function="reorderTab" hash="7272016995785926290"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartTabFolder.java" startline="494" endline="531" function="reorderTab" hash="4152196282673827694"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/EditorWorkbook.java" startline="468" endline="505" function="reorderTab" hash="7272016995785926290"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartTabFolder.java" startline="494" endline="531" function="reorderTab" hash="4152196282673827694"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SaveAction.java" startline="37" endline="50" function="updateState" hash="-4267411231714299776"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SaveAsAction.java" startline="34" endline="47" function="updateState" hash="-4477519824950282679"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SaveAction.java" startline="37" endline="50" function="updateState" hash="-4267411231714299776"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SaveAsAction.java" startline="34" endline="47" function="updateState" hash="-4477519824950282679"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SaveAction.java" startline="36" endline="47" function="updateState" hash="-1717596381191093575"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SaveAsAction.java" startline="33" endline="44" function="updateState" hash="1025006469870659391"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SaveAction.java" startline="36" endline="47" function="updateState" hash="-1717596381191093575"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SaveAsAction.java" startline="33" endline="44" function="updateState" hash="1025006469870659391"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PageListenerList.java" startline="32" endline="48" function="firePageActivated" hash="1500170120360056077"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PageListenerList.java" startline="72" endline="88" function="firePageOpened" hash="-5978029112812279057"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PageListenerList.java" startline="52" endline="68" function="firePageClosed" hash="-7600630475540218622"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PageListenerList.java" startline="32" endline="48" function="firePageActivated" hash="1500170120360056077"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PageListenerList.java" startline="72" endline="88" function="firePageOpened" hash="-5978029112812279057"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PageListenerList.java" startline="52" endline="68" function="firePageClosed" hash="-7600630475540218622"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/ActivatorItem.java" startline="168" endline="187" function="paintBorder" hash="1694732189316361711"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/ActivatorItem.java" startline="191" endline="210" function="paintBorder" hash="-3866527751642663392"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/ActivatorItem.java" startline="168" endline="187" function="paintBorder" hash="1694732189316361711"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/ActivatorItem.java" startline="191" endline="210" function="paintBorder" hash="-3866527751642663392"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveContributionItem.java" startline="55" endline="64" function="dispose" hash="3133975183440401676"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/action/ActionContributionItem.java" startline="63" endline="72" function="dispose" hash="3133975183440401676"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveContributionItem.java" startline="55" endline="64" function="dispose" hash="3133975183440401676"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/action/ActionContributionItem.java" startline="63" endline="72" function="dispose" hash="3133975183440401676"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveContributionItem.java" startline="92" endline="104" function="getGrayImage" hash="-1934810773031665238"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/action/ActionContributionItem.java" startline="95" endline="107" function="getGrayImage" hash="-1934810773031665238"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveContributionItem.java" startline="92" endline="104" function="getGrayImage" hash="-1934810773031665238"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/action/ActionContributionItem.java" startline="95" endline="107" function="getGrayImage" hash="-1934810773031665238"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveContributionItem.java" startline="109" endline="118" function="getImage" hash="-5457460566244044968"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/action/ActionContributionItem.java" startline="84" endline="93" function="getImage" hash="-5457460566244044968"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveContributionItem.java" startline="109" endline="118" function="getImage" hash="-5457460566244044968"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/action/ActionContributionItem.java" startline="84" endline="93" function="getImage" hash="-5457460566244044968"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveContributionItem.java" startline="144" endline="161" function="actionPropertyChange" hash="-1809589141292292441"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/action/ActionContributionItem.java" startline="137" endline="154" function="actionPropertyChange" hash="-1809589141292292441"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectiveContributionItem.java" startline="144" endline="161" function="actionPropertyChange" hash="-1809589141292292441"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/action/ActionContributionItem.java" startline="137" endline="154" function="actionPropertyChange" hash="-1809589141292292441"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="104" endline="113" function="updateEnabledState" hash="-2722886796732787402"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="132" endline="141" function="updateEnabledState" hash="2931268834928797042"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="104" endline="113" function="updateEnabledState" hash="-2722886796732787402"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="132" endline="141" function="updateEnabledState" hash="2931268834928797042"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="160" endline="169" function="updateEnabledState" hash="-828628743700800189"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="188" endline="197" function="updateEnabledState" hash="2881192004530135225"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="160" endline="169" function="updateEnabledState" hash="-828628743700800189"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="188" endline="197" function="updateEnabledState" hash="2881192004530135225"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileStatesPage.java" startline="181" endline="200" function="validateIntegerTextEntry" hash="-1645229557078093528"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileStatesPage.java" startline="206" endline="225" function="validateLongTextEntry" hash="6672848576819007326"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileStatesPage.java" startline="181" endline="200" function="validateIntegerTextEntry" hash="-1645229557078093528"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileStatesPage.java" startline="206" endline="225" function="validateLongTextEntry" hash="6672848576819007326"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Consistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileStatesPage.java" startline="185" endline="204" function="validateIntegerTextEntry" hash="2073087072714913943"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileStatesPage.java" startline="210" endline="229" function="validateLongTextEntry" hash="1715380709558356946"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileStatesPage.java" startline="239" endline="258" function="validateIntegerTextEntry" hash="2073087072714913943"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/FileStatesPage.java" startline="264" endline="283" function="validateLongTextEntry" hash="1715380709558356946"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/RegistryPageContributor.java" startline="123" endline="134" function="testCustom" hash="9086324615292290391"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/ObjectActionContributor.java" startline="164" endline="175" function="testCustom" hash="9086324615292290391"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/RegistryPageContributor.java" startline="123" endline="134" function="testCustom" hash="9086324615292290391"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/ObjectActionContributor.java" startline="164" endline="175" function="testCustom" hash="9086324615292290391"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/OpenNewAction.java" startline="56" endline="70" function="replaceCurrentPerspective" hash="-322121159770746251"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SwitchToPerspAction.java" startline="31" endline="45" function="run" hash="8069313153910952546"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/OpenNewAction.java" startline="56" endline="70" function="replaceCurrentPerspective" hash="-322121159770746251"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/SwitchToPerspAction.java" startline="31" endline="45" function="run" hash="8069313153910952546"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="5">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="32" endline="48" function="firePartActivated" hash="2166103501894519309"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="72" endline="88" function="firePartClosed" hash="1797247319230238468"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="92" endline="108" function="firePartDeactivated" hash="-7857482322037417528"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="52" endline="68" function="firePartBroughtToTop" hash="-221973853373789251"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="112" endline="128" function="firePartOpened" hash="8081640083526587701"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="5">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="32" endline="48" function="firePartActivated" hash="2166103501894519309"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="72" endline="88" function="firePartClosed" hash="1797247319230238468"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="92" endline="108" function="firePartDeactivated" hash="-7857482322037417528"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="52" endline="68" function="firePartBroughtToTop" hash="-221973853373789251"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PartListenerList.java" startline="112" endline="128" function="firePartOpened" hash="8081640083526587701"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="329" endline="337" function="close" hash="3666968387393130135"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/Workbench.java" startline="137" endline="145" function="close" hash="1254177189980927642"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchWindow.java" startline="275" endline="283" function="close" hash="8961715917052040228"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="329" endline="337" function="close" hash="3666968387393130135"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/Workbench.java" startline="137" endline="145" function="close" hash="1254177189980927642"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchWindow.java" startline="275" endline="283" function="close" hash="8961715917052040228"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="835" endline="870" function="openEditor" hash="-4371126596037634909"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="874" endline="905" function="openEditor" hash="7671928261194117361"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="956" endline="986" function="openEditor" hash="9041126343865536751"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="835" endline="870" function="openEditor" hash="-4371126596037634909"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="874" endline="905" function="openEditor" hash="7671928261194117361"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="956" endline="986" function="openEditor" hash="9041126343865536751"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Inconsistent">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="867" endline="902" function="openEditor" hash="-4371126596037634909"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="988" endline="1018" function="openEditor" hash="3861863740005190145"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="906" endline="937" function="openEditor" hash="7671928261194117361"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="882" endline="917" function="openEditor" hash="-4371126596037634909"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="921" endline="952" function="openEditor" hash="7671928261194117361"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchPage.java" startline="1003" endline="1033" function="openEditor" hash="3861863740005190145"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectivePresentation.java" startline="200" endline="209" function="collectDragParts" hash="5745466309326783848"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectivePresentation.java" startline="293" endline="302" function="collectViewPanes" hash="-7778099482100954839"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectivePresentation.java" startline="200" endline="209" function="collectDragParts" hash="5745466309326783848"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/PerspectivePresentation.java" startline="293" endline="302" function="collectViewPanes" hash="-7778099482100954839"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchWindow.java" startline="603" endline="623" function="openPage" hash="-4949243469999465504"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/Workbench.java" startline="520" endline="540" function="openWorkbenchWindow" hash="6730199188176714075"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/WorkbenchWindow.java" startline="603" endline="623" function="openPage" hash="-4949243469999465504"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/Workbench.java" startline="520" endline="540" function="openWorkbenchWindow" hash="6730199188176714075"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/Workbench.java" startline="619" endline="642" function="runEventLoop" hash="-8491246102377016650"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/window/Window.java" startline="531" endline="553" function="runEventLoop" hash="2068447810729618387"></source>
+		</class>
+	</version>
+	<version nr="33" hash="0fffc7a" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/Workbench.java" startline="619" endline="642" function="runEventLoop" hash="-8491246102377016650"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/window/Window.java" startline="531" endline="553" function="runEventLoop" hash="2068447810729618387"></source>
+		</class>
+	</version>
+	<version nr="52" hash="cdeba40" evolution="Same" change="Inconsistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/Workbench.java" startline="632" endline="655" function="runEventLoop" hash="-8491246102377016650"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/window/Window.java" startline="529" endline="552" function="runEventLoop" hash="-1396502994769412053"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/Workbench.java" startline="634" endline="657" function="runEventLoop" hash="-8491246102377016650"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/window/Window.java" startline="526" endline="549" function="runEventLoop" hash="-1396502994769412053"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="complex" origin_type="between multiple diffs">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/operation/AccumulatingProgressMonitor.java" startline="86" endline="95" function="beginTask" hash="6850185975657661519"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/operation/AccumulatingProgressMonitor.java" startline="116" endline="125" function="done" hash="-7153006528708708290"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/operation/AccumulatingProgressMonitor.java" startline="139" endline="148" function="setTaskName" hash="802221863882129026"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="3">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/operation/AccumulatingProgressMonitor.java" startline="86" endline="95" function="beginTask" hash="6850185975657661519"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/operation/AccumulatingProgressMonitor.java" startline="116" endline="125" function="done" hash="-7153006528708708290"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/operation/AccumulatingProgressMonitor.java" startline="139" endline="148" function="setTaskName" hash="802221863882129026"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/preference/PreferenceDialog.java" startline="209" endline="222" function="configureShell" hash="764090390184564751"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/wizard/WizardDialog.java" startline="371" endline="383" function="configureShell" hash="4027127701369185646"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/preference/PreferenceDialog.java" startline="209" endline="222" function="configureShell" hash="764090390184564751"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/wizard/WizardDialog.java" startline="371" endline="383" function="configureShell" hash="4027127701369185646"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/resource/FileImageDescriptor.java" startline="68" endline="85" function="getImageData" hash="1067269621358072434"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/resource/URLImageDescriptor.java" startline="39" endline="56" function="getImageData" hash="1067269621358072434"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/resource/FileImageDescriptor.java" startline="68" endline="85" function="getImageData" hash="1067269621358072434"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/resource/URLImageDescriptor.java" startline="39" endline="56" function="getImageData" hash="1067269621358072434"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/viewers/ListViewer.java" startline="221" endline="249" function="indexForElement" hash="-4947520075601479779"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/viewers/TableViewer.java" startline="318" endline="346" function="indexForElement" hash="-5969090185019363981"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/viewers/ListViewer.java" startline="221" endline="249" function="indexForElement" hash="-4947520075601479779"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/viewers/TableViewer.java" startline="318" endline="346" function="indexForElement" hash="-5969090185019363981"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="32" hash="4545bf2" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/viewers/TableViewer.java" startline="273" endline="283" function="getSelectionFromWidget" hash="8924365063319521898"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/viewers/AbstractTreeViewer.java" startline="585" endline="595" function="getSelectionFromWidget" hash="7067087501733834990"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/viewers/TableViewer.java" startline="273" endline="283" function="getSelectionFromWidget" hash="8924365063319521898"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/viewers/AbstractTreeViewer.java" startline="585" endline="595" function="getSelectionFromWidget" hash="7067087501733834990"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="52" hash="cdeba40" evolution="None" change="None" qtd_clones="simple" origin_type="between diff and persistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="357" endline="368" function="validateSourceGroup" hash="-8967016199141843872"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="751" endline="761" function="validateSourceGroup" hash="2921841909316580619"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardZipFileResourceImportPage1.java" startline="372" endline="383" function="validateSourceGroup" hash="-8967016199141843872"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Standard Components/org/eclipse/ui/wizards/datatransfer/WizardFileSystemResourceImportPage1.java" startline="761" endline="771" function="validateSourceGroup" hash="2921841909316580619"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="52" hash="cdeba40" evolution="None" change="None" qtd_clones="simple" origin_type="false origin">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ProjectLocationSelectionDialog.java" startline="339" endline="353" function="handleLocationBrowseButtonPressed" hash="-6905735894675814194"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.java" startline="241" endline="255" function="handleLocationBrowseButtonPressed" hash="3362503477854928190"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ProjectLocationSelectionDialog.java" startline="355" endline="369" function="handleLocationBrowseButtonPressed" hash="-6905735894675814194"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/WizardNewProjectCreationPage.java" startline="243" endline="257" function="handleLocationBrowseButtonPressed" hash="3362503477854928190"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="52" hash="cdeba40" evolution="None" change="None" qtd_clones="simple" origin_type="between diff and persistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ListSelectionDialog.java" startline="86" endline="118" function="addSelectionButtons" hash="9037781895570994830"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/TypeFilteringDialog.java" startline="61" endline="93" function="addSelectionButtons" hash="7247724882385683547"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ListSelectionDialog.java" startline="87" endline="119" function="addSelectionButtons" hash="9037781895570994830"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/TypeFilteringDialog.java" startline="66" endline="98" function="addSelectionButtons" hash="7247724882385683547"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="52" hash="cdeba40" evolution="None" change="None" qtd_clones="simple" origin_type="between diff and persistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ListSelectionDialog.java" startline="132" endline="156" function="createDialogArea" hash="9015836117728471217"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/TypeFilteringDialog.java" startline="140" endline="166" function="createDialogArea" hash="8616179855883762023"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/dialogs/ListSelectionDialog.java" startline="140" endline="164" function="createDialogArea" hash="9015836117728471217"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/TypeFilteringDialog.java" startline="162" endline="188" function="createDialogArea" hash="8616179855883762023"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="52" hash="cdeba40" evolution="None" change="None" qtd_clones="simple" origin_type="between diff and persistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/CellEditorActionHandler.java" startline="150" endline="159" function="run" hash="-5772078650896243546"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="93" endline="102" function="run" hash="3456598000322072836"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/CellEditorActionHandler.java" startline="150" endline="159" function="run" hash="-5772078650896243546"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="93" endline="102" function="run" hash="3456598000322072836"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="52" hash="cdeba40" evolution="None" change="None" qtd_clones="simple" origin_type="between diff and persistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/CellEditorActionHandler.java" startline="179" endline="188" function="run" hash="1097860624953309712"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="121" endline="130" function="run" hash="-2935477717559545491"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/CellEditorActionHandler.java" startline="179" endline="188" function="run" hash="1097860624953309712"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="121" endline="130" function="run" hash="-2935477717559545491"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="52" hash="cdeba40" evolution="None" change="None" qtd_clones="simple" origin_type="between diff and persistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/CellEditorActionHandler.java" startline="208" endline="217" function="run" hash="3644086985078490767"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="149" endline="158" function="run" hash="-6164902375443265116"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/CellEditorActionHandler.java" startline="208" endline="217" function="run" hash="3644086985078490767"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="149" endline="158" function="run" hash="-6164902375443265116"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="52" hash="cdeba40" evolution="None" change="None" qtd_clones="simple" origin_type="between diff and persistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/CellEditorActionHandler.java" startline="266" endline="275" function="run" hash="213782011551152867"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="177" endline="186" function="run" hash="-344126854701794418"></source>
+		</class>
+	</version>
+	<version nr="69" hash="7155e72" evolution="Same" change="Same">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/part/CellEditorActionHandler.java" startline="266" endline="275" function="run" hash="213782011551152867"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/TextActionHandler.java" startline="177" endline="186" function="run" hash="-344126854701794418"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="69" hash="7155e72" evolution="None" change="None" qtd_clones="simple" origin_type="between diff and persistent">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI Text Editor/org/eclipse/ui/texteditor/TextUtilities.java" startline="65" endline="88" function="indexOf" hash="765381636762680544"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace Text/org/eclipse/jface/text/TextUtilities.java" startline="60" endline="83" function="indexOf" hash="765381636762680544"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="69" hash="7155e72" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/OverlayIcon.java" startline="31" endline="43" function="drawBottomLeft" hash="-1678934565219726828"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/OverlayIcon.java" startline="80" endline="92" function="drawTopLeft" hash="2786751089272142444"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="69" hash="7155e72" evolution="None" change="None" qtd_clones="simple" origin_type="between diff">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/OverlayIcon.java" startline="44" endline="56" function="drawBottomRight" hash="8056262183024027764"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/misc/OverlayIcon.java" startline="93" endline="105" function="drawTopRight" hash="-6281637534413819485"></source>
+		</class>
+	</version>
+</lineage>
+<lineage>
+	<version nr="69" hash="7155e72" evolution="None" change="None" qtd_clones="simple" origin_type="false origin">
+		<class nclones="2">
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse UI/org/eclipse/ui/internal/dialogs/PerspectivesPreferencePage.java" startline="111" endline="137" function="createVerticalButton" hash="6164756692506930492"></source>
+			<source file="../../workspace/dataset/production/bundles/org.eclipse.ui/Eclipse JFace/org/eclipse/jface/dialogs/Dialog.java" startline="195" endline="223" function="createButton" hash="1595133471984157412"></source>
+		</class>
+	</version>
+</lineage>
+</lineages>
