@@ -3,6 +3,14 @@ workspace/repo
 workspace/githistory.txt
 workspace/dataset
 
+clone_detector_result/*
+__pycache__/*
+repo/
+
+
+__pycache__
+*scod/
+
 target
 .metadata
 .settings

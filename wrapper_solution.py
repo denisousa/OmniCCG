@@ -5,19 +5,19 @@ def analyze_snippets(snippets: List[str]) -> str:
     if len(snippets) < 2:
         raise ValueError("The list must have at least 2 elements.")
     
-    if snippets.count("no_change") == 1 and snippets.count("complete_method") == len(snippets) - 1:
+    if snippets.count("No Change") == 1 and snippets.count("Complete Method") == len(snippets) - 1:
         return "type-1"
-    if snippets.count("no_change") == 1 and snippets.count("modify_method") == len(snippets) - 1:
+    if snippets.count("No Change") == 1 and snippets.count("Modify Method") == len(snippets) - 1:
         return "type-2"
-    if snippets.count("no_change") == 0 and snippets.count("complete_method") >= 1 and snippets.count("modify_method") >= 1:
+    if snippets.count("No Change") == 0 and snippets.count("Complete Method") >= 1 and snippets.count("Modify Method") >= 1:
         return "type-3"
-    if snippets.count("complete_method") >= len(snippets):
+    if snippets.count("Complete Method") >= len(snippets):
         return "type-4"
-    if snippets.count("modify_method") >= len(snippets):
+    if snippets.count("Modify Method") >= len(snippets):
         return "type-5"
-    if snippets.count("no_change") >= 1 and snippets.count("complete_method") >= 1 and snippets.count("modify_method") >= 1:
+    if snippets.count("No Change") >= 1 and snippets.count("Complete Method") >= 1 and snippets.count("Modify Method") >= 1:
         return "type-6"
-    return "unclassified"
+    return "Unclassified"
 
 def analyze_method_change(repo_path: str, file_path: str, start_line: int, end_line: int, commit_hash: str) -> str:
     file_path = file_path.replace('../../', './').replace('workspace/dataset/production', repo_path)
@@ -28,7 +28,7 @@ def analyze_method_change(repo_path: str, file_path: str, start_line: int, end_l
 
         # Se não há commit pai, significa que é o commit inicial (arquivo novo)
         if not commit.parents:
-            return "complete_method"
+            return "Complete Method"
 
         parent = commit.parents[0]
 
@@ -46,7 +46,7 @@ def analyze_method_change(repo_path: str, file_path: str, start_line: int, end_l
 
         # Se o arquivo não existe no commit atual → foi removido
         if current_content is None:
-            return "modify_method"
+            return "Modified Method"
 
         # Extrai as linhas do método (atual)
         current_method_lines = current_content.splitlines()[start_line - 1:end_line]
@@ -58,15 +58,15 @@ def analyze_method_change(repo_path: str, file_path: str, start_line: int, end_l
 
         # Caso 1: método não existia antes e agora existe
         if not parent_method_lines and current_method_lines:
-            return "complete_method"
+            return "Complete Method"
 
         # Caso 2: método existia e mudou
         if parent_method_lines != current_method_lines:
-            return "modify_method"
+            return "Modified Method"
 
         # Caso 3: método não mudou
-        return "no_change"
+        return "No Change"
 
     except (git.exc.GitCommandError, KeyError, IndexError) as e:
         print(f"An error occurred: {e}")
-        return "modify_method"
+        return "Modified Method"
