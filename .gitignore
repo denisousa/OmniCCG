@@ -5,8 +5,8 @@ workspace/dataset
 
 clone_detector_result/*
 __pycache__/*
-repo/
-
+repo/*
+search_results/*
 
 __pycache__
 *scod/

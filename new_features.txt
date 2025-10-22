@@ -18,7 +18,7 @@ Quantidade que estão no mesmo arquivo
 Quantidade dos que estão em arquivos diferentes
 
 OBS:
-- <<<Você pode buscar a antiga versão de origin, death usando commit "8299adad">>>>
+- <<<Você pode buscar a antiga versão de origin, death usando commit "f6ca2532d35f7">>>>
 - o arquivo backup nesse commit tem a ultima versão de GetPattern e RunGenealogy
 
 Fixes:
