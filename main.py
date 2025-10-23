@@ -2,22 +2,18 @@ import os
 import time
 import shutil
 from git import Repo
-from copy import copy
 from pathlib import Path
 import xml.etree.ElementTree as etree
 from xml.etree import ElementTree as ET
 from datetime import datetime, timedelta
 import xml.etree.ElementTree as ET
-from wrapper_solution import analyze_method_change, analyze_snippets
-from code_operations import java_function_exists_by_name, check_commit_for_code, check_method_change, get_enclosing_method_name, xml_to_json
+from code_operations import get_enclosing_method_name
 from run_simian import parse_simian_to_clones
 from check_results import generate_clones_xml
-import copy
 import subprocess
+import hashlib
 import re
-from xml.etree import ElementTree as ET
 from typing import Union, Dict, Any, List
-import os
 
 # Project settings
 # GIT_URL = "https://github.com/tjake/Jlama" # The URL of the git repository to clone.
@@ -33,7 +29,7 @@ USE_MAX_COMMITS = False        # Get all Commits to defined time
 MAX_COMMITS = 30         # Maximum number of commits to analyse
 DAYS = 365 * 2
 LANGUAGE = "java"             # Language extension of project ("java" of "c")
-CLONE_DETECTOR_TOOL = ["Nicad"]
+CLONE_DETECTOR_TOOL = ["Nicad", "Simian"]
 
 # Directories
 SCRIPT_DIR = "scripts"
@@ -80,7 +76,7 @@ class CloneFragment():
         self.origin_note = None
         self.death_note = None
         self.move_note = None
-        # self.evolution_note = None
+        self.hash = hashlib.sha256(f'{self.file}{self.ls}{self.le}'.encode('utf-8')).hexdigest()
 
     def contains(self, other):
         return self.file == other.file and self.ls <= other.ls and self.le >= other.le
@@ -114,30 +110,8 @@ class CloneFragment():
             # Em caso de erro de leitura, retornamos None para indicar desconhecido
             return None
 
-    def get_code_from_commit(self, commit_hash):
-        path = '/'.join(self.file.split('/')[:4]).replace('../../','./')
-        current_commit = self.get_current_commit7(path)
-        try:
-            # Checkout no commit e captura o código do fragmento
-            print(f"[INFO] Checking out commit {commit_hash}")
-            subprocess.run(["git", "-C", path, "checkout", commit_hash],
-                        check=True, capture_output=True)
-            code_content = self.get_code_content()  # Retorna o conteúdo após o checkout
-            subprocess.run(["git", "-C", path, "checkout", current_commit],
-                        check=True, capture_output=True)
-            return code_content
-
-        except subprocess.CalledProcessError as e:
-            print(f"Erro ao fazer checkout para o commit {commit_hash}: {e}")
-            return None
-
     def matches(self, other):
-        # se não deu para ler algum trecho, conservadoramente falha
-        if self.code_content is None or other.code_content is None:
-            return False
-
-        contents_equal = (self.code_content == other.code_content)
-        return contents_equal 
+        return self.hash == other.hash
 
     def matchesStrictly(self, other):
         return self.file == other.file and self.function_name == other.function_name and (self.ls == other.ls or self.function_hash == other.function_hash)
@@ -340,61 +314,6 @@ def GetCloneFragment(filename, startline, endline):
 
     return "".join(lines_out)
 
-def GetEvolution(v1, v2, current_hash, parent_hash):
-    if len(v1.fragments) == len(v2.fragments):
-        return "Same"
-
-    has_addition = True if len(v2.fragments) > len(v1.fragments) else False
-    has_subtraction = True if len(v2.fragments) < len(v1.fragments) else False
-
-    if has_addition:
-        return "Add"
-        # for f2 in v2.fragments:
-            # for f1 in v1.fragments:
-                # if f1 == f2:
-                    # f2.evolution_note = "Remain"
-                    # continue
-                # f2.evolution_note = analyze_method_change(REPO_DIR, f2.file, f2.ls, f2.le, current_hash)
-        
-        # qtd_complete_method_add = len([True for f in v2.fragments if "Complete Method" == f.evolution_note])
-        # qtd_modify_method_add = len([True for f in v2.fragments if "Modifed Method" == f.evolution_note]) 
-        
-        # if qtd_complete_method_add > 0 and qtd_modify_method_add > 0:
-            # return "Add (Complete and Modified)"
-        
-        # if qtd_complete_method_add > 0:
-            # return "Add (Complete)"
-        
-        # if qtd_modify_method_add > 0:
-            # return "Add (Complete)"
-
-        return "None"
-
-    if has_subtraction:
-        return "Subtraction"
-        # for f2 in v2.fragments:
-        #     for f1 in v1.fragments:
-        #         if f1 == f2:
-        #             f2.evolution_note = "Remain"
-
-        # v2.removed_fragments = [f for f in v1.fragments if f not in v2.fragments]
-        # result = [check_method_change(f.file, f.function_name, parent_hash, current_hash, REPO_DIR) for f in v2.removed_fragments]
-        # for r in result:
-        #     v2.evolution_note = r
-
-        # if "Removed" in result and "Modified" in result:
-        #     return "Subtract (Complete and Modified)"
-        
-        # if "Removed" in result:
-        #     return "Subtract (Complete)"
-        
-        # if "Modified" in result:
-        #     return "Subtract (Modified)"
-
-        # return "None"
-            
-    return "None"
-
 def GetPattern(v1, v2):
     evolution = "None"
     if len(v1.fragments) == len(v2.fragments):
@@ -452,10 +371,6 @@ def SetupRepo():
     os.system('git clone ' + GIT_URL + ' ' + REPO_DIR) # Clone REPO
     print(" Repository setup complete.\n")
 
-from datetime import datetime, timedelta
-from pathlib import Path
-from git import Repo
-
 def PrepareGitHistory(days: int):
     print("Getting git history")
     repo = Repo(REPO_DIR)
@@ -495,7 +410,6 @@ def PrepareGitHistory(days: int):
 
     Path(HIST_FILE).write_text("\n".join(lines), encoding="utf-8")
     print(f"Wrote {len(lines)} commit(s) to {HIST_FILE}")
-
 
 def GetHashes():
     hashes = []
@@ -618,10 +532,6 @@ def parse_clones_xml(xml_input: Union[str, bytes]) -> Dict[str, Any]:
 SIG_RE = re.compile(r'\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*\{')
 
 def find_decl_line(lines, startline):
-    """
-    Procura a declaração do método acima de startline, suportando assinatura quebrada em poucas linhas.
-    Retorna (name, decl_line_1based, brace_col_0based) ou (None, None, None).
-    """
     CONTROL = {"if", "for", "while", "switch", "catch", "try", "do", "else", "synchronized"}
     n = len(lines)
 
@@ -677,7 +587,6 @@ def find_decl_line(lines, startline):
 
     return None, None, None
 
-
 def find_method_end(lines, decl_line, brace_col):
     depth = 0
     for li in range(decl_line - 1, len(lines)):
@@ -709,12 +618,11 @@ def expand_sources(join_all_clones):
                 lines = cache[fp]
 
                 name, decl_line, brace_col = find_decl_line(lines, int(s['startline']))
+                
+                if name == 'if':
+                    print()
+                    
                 if not name:
-                    out.append({
-                        **s,
-                        'method': None,
-                        'note': 'Não achei padrão "<nome>(...){".'
-                    })
                     continue
 
                 end_line = find_method_end(lines, decl_line, brace_col) or s['endline']
@@ -723,8 +631,11 @@ def expand_sources(join_all_clones):
                     'method': name,            # <<<< nome do método
                     'startline': decl_line,    # início real do método
                     'endline': end_line,        # fim real do método
-                    'hash': hash(f'{name}{decl_line}{end_line}')
+                    'hash': hash(f'{fp}{name}{decl_line}{end_line}')
                 })
+
+            if len(out) == 1:
+                print("")
             final_sources.append({'sources': out})
         final_out.append({'clones': final_sources})
     return final_out
@@ -806,22 +717,6 @@ def RunCloneDetection():
 
     print(" Finished clone detection.\n")
 
-
-def parseFunctionsFile(functions_filename):
-    functions_dict = {}
-    with open(functions_filename, 'r+') as file:
-        element = False
-        key = ""
-        for line in file:
-            if element:
-                functions_dict[key] = line.split('(')[0].split()[-1]
-                element = False
-            if len(line.split()) > 0 and "<source" == line.split()[0]:
-                xml_element = etree.fromstring(line+"</source>")
-                key = CloneFragment(xml_element.get("file"), int(xml_element.get("startline")), int(xml_element.get("endline")))
-                element = True
-    return functions_dict
-
 def parseCloneClassFile(cloneclass_filename):
     print(cloneclass_filename)
     cloneclasses = []
@@ -854,37 +749,6 @@ def parseCloneClassFile(cloneclass_filename):
         raise e
 
     return cloneclasses
-
-def parseIClonesCloneClassFile(cloneclass_filename, cloneclasses, functions_dict):
-    code_path = "../../workspace/dataset/"
-    if "production" in cloneclass_filename:
-        code_path += "production/"
-    else:
-        code_path += "test/"
-    with open(cloneclass_filename, 'r+') as file:
-        # try to parse the iclones result file
-        cc = None
-        for line in file:
-            if "CloneClass" == line.split()[0]:
-                if cc != None:
-                    found = False
-                    for cloneclass in cloneclasses:
-                        if cc.matches(cloneclass):
-                            found = True
-                            break
-                    if not found and len(cc.fragments) > 1:
-                        cloneclasses.append(cc)
-                cc = CloneClass()
-            elif (cc != None):
-                data = line.split()
-                cf_temp = CloneFragment(code_path +  data[1], int(data[2]), int(data[3]))
-                for function in functions_dict.keys():
-                    if function.contains(cf_temp) or cf_temp.contains(function):
-                        cf = copy(function)
-                        cf.function_name = functions_dict[function]
-                        cf.function_hash = hash(GetCloneFragment(cf.file[4:], cf.ls, cf.le))
-                        cc.fragments.append(cf)
-                        break
 
 def CheckDoubleMatch(cc_original, cc1, cc2):
     cc1_strict_match = False
@@ -921,29 +785,6 @@ def RunDensityAnalysis(commitNr,  pcloneclasses):
 
     P_DENS_DATA.append((commitNr, density_f_p, density_loc_p))
     print(" Finished density analysis.\n")
-
-def check_was_moved(pcc, old_pcc):
-    if len(pcc.fragments) != len(old_pcc.fragments):
-        return False
-
-    for new_frag, old_frag in zip(pcc.fragments, old_pcc.fragments):
-        if (
-            new_frag.file != old_frag.file and
-            new_frag.ls   != old_frag.ls   and
-            new_frag.le   != old_frag.le
-        ):
-            new_frag.move_note = "New file"
-            return True
-        
-        if (
-            new_frag.file == old_frag.file and
-            new_frag.ls   != old_frag.ls   and
-            new_frag.le   != old_frag.le
-        ):
-            new_frag.move_note = "Same file"
-            return True
-
-    return False
 
 def RunGenealogyAnalysis(commitNr, hash):
     print("Starting genealogy analysis:")
@@ -1020,76 +861,7 @@ def insert_parent_hash(hash_index, parent_hash):
     for lineage in P_LIN_DATA:
         lineage.versions[-1].parent_hash = parent_hash
 
-
-def check_lineage_death(hash_index, current_hash):
-    for lineage in P_LIN_DATA:
-        files_removed = 0
-        files_modified = 0
-        unchanged_files = 0
-        last_version = lineage.versions[-1]
-        if last_version.origin:
-            continue
-
-        new_cc = copy.deepcopy(last_version.cloneclass)
-        for i, f in enumerate(last_version.cloneclass.fragments):
-            current_content = f.get_code_from_commit(current_hash)
-            before_content = f.get_code_from_commit(last_version.parent_hash)
-            function_exists = java_function_exists_by_name(f.function_name, current_content)
-            same_code = current_content == before_content 
-
-            if function_exists and same_code:
-                new_cc.fragments[i].death_note = "unchanged_code"
-                unchanged_files += 1
-            elif function_exists and not same_code:
-                files_modified += 1
-                new_cc.fragments[i].death_note = "code_modified"
-            elif not function_exists:
-                files_removed += 1
-                new_cc.fragments[i].death_note = "code_removed"
-
-        cv = CloneVersion()
-        cv.cloneclass = new_cc
-        cv.nr = hash_index
-        if files_removed >= 1 and files_modified >= 1 and unchanged_files == 0:
-            cv.clone_death = "All code was removed and modifed"
-            lineage.versions.append(cv)
-            continue  # Passa para a próxima linha de código
-
-        elif files_removed >= 1 and files_modified >= 1 and unchanged_files == 1:
-            cv.clone_death = "All code was removed and modifed, but one survive"
-            lineage.versions.append(cv)
-            continue  # Passa para a próxima linha de código
-
-        elif files_removed == len(last_real_fragments) - 1 and unchanged_files == 1:
-            cv.clone_death = "Only remotion, but one survive"
-            lineage.versions.append(cv)
-            continue  # Passa para a próxima linha de código
-
-        elif files_modified == len(last_real_fragments) - 1 and unchanged_files == 1:
-            cv.clone_death = "Only modified, but one survive"
-            lineage.versions.append(cv)
-            continue  # Passa para a próxima linha de código
-
-        elif files_removed == len(last_real_fragments):
-            cv.clone_death = "Complete remotion"
-            lineage.versions.append(cv)
-            continue  # Passa para a próxima linha de código
-
-        elif files_modified == len(last_real_fragments):
-            cv.clone_death = "Complete modified"
-            lineage.versions.append(cv)
-            continue  # Passa para a próxima linha de código
-
-        if files_removed == 0 and files_modified == 0:
-            unchanged_files += 1
-            continue
-
-        if unchanged_files > 0:
-            cv.clone_death = "Clones continued to live due to unchanged code"
-            lineage.versions.append(cv)
-
-     
-def DataCollection():
+def main():
     print("STARTING DATA COLLECTION SCRIPT\n")
     SetupRepo()
     PrepareGitHistory(DAYS)
@@ -1138,14 +910,12 @@ def DataCollection():
         if not find_files:
             continue
 
-        if hash_index == 2:
+        if hash_index == 5:
             print("")
 
         RunCloneDetection()
         RunGenealogyAnalysis(hash_index, current_hash)
         WriteLineageFile(P_LIN_DATA, P_RES_FILE)
-
-        # check_lineage_death(hash_index, current_hash)
 
         if hash_index != 1:
             insert_parent_hash(hash_index, hashes[hash_index - 2])
@@ -1173,4 +943,4 @@ def DataCollection():
 
 if __name__ == "__main__":
     os.system(f'rm -rf {RES_DIR} && rm -rf {DATA_DIR} && rm -rf {HIST_FILE} && rm -rf {REPO_DIR}')
-    DataCollection()
+    main()

@@ -53,72 +53,55 @@ def _dedupe_sources_by_hash(sources: List[Dict[str, Any]]) -> List[Dict[str, Any
     return list(seen.values())
 
 def find_equal_classes(examples: List[Dict[str, Any]]) -> Dict[str, Any]:
-    merged: List[Dict[str, Any]] = []
-    merged_sets: List[set] = []  # conjunto de hashes correspondente ao merged[i]
-
-    # Itera sobre a estrutura de entrada (lista de exemplos com "clones")
+    # junta todas as sources de todos os exemplos
+    all_classes = []
     for ex in examples or []:
         for cls in ex.get("clones", []):
-            # 1) dedupe interno
             norm_sources = _dedupe_sources_by_hash(cls.get("sources", []))
-            S = {s["hash"] for s in norm_sources}
+            if norm_sources:
+                all_classes.append(norm_sources)
 
-            if not S:
-                continue
+    # Grafo: nós = hashes, arestas = aparecerem juntos numa mesma classe
+    from collections import defaultdict, deque
+    adj = defaultdict(set)
+    hash_to_source = {}
 
-            # 2) tenta unificar com grupos existentes
-            equal_idx = None
-            supersets = []  # índices de grupos existentes que são superset de S
-            subsets = []    # índices de grupos existentes que são subset de S
+    for cls in all_classes:
+        hashes = [s["hash"] for s in cls]
+        for s in cls:
+            hash_to_source[s["hash"]] = s
+        for i in range(len(hashes)):
+            for j in range(i + 1, len(hashes)):
+                adj[hashes[i]].add(hashes[j])
+                adj[hashes[j]].add(hashes[i])
 
-            for i, H in enumerate(merged_sets):
-                if H == S:
-                    equal_idx = i
-                    break
-                if H.issuperset(S):
-                    supersets.append(i)
-                elif H.issubset(S):
-                    subsets.append(i)
+    visited = set()
+    groups = []
+    for h in hash_to_source:
+        if h in visited:
+            continue
+        # BFS/DFS para coletar componente
+        comp = []
+        q = deque([h])
+        visited.add(h)
+        while q:
+            cur = q.popleft()
+            comp.append(hash_to_source[cur])
+            for nei in adj[cur]:
+                if nei not in visited:
+                    visited.add(nei)
+                    q.append(nei)
+        groups.append({"sources": comp})
 
-            if equal_idx is not None:
-                # Mesmo conjunto: apenas garante que todos os sources existam (e enriquece se for o caso)
-                by_hash = {s["hash"]: s for s in merged[equal_idx]["sources"]}
-                for s in norm_sources:
-                    by_hash.setdefault(s["hash"], s)
-                merged[equal_idx]["sources"] = list(by_hash.values())
-                continue
+    # ordena fontes dentro de cada grupo
+    for g in groups:
+        g["sources"].sort(
+            key=lambda s: (
+                str(s.get("file", "")),
+                int(s.get("startline", 0)),
+                str(s.get("method", "")),
+                str(s.get("hash", "")),
+            )
+        )
 
-            if supersets:
-                # Já existe um grupo que contém todos esses hashes -> adiciona quaisquer membros faltantes nele
-                i = supersets[0]  # qualquer superset serve
-                by_hash = {s["hash"]: s for s in merged[i]["sources"]}
-                for s in norm_sources:
-                    by_hash.setdefault(s["hash"], s)
-                merged[i]["sources"] = list(by_hash.values())
-                merged_sets[i] = {s["hash"] for s in merged[i]["sources"]}
-                continue
-
-            if subsets:
-                # S é um superset de um ou mais grupos existentes -> faz união em um deles e remove os demais subsets
-                i_base = subsets[0]
-                by_hash = {s["hash"]: s for s in merged[i_base]["sources"]}
-                for s in norm_sources:
-                    by_hash.setdefault(s["hash"], s)
-                merged[i_base]["sources"] = list(by_hash.values())
-                merged_sets[i_base] = {s["hash"] for s in merged[i_base]["sources"]}
-
-                # Remove outros subsets (já absorvidos)
-                for j in sorted(subsets[1:], reverse=True):
-                    del merged[j]
-                    del merged_sets[j]
-                continue
-
-            # 3) caso não tenha relação de igualdade/subconjunto/superset, vira um grupo novo
-            merged.append({"sources": norm_sources})
-            merged_sets.append(S)
-
-    # Normaliza saída (pode ordenar fontes por algo estável, ex.: file, startline)
-    for g in merged:
-        g["sources"].sort(key=lambda s: (str(s.get("file","")), int(s.get("startline", 0)), str(s.get("method","")), str(s.get("hash",""))))
-
-    return {"clones": merged}
+    return {"clones": groups}
