@@ -2,7 +2,7 @@
 # OmniCCG
 
 ## Description
-OmniCCG is a tool for detecting and analyzing code clone genealogies in Git repositories.
+OmniCCG is a tool for detecting and analyzing Code Clone Genealogies (CCG) in Git repositories.
 It allows understanding how a piece of code is replicated, evolves, and propagates throughout the history of a software project.
 This tool uses other two tools that detect clones, the Simian and Nicad.
 
@@ -66,9 +66,19 @@ python3 main.py
 ```
 
 ## Endpoints to Access
-### Detect Clone Genealogies
+### Example to detect Code Clone Genealogies (CCG)
 ```
-curl -i -H "Accept: application/xml" http://127.0.0.1:5000/detect_clones
+curl -X GET "http://127.0.0.1:5000/detect_clones"   -H "Content-Type: application/json"   --data '{
+    "git_repository": "https://github.com/jfree/jfreechart",
+    "user_settings": {
+      "from_first_commit": true,
+      "from_a_specific_commit": null,
+      "days_prior": null,
+      "merge_commit": null,
+      "fixed_leaps": 40,
+      "clone_detector": "simian"
+    }
+  }'
 ```
 
 ## Output Example
