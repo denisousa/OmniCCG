@@ -429,6 +429,9 @@ def generateCloneLengthFiles(RES_DIR):
         P_LENS = getLenghtsOfDeadLineages(P_LIN_DATA, p_last_commit)
         P_LENS.sort()
 
+        if len(P_LENS) == 0:
+            return
+        
         MAX = P_LENS[-1]
 
         with open(NEW_P_RES_FILE,'w+') as p_out:

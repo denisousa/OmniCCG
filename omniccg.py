@@ -21,16 +21,15 @@ LOCAL_PATH = ""
 GIT_URL = "https://github.com/denisousa/clones-test"
 # GIT_URL = "https://github.com/spring-projects/spring-petclinic"
 
-
-USE_MERGE_COMMITS = False
-USE_STEP = False
-COMMIT_STEP = 20
-USE_MAX_COMMITS = False  # Get all Commits to defined time
-MAX_COMMITS = 5  # Maximum number of commits to analyse
-FROM_BEGIN = True  # How often a commit should be analysed (put 1 for every commit)
-DAYS = 365 * 2
+FROM_BEGIN = None 
+USE_MERGE_COMMITS = None
+USE_LEAPS = None
+COMMIT_LEAPS = None
+USE_DAYS = None
+DAYS = None
 LANGUAGE = "java"  # Language extension of project ("java" of "c")
-CLONE_DETECTOR_TOOL = ["Simian"]
+CLONE_DETECTOR_TOOL = None
+SPECIFIC_COMMIT = ""
 
 
 # Directories
@@ -392,7 +391,7 @@ def SetupRepo():
     print(" Repository setup complete.\n")
 
 
-def PrepareGitHistory(days: int):
+def PrepareGitHistory():
     print("Getting git history")
     now = datetime.now()
     repo = Repo(REPO_DIR)
@@ -404,8 +403,12 @@ def PrepareGitHistory(days: int):
 
     if FROM_BEGIN:
         commits = repo.iter_commits(**iter_kwargs)
-    else:
-        since = now - timedelta(days=days)
+    
+    if SPECIFIC_COMMIT:
+        pass
+
+    if USE_DAYS:
+        since = now - timedelta(days=DAYS)
         commits = repo.iter_commits(since=since.isoformat(), **iter_kwargs)
 
     # Filtro extra de segurança para merges (caso o parâmetro 'merges' não seja suportado)
@@ -595,7 +598,7 @@ def RunCloneDetection():
         if item.is_file():
             item.unlink()
 
-    if "Nicad" in CLONE_DETECTOR_TOOL:
+    if CLONE_DETECTOR_TOOL.casefold() == "nicad":
         print(" >>> Running nicad6...")
         os.system("mkdir " + CUR_RES_DIR)
         os.system(
@@ -620,7 +623,7 @@ def RunCloneDetection():
         open(CLONE_DETECTOR_XML, "w").write(new_xml_data)
         return
 
-    if "Simian" in CLONE_DETECTOR_TOOL:
+    if CLONE_DETECTOR_TOOL.casefold() == "simian":
         print(" >>> Running Simian...")
         java_jar_command = "java -jar ./tools/simian/simian-4.0.0.jar"
         options_command = "-formatter=xml -threshold=4"
@@ -829,15 +832,40 @@ def insert_parent_hash(parent_hash):
     for lineage in P_LIN_DATA:
         lineage.versions[-1].parent_hash = parent_hash
 
+def initilizate_omnigcc_settings(user_settings: dict) -> None:
+    global FROM_BEGIN, USE_DAYS, DAYS, USE_MERGE_COMMITS, USE_LEAPS, COMMIT_LEAPS, CLONE_DETECTOR_TOOL
+    
+    if user_settings.get("from_first_commit"):
+        FROM_BEGIN = True 
 
-def main():
+    if user_settings.get("from_a_specific_commit"):
+        pass
+
+    if user_settings.get("days_pior"):
+        USE_DAYS = True
+        DAYS = user_settings.get("days_pior")
+
+    if user_settings.get("merge_commit"):
+        USE_MERGE_COMMITS = user_settings.get("merge_commit")
+
+    if user_settings.get("fixed_leaps"):
+        USE_LEAPS = True
+        COMMIT_LEAPS = user_settings.get("fixed_leaps")
+
+    if user_settings.get("clone_detector"):
+        CLONE_DETECTOR_TOOL = user_settings.get("clone_detector")
+
+
+def main(general_settings: dict):
     os.system(
         f"rm -rf {RES_DIR} && rm -rf {DATA_DIR} && rm -rf {HIST_FILE} && rm -rf {REPO_DIR}"
     )
 
+    initilizate_omnigcc_settings(general_settings.get("user_settings"))
+
     print("STARTING DATA COLLECTION SCRIPT\n")
     SetupRepo()
-    PrepareGitHistory(DAYS)
+    PrepareGitHistory()
     hashes = GetHashes()
     time.sleep(1)
 
@@ -845,17 +873,14 @@ def main():
     if start < 0:
         return
     elif start > 0:
-        start += COMMIT_STEP
+        start += COMMIT_LEAPS
     analysis_index = 0
     total_time = 0
 
-    if USE_STEP:
-        range_hash = range(start, len(hashes), COMMIT_STEP)
+    if USE_LEAPS:
+        range_hash = range(start, len(hashes), COMMIT_LEAPS)
     else:
         range_hash = range(start, len(hashes))
-
-    if USE_MAX_COMMITS:
-        range_hash = range_hash[:MAX_COMMITS]
 
     for hash_index in range_hash:
         iteration_start_time = time.time()
@@ -869,13 +894,6 @@ def main():
         )
         global CUR_RES_DIR
         CUR_RES_DIR = RES_DIR + "/" + str(hash_index) + "_" + current_hash
-
-        # Check if maximum number of commits has been analyzed
-        if analysis_index > MAX_COMMITS and USE_MAX_COMMITS:
-            printInfo(
-                "Maximum amount of commits has been analyzed. Ending data collection..."
-            )
-            break
 
         # Checkout current hash
         if (
@@ -909,21 +927,11 @@ def main():
         iteration_end_time = time.time()
         iteration_time = iteration_end_time - iteration_start_time
         total_time += iteration_time
+
         print("Iteration finished in " + timeToString(int(iteration_time)))
-        print(
-            " >>> Average iteration time: "
-            + timeToString(int(total_time / analysis_index))
-        )
-        if USE_MAX_COMMITS:
-            estimated_time = int(
-                (total_time / analysis_index) * (len(range_hash) - analysis_index)
-            )
-            print(" >>> Estimated remaining time: " + timeToString(estimated_time))
-        else:
-            estimated_time = int(
-                (total_time / analysis_index) * (MAX_COMMITS - analysis_index)
-            )
-            print(" >>> Estimated remaining time: " + timeToString(int(estimated_time)))
+        print(" >>> Average iteration time: " + timeToString(int(total_time/analysis_index)))
+        print(" >>> Estimated remaining time: " + timeToString(int((total_time/analysis_index)*(len(hashes)-analysis_index))))
+
 
         WriteLineageFile(P_LIN_DATA, P_RES_FILE)
         time.sleep(1)
@@ -937,6 +945,3 @@ def main():
 
     return open('results/production_results.xml', 'r').read()
 
-if __name__ == "__main__":
-    # https://chatgpt.com/share/690d2d88-8e70-800d-b9c1-052e508baf89
-    main()
