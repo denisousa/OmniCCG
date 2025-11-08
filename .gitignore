@@ -3,6 +3,9 @@ workspace/repo
 workspace/githistory.txt
 workspace/dataset
 
+c/
+java/
+
 clone_detector_result/*
 __pycache__/*
 repo/*

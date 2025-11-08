@@ -1,3 +1,5 @@
+- Corrigier matches
+
 O que eu fiz?
 - Pegar histórico de commits por dia
 - Atualização para o Nicad6
@@ -14,12 +16,14 @@ Exibir os tipos de NASCIMENTO DE UMA GENEALOGIA
 Exibir os tipos de MORTE DE UMA GENEALOGIA
 
 Para fazer:
+Verificar se o repo é local ou já existe
 Quantidade que estão no mesmo arquivo
 Quantidade dos que estão em arquivos diferentes
 
 OBS:
 - <<<Você pode buscar a antiga versão de origin, death usando commit "f6ca2532d35f7">>>>
 - o arquivo backup nesse commit tem a ultima versão de GetPattern e RunGenealogy
+- Preciso atualizar Matches e evolution_notes
 
 Fixes:
 - Tipos de adição? Tipo de remoção?
@@ -35,6 +39,9 @@ Sobre visualização:
 - Podemos ter 2 níveis de interface gráfica:
 - Exibir o XML
 - A pessoa montaria uma genealogia
+
+OBS:
+- Por default a gente trabalha somente com métodos completos
 
 Validar!
 ============ validado

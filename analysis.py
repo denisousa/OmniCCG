@@ -3,7 +3,7 @@ import xml.etree.ElementTree as etree
 
 
 # Directories
-RES_DIRS = ["java/apache_avro", "java/apache_math", "java/eclipse", "java/google", "c/apache_apr", "c/cairo", "c/libarchive", "c/libsodium"]
+RES_DIRS = ["java/apache_avro"]
 
 # Output functions
 def printWarning(message):
@@ -136,6 +136,8 @@ class Lineage():
         return False
 
     def getLength(self):
+        if len(self.versions) == 1:
+            return 1
         return (self.versions[-1].nr - self.versions[0].nr)
 
     def toXML(self):
@@ -285,7 +287,10 @@ def percentageString(part,total):
     return str(part) + " (" + str((100*part)/total) + "%)"
 
 def percentageStringLatex(part,total):
-    return "%0.2f" % ((100*part)/total)
+    try:
+        return "%0.2f" % ((100*part)/total)
+    except:
+        return "0.00"
 
 def overviewString2(part1, part2, total, legend):
     return percentageString(part1, total) + " / " + percentageString(part2, total) + " (" + legend + ")"
@@ -300,6 +305,8 @@ def overviewString3Latex(part1, part2, part3, total, legend):
     return percentageStringLatex(part1, total) + "\% & " + percentageStringLatex(part2, total) + "\% & "+  percentageStringLatex(part3, total) + "\% (" + legend + ")"
 
 def overviewStringList(l):
+    if len(l) == 0:
+        return "0" + " / " + "0" + " / " + "0" + " (min/avg/max)"
     return str(min(l)) + " / " + str(sum(l)/len(l)) + " / " + str(max(l)) + " (min/avg/max)"
 
 def recalculate_lineage(lineage):
@@ -348,9 +355,7 @@ def Analysis(RES_DIR):
     print(RES_DIR)
     # Files
     P_RES_FILE = RES_DIR + "/production_results.xml"
-    T_RES_FILE = RES_DIR + "/test_results.xml"
     P_DENS_FILE = RES_DIR + "/production_density.csv"
-    T_DENS_FILE = RES_DIR + "/test_density.csv"
 
     print(" Importing data from " + P_RES_FILE)
     P_LIN_DATA = parseLineageFile(P_RES_FILE)
@@ -358,23 +363,10 @@ def Analysis(RES_DIR):
         printError("Empty production data: no linages found in " + P_RES_FILE)
         return
 
-    print(" Importing data from " + T_RES_FILE)
-    T_LIN_DATA = parseLineageFile(T_RES_FILE)
-    if not len(T_LIN_DATA):
-        printError("Empty production data: no linages found in " + T_RES_FILE)
-        return
     p_last_commit = getLastCommitFromDensityCSV(P_DENS_FILE)
-    t_last_commit = getLastCommitFromDensityCSV(T_DENS_FILE)
-    if p_last_commit != t_last_commit:
-        printError("Total number of commits differ between production and test code. ")
-        return
     print("  >> All data imported\n")
 
     for lineage in P_LIN_DATA:
-        if lineage.containsDoubleVersions():
-            recalculate_lineage(lineage)
-
-    for lineage in T_LIN_DATA:
         if lineage.containsDoubleVersions():
             recalculate_lineage(lineage)
 
@@ -382,60 +374,39 @@ def Analysis(RES_DIR):
 
     print("Total amount of clone lineages")
     print(" - production: " + str(len(P_LIN_DATA)))
-    print(" - test:       " + str(len(T_LIN_DATA)))
 
     print("\nChange patterns of lineages:")
     p_inconsistent = getNrOfInconsistentChangeLineages(P_LIN_DATA)
-    t_inconsistent = getNrOfInconsistentChangeLineages(T_LIN_DATA)
     p_consistent = getNrOfConsistentChangeLineages(P_LIN_DATA)
-    t_consistent = getNrOfConsistentChangeLineages(T_LIN_DATA)
     p_stable = getNrOfStableLineages(P_LIN_DATA)
-    t_stable = getNrOfStableLineages(T_LIN_DATA)
     print(" - production: " + overviewString3Latex(p_consistent, p_stable, p_inconsistent, len(P_LIN_DATA), "consistent/stable/inconsistent"))
-    print(" - test:       " + overviewString3Latex(t_consistent, t_stable, t_inconsistent, len(T_LIN_DATA), "consistent/stable/inconsistent"))
 
     print("\nStatus of clone lineages:")
     p_alive = getNrOfAliveLineages(P_LIN_DATA, p_last_commit)
-    t_alive = getNrOfAliveLineages(T_LIN_DATA, t_last_commit)
     p_dead = len(P_LIN_DATA) - p_alive
-    t_dead = len(T_LIN_DATA) - t_alive
     print(" - production: " + overviewString2(p_alive, p_dead, len(P_LIN_DATA), "alive/dead"))
-    print(" - test:       " + overviewString2(t_alive, t_dead, len(T_LIN_DATA), "alive/dead"))
 
     print("\nLength of dead clone lineages:")
     p_dead_length = getLenghtsOfDeadLineages(P_LIN_DATA, p_last_commit)
-    t_dead_length = getLenghtsOfDeadLineages(T_LIN_DATA, t_last_commit)
     print(" - production: " + overviewStringList(p_dead_length))
-    print(" - test:       " + overviewStringList(t_dead_length))
     p_dead_length.sort()
-    t_dead_length.sort()
     print(" - production full list:" + str(p_dead_length))
-    print(" - test full list:      " + str(t_dead_length))
 
     print("\nTotal amount of versions:")
     p_data = countVersions(P_LIN_DATA)
-    t_data = countVersions(T_LIN_DATA)
     print(" - production: " + str(p_data["total"]))
-    print(" - test:       " + str(t_data["total"]))
 
     print("\nEvolution pattern of versions:")
     p_same_evo = p_data["total"] - p_data["Add"] - p_data["Subtract"]
-    t_same_evo = t_data["total"] - t_data["Add"] - t_data["Subtract"]
     print(" - production: " + overviewString2Latex(p_data["Add"], p_data["Subtract"], p_data["Add"]+ p_data["Subtract"], "add/subtract"))
-    print(" - test:       " + overviewString2Latex(t_data["Add"], t_data["Subtract"], t_data["Add"]+ t_data["Subtract"], "add/subtract"))
 
     print("\nChange pattern of versions:")
     p_same_change = p_data["total"] - p_data["Consistent"] - p_data["Inconsistent"]
-    t_same_change = t_data["total"] - t_data["Consistent"] - t_data["Inconsistent"]
     print(" - production: " + overviewString2Latex(p_data["Consistent"], p_data["Inconsistent"], p_data["Consistent"] + p_data["Inconsistent"] , "consistent/inconsistent"))
-    print(" - test:       " + overviewString2Latex(t_data["Consistent"], t_data["Inconsistent"], t_data["Consistent"] + t_data["Inconsistent"] , "consistent/inconsistent"))
     examineChangeLineages(P_LIN_DATA)
-    examineChangeLineages(T_LIN_DATA)
 
     if (p_same_evo + p_same_change != p_data["Same"]):
         printWarning("Calculated amount of same versions does not match measured amount in production data.")
-    if (t_same_evo + t_same_change != t_data["Same"]):
-        printWarning("Calculated amount of same versions does not match measured amount in test data.")
 
     print("\nDONE")
 
@@ -443,11 +414,8 @@ def generateCloneLengthFiles(RES_DIR):
         print("STARTING CLONE LENGTH ANALYSIS\n")
         # Files
         P_RES_FILE = RES_DIR + "/production_results.xml"
-        T_RES_FILE = RES_DIR + "/test_results.xml"
         P_DENS_FILE = RES_DIR + "/production_density.csv"
-        T_DENS_FILE = RES_DIR + "/test_density.csv"
         NEW_P_RES_FILE = RES_DIR + "/production_clone_length.csv"
-        NEW_T_RES_FILE = RES_DIR + "/test_clone_length.csv"
 
         print(" Importing data from " + P_RES_FILE)
         P_LIN_DATA = parseLineageFile(P_RES_FILE)
@@ -455,24 +423,13 @@ def generateCloneLengthFiles(RES_DIR):
             printError("Empty production data: no linages found in " + P_RES_FILE)
             return
 
-        print(" Importing data from " + T_RES_FILE)
-        T_LIN_DATA = parseLineageFile(T_RES_FILE)
-        if not len(T_LIN_DATA):
-            printError("Empty production data: no linages found in " + T_RES_FILE)
-            return
         p_last_commit = getLastCommitFromDensityCSV(P_DENS_FILE)
-        t_last_commit = getLastCommitFromDensityCSV(T_DENS_FILE)
-        if p_last_commit != t_last_commit:
-            printError("Total number of commits differ between production and test code. ")
-            return
         print("  >> All data imported\n")
 
         P_LENS = getLenghtsOfDeadLineages(P_LIN_DATA, p_last_commit)
-        T_LENS = getLenghtsOfDeadLineages(T_LIN_DATA, t_last_commit)
         P_LENS.sort()
-        T_LENS.sort()
 
-        MAX = max(P_LENS[-1],T_LENS[-1])
+        MAX = P_LENS[-1]
 
         with open(NEW_P_RES_FILE,'w+') as p_out:
             for i in range(0,MAX,10):
@@ -483,16 +440,7 @@ def generateCloneLengthFiles(RES_DIR):
                 p_out.write(str(i) + "," + str((100*ratio)/float(len(P_LENS))))
                 p_out.write("\n")
 
-        with open(NEW_T_RES_FILE,'w+') as t_out:
-            for i in range(0,MAX,10):
-                ratio = 0
-                for l in T_LENS:
-                    if l <= i:
-                        ratio+=1
-                t_out.write(str(i) + "," + str((100*ratio)/float(len(T_LENS))))
-                t_out.write("\n")
-
 if __name__ == "__main__":
     for RES_DIR in RES_DIRS:
         Analysis(RES_DIR)
-    #     generateCloneLengthFiles(RES_DIR)
+        generateCloneLengthFiles(RES_DIR)

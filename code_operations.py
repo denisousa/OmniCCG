@@ -1,8 +1,6 @@
 import re
 import os
 import re
-import subprocess
-import json, xmltodict, pathlib
 from typing import Optional, List, Tuple
 
 _HEADER_RE = re.compile(
@@ -41,378 +39,261 @@ def java_function_exists_by_name(function_name: str, java_file_content: str) -> 
         return False
     except:
         return False
-
-import git
-import os
-from git import Repo, BadName, InvalidGitRepositoryError
-import os
-import subprocess
-import re
-import os
-import subprocess
-
-def extract_added_code(diff_content, target_file):
-    # Initialize an empty list to store the added code blocks
-    added_code_blocks = []
-
-    # Flag to track when we are in the section of the diff for the target file
-    in_target_file_diff = False
-    
-    # Remove the 'a/' and 'b/' prefixes from the file paths in the diff content
-    target_file = target_file.replace('a/', '').replace('b/', '')
-
-    # Split the diff content into lines
-    diff_lines = diff_content.splitlines()
-
-    # Loop through the diff content line by line
-    current_block = []
-    for line in diff_lines:
-        # Detect the beginning of the diff for the target file (it starts with '--- a/<file_name>')
-        if line.startswith(f'--- a/{target_file}') or line.startswith(f'+++ b/{target_file}'):
-            in_target_file_diff = True  # We are now in the diff for the specified file
-            continue  # Skip this line (just a header for the diff)
-
-        # If we're inside the diff for the target file, start processing the changes
-        if in_target_file_diff:
-            # End of the diff for the target file (starts with '+++ <file_name>' or '--- <file_name>')
-            if line.startswith('+++ ') or line.startswith('--- '):
-                continue  # Skip this line (file path with a/ or b/ prefix)
-
-            # Identify added lines (those starting with '+')
-            if line.startswith('+'):
-                current_block.append(line[1:].strip())  # Remove the '+' and strip the line
-
-            # If we reach a line that isn't an added line, we complete the current block
-            elif current_block:
-                added_code_blocks.append("\n".join(current_block))  # Add the block as a single string
-                current_block = []  # Reset the current block
-
-    # If there was any remaining block (e.g., file ended with added lines)
-    if current_block:
-        added_code_blocks.append("\n".join(current_block))
-
-    return added_code_blocks
-
-def check_commit_for_code(repo_path, fragment, commit_sha):
-    if not os.path.isdir(os.path.join(repo_path, '.git')):
-        raise ValueError(f"The provided path '{repo_path}' is not a valid git repository.")
-
-
-    cmd = f"git -C {repo_path} show {commit_sha}"
-    diff_content = subprocess.check_output(cmd, shell=True, text=True)
-
-    added_code = extract_added_code(diff_content, fragment.file.replace('../../workspace/repo/', ''))
-
-    start_line = fragment.ls
-    end_line = fragment.le
-
-    # Get the fragment lines from the local file (lines to compare with the diff)
-    local_path = fragment.file.replace('../../', './')
-    with open(local_path, 'r') as file:
-        lines_in_file = file.readlines()[start_line - 1:end_line]  # 0-indexed
-
-    fragment_lines = [line.strip() for line in lines_in_file]
-
-    # Initialize flags for determining the state of the code
-    all_added = all(line in "\n".join(added_code) for line in fragment_lines)
-    part_added = any(line in "\n".join(added_code) for line in fragment_lines)
-
-    # Return the result based on the flags
-    if all_added:
-        return "Code fully added"
-    elif part_added:
-        return "Part of the code was added"
-    else:
-        return "Code already existed"
-
 import os
 import re
-import subprocess
 from typing import List, Tuple, Optional
 
-def check_method_change(file_path: str, method_name: str, v1_hash: str, v2_hash, repo: str = ".") -> str:
-    """
-    Return one of: "removed", "modified", "unchanged", "not-found".
+CONTROL_KW = {
+    "if", "for", "while", "switch", "try", "catch",
+    "finally", "do", "synchronized", "else"
+}
 
-    Compares `commit` against its first parent and checks whether the given
-    method/function in `file_path` was removed or modified.
+MODIFIERS = {
+    "public", "private", "protected", "static", "final", "abstract",
+    "synchronized", "native", "strictfp", "transient", "volatile",
+    "default", "sealed", "non-sealed"
+}
 
-    Heuristics supported:
-      - Python:  def name(...):  ... (until next def/class at same indent)
-      - C-like (C/C++/C#/Java/JS/TS/Go/Swift/Kotlin/Scala/Rust/PHP): header 'name(' then brace-matched { ... }
-      - Ruby:    def name ... end
-      - Lua:     function name(...) ... end
-      - Fallback: textual occurrences of 'name(' (1-line pseudo-blocks)
-    """
+CLASS_KINDS = {"class", "record", "enum"}
 
-    def show_blob(repo_path: str, commit: str, file_path: str) -> Optional[str]:
-        try:
-            os.system(f'cd {repo_path} && git checkout {commit}')
-            content = open(file_path, 'r').read()
-            return content
-        except:
-            return None
+CLASS_DECL_RE = re.compile(
+    r"""^\s*
+        (?:(?:public|private|protected|abstract|final|static|sealed|non-sealed)\s+)*   # mods
+        (?P<kind>class|record|enum)\s+
+        (?P<name>[A-Za-z_]\w*)
+        \b
+    """,
+    re.VERBOSE,
+)
 
-
-    def pick_kind(path: str) -> str:
-        ext = os.path.splitext(path.lower())[1]
-        if ext == ".py": return "python"
-        if ext in {".rb"}: return "ruby"
-        if ext in {".lua"}: return "lua"
-        if ext in {".c",".h",".cpp",".hpp",".cc",".cxx",".cs",".java",".js",".jsx",".ts",".tsx",".go",".swift",".kt",".kts",".scala",".rs",".php"}:
-            return "c_like"
-        return "fallback"
-
-    def blocks_python(src: str, name: str) -> List[Tuple[int,int]]:
-        lines = src.splitlines()
-        pat = re.compile(rf"^\s*def\s+{re.escape(name)}\s*\(")
-        out = []
-        for i, line in enumerate(lines):
-            if pat.search(line):
-                indent = len(line) - len(line.lstrip())
-                j = i + 1
-                while j < len(lines):
-                    l = lines[j]
-                    if l.strip() and (len(l) - len(l.lstrip()) <= indent) and re.match(r"^\s*(def|class)\b", l):
-                        break
-                    j += 1
-                out.append((i, j))
-        return out
-
-    def blocks_c_like(src: str, name: str) -> List[Tuple[int,int]]:
-        out = []
-        text = src
-        rx = re.compile(rf"\b{re.escape(name)}\s*\(")
-        pos = 0
-        while True:
-            m = rx.search(text, pos)
-            if not m: break
-            brace = text.find("{", m.end())
-            if brace == -1:
-                pos = m.end(); continue
-            depth = 0; i = brace
-            while i < len(text):
-                ch = text[i]
-                if ch == "{": depth += 1
-                elif ch == "}":
-                    depth -= 1
-                    if depth == 0:
-                        start_ln = text.count("\n", 0, m.start())
-                        end_ln = text.count("\n", 0, i+1) + 1
-                        out.append((start_ln, end_ln))
-                        pos = i + 1
-                        break
+# retorna (lines_sem_comentário, mapeamento índice_original->índice_filtrado)
+def _strip_comments(lines: List[str]) -> List[str]:
+    out = []
+    in_block = False
+    for line in lines:
+        s = line
+        if not in_block:
+            # remove // comentários de linha (ignorando dentro de bloco)
+            # e trata abertura de /* */
+            i = 0
+            res = []
+            while i < len(s):
+                if not in_block and i + 1 < len(s) and s[i] == '/' and s[i+1] == '/':
+                    # resto da linha é comentário
+                    break
+                if not in_block and i + 1 < len(s) and s[i] == '/' and s[i+1] == '*':
+                    in_block = True
+                    i += 2
+                    continue
+                res.append(s[i])
                 i += 1
+            out.append(''.join(res))
+        else:
+            # estamos dentro de /* ... */
+            end = s.find("*/")
+            if end >= 0:
+                in_block = False
+                out.append(s[end+2:])  # tudo após */ na mesma linha
             else:
-                pos = m.end()
-        return out
+                out.append("")          # linha inteira é comentário
+    return out
 
-    def blocks_ruby(src: str, name: str) -> List[Tuple[int,int]]:
-        lines = src.splitlines()
-        start_rx = re.compile(rf"^\s*def\s+{re.escape(name)}\b")
-        out = []; start = None; depth = 0
-        for i, line in enumerate(lines):
-            if start is None and start_rx.search(line):
-                start = i; depth = 1; continue
-            if start is not None:
-                if re.search(r"\b(def|do)\b", line): depth += 1
-                if re.search(r"^\s*end\b", line):
-                    depth -= 1
-                    if depth <= 0:
-                        out.append((start, i+1)); start = None; depth = 0
-        return out
+def _first_nonempty_from(lines: List[str], j: int) -> int:
+    n = len(lines)
+    while j < n and not lines[j].strip():
+        j += 1
+    return j
 
-    def blocks_lua(src: str, name: str) -> List[Tuple[int,int]]:
-        lines = src.splitlines()
-        start_rx = re.compile(rf"^\s*function\s+{re.escape(name)}\s*\(")
-        out = []; start = None; depth = 0
-        for i, line in enumerate(lines):
-            if start is None and start_rx.search(line):
-                start = i; depth = 1; continue
-            if start is not None:
-                if re.search(r"\b(function|do|then)\b", line): depth += 1
-                if re.search(r"^\s*end\b", line):
-                    depth -= 1
-                    if depth <= 0:
-                        out.append((start, i+1)); start = None; depth = 0
-        return out
+def _gather_signature(lines_nc: List[str], i: int) -> Tuple[str, int, int]:
+    """
+    Coleta uma assinatura de método/ctor Java a partir da linha i (0-based),
+    incluindo anotações acima e continua até encontrar '{'.
+    Retorna (assinatura_compacta, idx_inicio, idx_linha_com_abre_chave).
+    Se não obtiver '{', retorna ("", i, i).
+    """
+    n = len(lines_nc)
 
-    def blocks_fallback(src: str, name: str) -> List[Tuple[int,int]]:
-        lines = src.splitlines()
-        rx = re.compile(rf"\b{re.escape(name)}\s*\(")
-        return [(i, i+1) for i, ln in enumerate(lines) if rx.search(ln)]
+    # pular anotações acima
+    start = i
+    while start > 0 and lines_nc[start-1].lstrip().startswith("@"):
+        start -= 1
 
-    def extract_blocks(src: Optional[str], path: str, name: str) -> List[Tuple[int,int]]:
-        if src is None: return []
-        kind = pick_kind(path)
-        if kind == "python":   bs = blocks_python(src, name)
-        elif kind == "c_like": bs = blocks_c_like(src, name)
-        elif kind == "ruby":   bs = blocks_ruby(src, name)
-        elif kind == "lua":    bs = blocks_lua(src, name)
-        else:                  bs = []
-        return bs if bs else blocks_fallback(src, name)
+    # pular linhas em branco entre anotações e assinatura
+    while start < n and not lines_nc[start].strip():
+        start += 1
 
-    def norm(txt: str) -> str:
-        lines = [l.rstrip() for l in txt.splitlines()]
-        while lines and lines[0] == "": lines.pop(0)
-        while lines and lines[-1] == "": lines.pop()
-        return "\n".join(lines)
+    # concatenar até achar '{'
+    buf = []
+    j = start
+    found_brace = -1
+    while j < n:
+        part = lines_nc[j]
+        buf.append(part.strip())
+        if "{" in part:
+            found_brace = j
+            break
+        # se a linha termina com ';' antes de encontrar '{', é declaração/abstract/interface
+        if ";" in part and "{" not in part:
+            return ("", i, i)
+        j += 1
 
-    file_path = file_path.replace('../../', './')
-    before = show_blob(repo, v1_hash, file_path)
-    after  = show_blob(repo, v2_hash, file_path)
-    if before is None and after is None:
-        return "not-found"
+    if found_brace == -1:
+        return ("", i, i)
 
-    # 3) Extract method “blocks”
-    b_blocks = extract_blocks(before, file_path, method_name)
-    a_blocks = extract_blocks(after,  file_path, method_name)
+    # compactar espaços
+    sig = " ".join(x for x in buf if x)
+    # remover conteúdo após o primeiro '{'
+    sig = sig.split("{", 1)[0].strip()
+    return (sig, start, found_brace)
 
-    if not b_blocks and not a_blocks:
-        return "Not-found"
-    if b_blocks and not a_blocks:
-        return "Removed"
-    if not b_blocks and a_blocks:
-        # Added in commit; not removed/modified relative to parent
-        return "Unchanged"
+def _is_control_signature(sig: str) -> bool:
+    # token inicial sendo palavra de controle => não é método
+    tokens = sig.split()
+    if not tokens:
+        return True
+    head = tokens[0]
+    return head in CONTROL_KW
 
-    # 4) Compare each before-block to best after-block
-    used = set()
-    modified = False
-    for bspan in b_blocks:
-        btxt = "\n".join(before.splitlines()[bspan[0]:bspan[1]]) if before else ""
-        bnorm = norm(btxt)
-        match_j = None
-        equal = False
-        for j, aspan in enumerate(a_blocks):
-            if j in used: continue
-            atxt = "\n".join(after.splitlines()[aspan[0]:aspan[1]]) if after else ""
-            anorm = norm(atxt)
-            if anorm == bnorm:
-                match_j = j; equal = True; break
-            # header-line equality heuristic
-            if btxt.splitlines()[:1] and atxt.splitlines()[:1] and \
-               btxt.splitlines()[0].strip() == atxt.splitlines()[0].strip():
-                match_j = j; equal = False; break
-        if match_j is None:
-            # This specific occurrence disappeared -> treat as removed,
-            # but since there are also other occurrences, prioritize "removed".
-            return "Removed"
-        used.add(match_j)
-        if not equal:
-            modified = True
+def _extract_method_name(sig: str, current_class: Optional[str]) -> Tuple[Optional[str], bool]:
+    """
+    Extrai o nome imediatamente antes de '('.
+    Retorna (name, is_constructor).
+    Valida construtor (igual à classe). Para métodos, exige que haja "tipo" antes do nome
+    que não seja apenas modificador.
+    """
+    if "(" not in sig:
+        return (None, False)
 
-    return "Modified" if modified else "Unhanged"
+    # pegue a substring até '(' e ache o último identificador
+    pre = sig.split("(", 1)[0]
+    # troque <...> por vazio (generics) para simplificar a tokenização do tipo
+    pre_clean = re.sub(r"<[^>]*>", " ", pre)
+    # também remova annotations embutidas (pouco comum, mas seguro)
+    pre_clean = re.sub(r"@\w+(?:\([^)]*\))?", " ", pre_clean)
 
+    # último identificador antes de '('
+    m = re.search(r"([A-Za-z_]\w*)\s*$", pre_clean)
+    if not m:
+        return (None, False)
+    name = m.group(1)
 
-def xml_to_json(xml_path: str, json_path: str, pretty=True):
-    xml_path = pathlib.Path(xml_path)
-    if json_path is None:
-        json_path = xml_path.with_suffix(".json")
+    # verificação de construtor
+    if current_class and name == current_class:
+        return (name, True)
 
-    with xml_path.open("r", encoding="utf-8") as f:
-        data = xmltodict.parse(f.read())  # atributos -> "@attr", texto -> "#text"
+    # Para método, precisa haver algo antes do nome que não seja só modificador
+    before = pre_clean[:m.start()].strip()
+    if not before:
+        return (None, False)
 
-    with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2 if pretty else None)
+    # pegue o último token significativo antes do nome (ignorando espaços múltiplos)
+    toks = [t for t in re.split(r"\s+", before) if t]
+    if not toks:
+        return (None, False)
+    last = toks[-1]
 
-    return str(json_path)
+    # se o último token é apenas modificador, não temos tipo -> provavelmente NÃO é método
+    if last in MODIFIERS:
+        return (None, False)
 
+    # evitar casos bizarros como label: foo(...) (raro em Java), ou lambda
+    if "=>" in sig or ":" in toks[-1]:
+        return (None, False)
+
+    return (name, False)
+
+def _block_end(lines_nc: List[str], start_line_with_open_brace: int) -> int:
+    """
+    Dada a linha (0-based) onde existe '{' que abre o bloco do método,
+    encontra a linha (1-based) onde o bloco termina.
+    """
+    n = len(lines_nc)
+    depth = 0
+    opened = False
+    for j in range(start_line_with_open_brace, n):
+        s = lines_nc[j]
+        depth += s.count("{")
+        if s.count("{"):
+            opened = True
+        depth -= s.count("}")
+        if opened and depth == 0:
+            return j + 1  # devolver 1-based
+    return n
 
 def get_enclosing_method_name(file_path: str, startline: int, endline: int) -> Optional[str]:
-    file_path = file_path.replace('../../', './')
+    file_path = file_path.replace("../../", "./")
     if not os.path.isfile(file_path):
         return None
 
-    with open(file_path, "r", encoding="utf-8", errors="replace") as f:
-        lines = f.read().splitlines()
+    if not file_path.lower().endswith(".java"):
+        # funciona somente para Java, conforme solicitado
+        return None
 
-    n = len(lines)
+    with open(file_path, "r", encoding="utf-8", errors="replace") as f:
+        raw_lines = f.read().splitlines()
+
+    n = len(raw_lines)
     if n == 0:
         return None
     startline = max(1, min(startline, n))
     endline = max(startline, min(endline, n))
 
-    ext = os.path.splitext(file_path)[1].lower()
+    lines_nc = _strip_comments(raw_lines)
 
-    # --- padrões de definição ---
-    py_pat = re.compile(r"^\s*(?:async\s+)?def\s+(?P<name>[A-Za-z_]\w*)\s*\(")
-    # Bem permissivo para C/C++/Java: linha que termina abrindo bloco de função
-    c_like_pats = [
-        re.compile(
-            r"""^\s*
-                (?:inline|static|extern|virtual|constexpr|explicit|friend|typedef|
-                   public|private|protected|final|abstract|synchronized|native|volatile|
-                   const|register|mutable|auto|template|class|struct|enum
-                )?[\s\w:<>\*\&\.\[\],()@]*?
-                (?P<name>[A-Za-z_]\w*)\s*\([^;{}]*\)\s*\{
-            """,
-            re.VERBOSE,
-        ),
-        # fallback: tipo nome(args) {
-        re.compile(r"^\s*[\w:<>\*\&\.\[\],\s]+\s+(?P<name>[A-Za-z_]\w*)\s*\([^;{}]*\)\s*\{")
-    ]
+    # rastrear classe/record/enum atuais para validar construtores
+    class_stack: List[Tuple[int, str]] = []  # (brace_depth, class_name)
+    defs: List[Tuple[int, int, str]] = []    # (start, end, name) 1-based
 
-    def is_python() -> bool:
-        return ext == ".py"
+    # brace depth com comentários removidos
+    depth = 0
+    i = 0
+    while i < n:
+        line = lines_nc[i]
 
-    # --- localiza todas as defs e seus blocos ---
-    defs: List[Tuple[int, int, str]] = []  # (inicio, fim, nome)
+        # detectar declaração de classe/record/enum
+        mcls = CLASS_DECL_RE.match(line)
+        if mcls:
+            kind = mcls.group("kind")
+            cname = mcls.group("name")
+            # empilha com a profundidade ATUAL; o '{' pode estar nesta linha ou na próxima
+            class_stack.append((depth, cname))
 
-    if is_python():
-        # método termina quando a indentação volta
-        def indent(s: str) -> int:
-            return len(s) - len(s.lstrip(" "))
+        # tentar montar assinatura começando aqui (considerando anotações acima)
+        sig, sig_start, open_brace_line = _gather_signature(lines_nc, i)
+        if sig:
+            # rejeitar controles
+            if not _is_control_signature(sig):
+                # nome + verificação construtor ou método com tipo
+                current_class = None
+                for d, cname in reversed(class_stack):
+                    if d <= depth:
+                        current_class = cname
+                        break
 
-        for i, line in enumerate(lines, 1):
-            m = py_pat.match(line)
-            if not m:
-                continue
-            name = m.group("name")
-            base = indent(line)
-            end = n
-            for j in range(i + 1, n + 1):
-                lj = lines[j - 1]
-                if not lj.strip():
-                    continue
-                if lj.lstrip().startswith("#"):
-                    continue
-                if indent(lj) <= base:
-                    end = j - 1
-                    break
-            defs.append((i, end, name))
-    else:
-        # C-like: conta chaves a partir da linha da definição
-        def block_end_from(i_start: int) -> int:
-            depth = 0
-            opened = False
-            for j in range(i_start, n + 1):
-                s = lines[j - 1]
-                # abordagem simples: apenas conta { e }
-                depth += s.count("{")
-                if s.count("{"):
-                    opened = True
-                depth -= s.count("}")
-                if opened and depth == 0:
-                    return j
-            return n
+                name, is_ctor = _extract_method_name(sig, current_class)
 
-        for i, line in enumerate(lines, 1):
-            m = None
-            for pat in c_like_pats:
-                m = pat.match(line)
-                if m:
-                    break
-            if not m:
-                continue
-            name = m.group("name")
-            end = block_end_from(i)
-            defs.append((i, end, name))
+                # se extraiu nome, é um candidato válido (método ou construtor)
+                if name:
+                    # se a assinatura tinha ';' antes do '{', _gather_signature já descartou
+                    # agora calcula fim do bloco
+                    end_1based = _block_end(lines_nc, open_brace_line)
+                    start_1based = sig_start + 1  # converter 0-based -> 1-based
+                    defs.append((start_1based, end_1based, name))
+                    # avançar o cursor para depois da linha do '{' para evitar matches redundantes
+                    i = open_brace_line
+        # atualizar profundidade e stack de classes
+        depth += line.count("{")
+        depth -= line.count("}")
+        # desempilha classes que saíram de escopo
+        while class_stack and class_stack[-1][0] > depth:
+            class_stack.pop()
+
+        i += 1
 
     if not defs:
         return None
 
-    # escolhe o menor bloco que contém completamente [startline, endline]
+    # Escolhe o menor bloco que contém completamente [startline, endline]
     best = None
     for s, e, name in defs:
         if s <= startline and e >= endline:
@@ -422,7 +303,7 @@ def get_enclosing_method_name(file_path: str, startline: int, endline: int) -> O
     if best:
         return best[2]
 
-    # fallback: se não cobrir totalmente, pega a definição imediatamente anterior que ainda cobre o início
+    # Fallback: pega a definição imediatamente anterior que ainda cobre o início
     prev = [d for d in defs if d[0] <= startline]
     if prev:
         s, e, name = max(prev, key=lambda x: x[0])
