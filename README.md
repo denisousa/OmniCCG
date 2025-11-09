@@ -69,14 +69,14 @@ python3 main.py
 ## Endpoints to Access
 ### Example to detect Code Clone Genealogies (CCG)
 ```
-curl -X GET "http://127.0.0.1:5000/detect_clones"   -H "Content-Type: application/json"   --data '{
-    "git_repository": "https://github.com/jfree/jfreechart",
+curl -X POST "http://127.0.0.1:5000/detect_clones"   -H "Content-Type: application/json"   --data '{
+    "git_repository": "https://github.com/shashirajraja/onlinebookstore",
     "user_settings": {
-      "from_first_commit": true,
+      "from_first_commit": null,
       "from_a_specific_commit": null,
-      "days_prior": null,
-      "merge_commit": null,
-      "fixed_leaps": 40,
+      "days_prior": 360,
+      "merge_commit": true,
+      "fixed_leaps": 5,
       "clone_detector": "simian"
     }
   }'

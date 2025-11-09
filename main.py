@@ -1,14 +1,16 @@
 # app.py
 from flask import Flask, Response, request
+from flask_cors import CORS
 from omniccg import main
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
-@app.get("/detect_clones")
+@app.post("/detect_clones")
 def detect_clones():
     general_settings = request.get_json(silent=True)
     xml_obj = main(general_settings) 

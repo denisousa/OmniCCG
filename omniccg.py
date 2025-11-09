@@ -391,34 +391,37 @@ def SetupRepo():
     print(" Repository setup complete.\n")
 
 
+
 def PrepareGitHistory():
     print("Getting git history")
+
     now = datetime.now()
     repo = Repo(REPO_DIR)
 
+    rev = 'HEAD'
     iter_kwargs = {}
+    if SPECIFIC_COMMIT:
+        rev = f'{SPECIFIC_COMMIT}..HEAD'
+    elif USE_DAYS:
+        iter_kwargs = {"since": (now - timedelta(days=int(DAYS or 0))).strftime('%Y-%m-%d %H:%M:%S')}
+    elif FROM_BEGIN:
+        rev = '--all'
 
     if USE_MERGE_COMMITS:
         iter_kwargs["merges"] = True
 
-    if FROM_BEGIN:
-        commits = repo.iter_commits(**iter_kwargs)
-    
-    if SPECIFIC_COMMIT:
-        pass
+    commits = repo.iter_commits(rev, **iter_kwargs)
 
-    if USE_DAYS:
-        since = now - timedelta(days=DAYS)
-        commits = repo.iter_commits(since=since.isoformat(), **iter_kwargs)
-
-    # Filtro extra de segurança para merges (caso o parâmetro 'merges' não seja suportado)
     if USE_MERGE_COMMITS:
         commits = (c for c in commits if len(c.parents) > 1)
 
-    lines = [
-        f"{c.hexsha[:7]} {datetime.fromtimestamp(c.committed_date).date()} {c.author.name} {c.summary}"
-        for c in commits
-    ]
+    if USE_LEAPS and int(COMMIT_LEAPS or 0) > 1:
+        step = int(COMMIT_LEAPS)
+        commits = (c for i, c in enumerate(commits) if i % step == 0)
+
+    commits = list(commits)
+
+    lines = [f"{c.hexsha[:7]} {datetime.fromtimestamp(c.committed_date).date()} {c.author.name} {c.summary}" for c in commits ]
 
     Path(HIST_FILE).write_text("\n".join(lines), encoding="utf-8")
     print(f"Wrote {len(lines)} commit(s) to {HIST_FILE}")
@@ -857,10 +860,12 @@ def initilizate_omnigcc_settings(user_settings: dict) -> None:
 
 
 def main(general_settings: dict):
+    global GIT_URL
     os.system(
         f"rm -rf {RES_DIR} && rm -rf {DATA_DIR} && rm -rf {HIST_FILE} && rm -rf {REPO_DIR}"
     )
 
+    GIT_URL = general_settings.get("git_repository")
     initilizate_omnigcc_settings(general_settings.get("user_settings"))
 
     print("STARTING DATA COLLECTION SCRIPT\n")
