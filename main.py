@@ -1,5 +1,5 @@
 from flask_cors import CORS
-from omniccg import main
+from core import main
 import subprocess
 from flask import Flask, Response, request, jsonify
 from get_code_snippets import _ensure_repo, _checkout, _safe_repo_path, _slice_lines, _read_text_with_fallback

@@ -12,11 +12,11 @@ import xml.etree.ElementTree as ET
 import xml.etree.ElementTree as etree
 from datetime import datetime, timedelta
 from typing import Union, Dict, Any, List, Iterable, Optional, Tuple
-from analysis import Analysis, generateCloneLengthFiles
-from count_methods import count_java_methods_in_file
+from .analysis import Analysis, generateCloneLengthFiles
+from .count_methods import count_java_methods_in_file
 
 # =========================
-# Utilitários de impressão
+# Print utilities
 # =========================
 
 def printWarning(message):
@@ -32,19 +32,19 @@ def printInfo(message):
 
 
 # =========================
-# Modelos de configuração
+# Configuration models
 # =========================
 
 @dataclass
 class Settings:
     git_url: str = ""
     local_path: str = ""
-    language: str = "java"  # "java" ou "c"
+    language: str = "java"  # "java" or "c"
     clone_detector_tool: Optional[str] = None  # "nicad" | "simian" | None
 
-    # Escopo temporal / seleção de commits
+    # Temporal scope / commit selection
     from_begin: bool = False
-    specific_commit: str = ""  # se informado, usa range SPECIFIC..HEAD
+    specific_commit: str = ""  # when provided, uses SPECIFIC..HEAD as range
     use_merge_commits: bool = False
     use_days: bool = False
     days: Optional[int] = None
@@ -56,8 +56,8 @@ class Settings:
 class Paths:
     script_dir: str = "scripts"
     tools_dir: str = "tools"
-    res_dir: str = "results"
-    cur_res_dir: str = field(default_factory=lambda: os.path.join("results", "0000000"))
+    res_dir: str = "final_results"
+    cur_res_dir: str = field(default_factory=lambda: os.path.join("final_results", "0000000"))
     # NOTE: ws_dir/repo_dir/data_dir/prod_data_dir/hist_file are reassigned in main()
     ws_dir: str = "workspace"  # legacy default; overwritten in main()
     repo_dir: str = field(default_factory=lambda: os.path.join("workspace", "repo"))  # overwritten in main()
@@ -67,13 +67,13 @@ class Paths:
     clone_detector_xml: str = field(default_factory=lambda: os.path.join("clone_detector_result", "result.xml"))
 
     hist_file: str = field(default_factory=lambda: os.path.join("workspace", "githistory.txt"))  # overwritten in main()
-    p_res_file: str = field(default_factory=lambda: os.path.join("results", "production_results.xml"))
-    p_dens_file: str = field(default_factory=lambda: os.path.join("results", "production_density.csv"))
+    p_res_file: str = field(default_factory=lambda: os.path.join("final_results", "production_results.xml"))
+    p_dens_file: str = field(default_factory=lambda: os.path.join("final_results", "production_density.csv"))
 
 
 @dataclass
 class State:
-    # Dados acumulados em memória
+    # Data accumulated in memory
     p_lin_data: List["Lineage"] = field(default_factory=list)
     p_dens_data: List[Tuple[int, float, float]] = field(default_factory=list)
 
@@ -86,12 +86,12 @@ class Context:
 
 
 # =========================
-# Classes de domínio
+# Domain classes
 # =========================
 
 class CloneFragment:
     def __init__(self, file, ls, le, fh=0):
-        # substitui /dataset/production por /repo para manter compatibilidade com o pipeline original
+        # replace /dataset/production with /repo to keep compatibility with the original pipeline
         self.file = file.replace("/dataset/production", "/repo")
         self.ls = ls
         self.le = le
@@ -187,7 +187,7 @@ class Lineage:
         self.versions: List[CloneVersion] = []
 
     def matches(self, cc: CloneClass):
-        # casa se qualquer fragmento do cloneclass existir na última versão
+        # matches if any fragment of the cloneclass exists in the last version
         for fragment in cc.fragments:
             if self.versions[-1].cloneclass.contains(fragment):
                 return True
@@ -202,7 +202,7 @@ class Lineage:
 
 
 # =========================
-# Parsers auxiliares
+# Auxiliary parsers
 # =========================
 
 def getLastCommitFromDensityCSV(filename):
@@ -241,7 +241,7 @@ def parseLineageFile(filename):
                     cloneclasses = list(version)
                     if len(cloneclasses) != 1:
                         printWarning("Unexpected amount of clone classes in version.")
-                        printWarning("Please check if inputfile is consistent.")
+                        printWarning("Please check if input file is consistent.")
                     for fragment in list(cloneclasses[0]):
                         cc.fragments.append(
                             CloneFragment(
@@ -342,7 +342,7 @@ def GetPattern(v1: CloneVersion, v2: CloneVersion):
 
 
 # =========================
-# Pipeline (sem globais)
+# Pipeline (no globals)
 # =========================
 def SetupRepo(ctx: Context):
     s, p = ctx.settings, ctx.paths
@@ -577,44 +577,95 @@ def find_method_end(lines, decl_line, brace_col):
                     return li + 1
     return None
 
+from pathlib import Path
+import shutil
+import subprocess
 
-def RunCloneDetection(ctx: Context):
+def RunCloneDetection(ctx: "Context") -> None:
     s, p = ctx.settings, ctx.paths
     print("Starting clone detection:")
 
-    clone_detector_result = Path(p.clone_detector_dir)
-    clone_detector_result.mkdir(parents=True, exist_ok=True)
-    for item in clone_detector_result.iterdir():
+    # Normalize paths
+    out_dir = Path(p.clone_detector_dir)
+    out_xml = Path(p.clone_detector_xml)
+    tools_dir = Path(p.tools_dir)
+    prod_data_dir = Path(p.prod_data_dir)
+    data_dir = Path(p.data_dir)
+
+    # Prepare output folder (clean files, keep folder)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for item in out_dir.iterdir():
         if item.is_file():
             item.unlink()
+    out_xml.parent.mkdir(parents=True, exist_ok=True)
 
-    tool = (s.clone_detector_tool or "").casefold()
+    tool = (s.clone_detector_tool or "").lower()
+
     if tool == "nicad":
-        print(" >>> Running nicad6...")
-        os.makedirs(p.cur_res_dir, exist_ok=True)
-        os.system(f"cd {p.tools_dir}/NiCad && ./nicad6 functions {s.language} ../../{p.prod_data_dir}")
-        nicad_xml = f"{p.prod_data_dir}_functions-clones/production_functions-clones-0.30-classes.xml"
-        shutil.move(nicad_xml, p.clone_detector_xml)
-        os.system(f"rm -rf {p.prod_data_dir}_functions-clones")
-        os.system(f"rm {ctx.paths.data_dir}/*.log 2>/dev/null || true")
-        new_xml_data = open(p.clone_detector_xml, "r", encoding="utf-8").read().replace("../../", "")
-        open(p.clone_detector_xml, "w", encoding="utf-8").write(new_xml_data)
+        print(" >>> Running NiCad...")
+        nicad_root = tools_dir / "NiCad"
+        # Try common executable names on Linux/Windows
+        nicad_execs = [nicad_root / "nicad6", nicad_root / "nicad6.bat", nicad_root / "nicad6.exe"]
+        nicad_exec = next((str(x) for x in nicad_execs if x.exists()), None)
+        if not nicad_exec:
+            raise FileNotFoundError(f"NiCad executable not found in: {nicad_root}")
+
+        # Run NiCad with absolute paths; no shell
+        subprocess.run(
+            [nicad_exec, "functions", s.language, str(prod_data_dir)],
+            cwd=str(nicad_root),
+            check=True,
+        )
+
+        # Locate NiCad output XML (threshold suffix may vary)
+        nicad_xml_dir = Path(f"{prod_data_dir}_functions-clones")
+        candidates = sorted(nicad_xml_dir.glob("*-classes.xml"))
+        if not candidates:
+            raise FileNotFoundError(f"No NiCad classes XML found in: {nicad_xml_dir}")
+        shutil.move(str(candidates[0]), str(out_xml))
+
+        # Cleanup NiCad temp/output and logs (cross-platform)
+        if nicad_xml_dir.exists():
+            shutil.rmtree(nicad_xml_dir, ignore_errors=True)
+        for log in Path(data_dir).glob("*.log"):
+            try:
+                log.unlink()
+            except FileNotFoundError:
+                pass
+
+        print("Finished clone detection.\n")
         return
 
     if tool == "simian":
         print(" >>> Running Simian...")
-        java_jar_command = f"java -jar ./{p.tools_dir}/simian/simian-4.0.0.jar"
-        options_command = "-formatter=xml"
-        simian_command = f"{java_jar_command} {options_command} {p.prod_data_dir}/*.{s.language} > {p.clone_detector_xml}"
-        os.system(simian_command)
-        parse_simian_to_clones(p.clone_detector_xml)
+        jar = tools_dir / "simian" / "simian-4.0.0.jar"
+        if not jar.exists():
+            raise FileNotFoundError(f"Simian JAR not found: {jar}")
+
+        # Collect files recursively for the chosen language
+        files = sorted(Path(prod_data_dir).rglob(f"*.{s.language}"))
+        if not files:
+            print(f"   No '*.{s.language}' files found in {prod_data_dir}. Writing empty result.")
+            out_xml.write_text("", encoding="utf-8")
+            return
+
+        # Run Simian and write stdout directly to the XML (no shell redirection)
+        with open(out_xml, "w", encoding="utf-8", newline="") as fh:
+            subprocess.run(
+                ["java", "-jar", str(jar), "-formatter=xml", *[str(f) for f in files]],
+                check=True,
+                stdout=fh,
+            )
+
+        # Normalize/parse Simian output (assumes this function exists elsewhere)
+        parse_simian_to_clones(str(out_xml))
+
+        print("Finished clone detection.\n")
         return
 
-    # Caso nenhuma ferramenta seja selecionada, apenas limpamos a pasta
-    for f in Path(p.clone_detector_dir).iterdir():
-        if f.is_file():
-            f.unlink()
-    print(" Finished clone detection.\n")
+    print("No clone detector selected. Output folder was cleaned.")
+    print("Finished clone detection.\n")
+
 
 
 def parseCloneClassFile(ctx: Context, cloneclass_filename: str) -> List[CloneClass]:
@@ -804,14 +855,14 @@ def build_genealogy_xml(lineages_xml: str, metrics_xml: str) -> str:
             genealogy,
             encoding="utf-8",
             xml_declaration=True,
-            short_empty_elements=False,  # força </genealogy>
+            short_empty_elements=False,  # force </genealogy>
         ).decode("utf-8")
     except AttributeError:
         rough = ET.tostring(
             genealogy,
             encoding="utf-8",
             xml_declaration=True,
-            short_empty_elements=False,  # idem no fallback
+            short_empty_elements=False,  # same in fallback
         )
         dom = minidom.parseString(rough)
         return dom.toprettyxml(indent="  ", encoding="utf-8").decode("utf-8")
@@ -855,23 +906,40 @@ def insert_parent_hash(ctx: Context, parent_hash: str):
 
 
 # =========================
-# Inicialização de settings a partir do dicionário do usuário
+# Settings initialization from user dictionary
 # =========================
 
 def init_settings_from_user(general_settings: Dict[str, Any]) -> Settings:
     user = general_settings.get("user_settings", {}) or {}
+
+    # correct field names
+    git_repository = general_settings.get("git_repository", "")
+    local_path = general_settings.get("local_path", "")
+    language = user.get("language") or general_settings.get("language", "java")
+
+    from_first_commit = bool(user.get("from_first_commit"))
+    specific_commit = user.get("from_a_specific_commit") or ""
+    days_prior = user.get("days_prior")  # may be None or int
+
+    merge_commit = user.get("merge_commit")  # optional
+    fixed_leaps = user.get("fixed_leaps")    # optional
+
+    clone_detector = user.get("clone_detector")  # REQUIRED by your rule
+
     s = Settings(
-        git_url=general_settings.get("git_repository", ""),
-        local_path=general_settings.get("local_path", ""),
-        language=general_settings.get("language", "java"),
-        clone_detector_tool=user.get("clone_detector"),
-        from_begin=bool(user.get("from_first_commit")),
-        specific_commit=general_settings.get("specific_commit", ""),
-        use_merge_commits=bool(user.get("merge_commit")),
-        use_days=bool(user.get("days_pior")),
-        days=user.get("days_pior"),
-        use_leaps=bool(user.get("fixed_leaps")),
-        commit_leaps=user.get("fixed_leaps"),
+        git_url=git_repository,
+        local_path=local_path,
+        language=language,
+        clone_detector_tool=clone_detector,
+
+        from_begin=from_first_commit,
+        specific_commit=specific_commit or "",
+        use_days=days_prior is not None,
+        days=days_prior,
+
+        use_merge_commits=bool(merge_commit),
+        use_leaps=bool(fixed_leaps),
+        commit_leaps=fixed_leaps,
     )
     return s
 
@@ -892,29 +960,103 @@ def _derive_repo_name(settings: Settings) -> str:
 
 
 # =========================
-# Função principal (sem globais)
+# Main function (no globals)
 # =========================
 
-def main(general_settings: Dict[str, Any]) -> str:
+def validate_user_input_or_raise(general_settings: Dict[str, Any]) -> None:
+    """
+    Rules:
+    - Required: git_repository (root) and clone_detector (inside user_settings)
+    - Select exactly ONE among:
+        * from_first_commit (bool True)
+        * from_a_specific_commit (non-empty string)
+        * days_prior (int > 0)
+    - merge_commit and fixed_leaps are optional.
+    """
+    if not isinstance(general_settings, dict):
+        raise ValueError("Invalid configuration: root object must be a dictionary.")
+
+    user = general_settings.get("user_settings", {}) or {}
+
+    # Required
+    git_repo = general_settings.get("git_repository")
+    if not git_repo or not isinstance(git_repo, str) or not git_repo.strip():
+        raise ValueError("Missing required field: 'git_repository'.")
+
+    clone_detector = user.get("clone_detector")
+    if not clone_detector or not isinstance(clone_detector, str) or not clone_detector.strip():
+        raise ValueError("Missing required field in 'user_settings': 'clone_detector'.")
+
+    # Exclusivity among the three selectors
+    ffc = bool(user.get("from_first_commit"))
+    fac = user.get("from_a_specific_commit")
+    fac_ok = isinstance(fac, str) and fac.strip() != ""
+    dp = user.get("days_prior")
+    dp_ok = isinstance(dp, int) and dp > 0
+
+    chosen = sum([1 if ffc else 0, 1 if fac_ok else 0, 1 if dp_ok else 0])
+
+    if chosen == 0:
+        raise ValueError(
+            "You must provide exactly ONE of "
+            "'from_first_commit', 'from_a_specific_commit', or 'days_prior'."
+        )
+    if chosen > 1:
+        raise ValueError(
+            "Invalid configuration: provide only ONE of "
+            "'from_first_commit', 'from_a_specific_commit', or 'days_prior' (mutually exclusive)."
+        )
+
+    # If days_prior is present but invalid (0, negative, non-int)
+    if dp is not None and not dp_ok:
+        raise ValueError("'days_prior' must be an integer > 0 when provided.")
+
+    # Others (merge_commit, fixed_leaps) are optional; no strict validation here.
+
+
+def execute_omniccg(general_settings: Dict[str, Any]) -> str:
+    validate_user_input_or_raise(general_settings)
     settings = init_settings_from_user(general_settings)
     paths = Paths()
     state = State()
     ctx = Context(settings=settings, paths=paths, state=state)
 
-    # --- NEW: use cloned_repositories/<repo_name> as base directory
+    # --- NEW: make all folders live inside the installed package directory ---
+    pkg_root = Path(__file__).resolve().parent            # .../omniccg
+    pkg_root_str = str(pkg_root)
+
+    # Tools / scripts
+    paths.tools_dir = os.path.join(pkg_root_str, "tools")
+    paths.script_dir = os.path.join(pkg_root_str, "scripts")
+
+    # Results & detector output
+    paths.res_dir = os.path.join(pkg_root_str, "results")
+    paths.cur_res_dir = os.path.join(paths.res_dir, "0000000")
+    paths.clone_detector_dir = os.path.join(pkg_root_str, "clone_detector_result")
+    paths.clone_detector_xml = os.path.join(paths.clone_detector_dir, "result.xml")
+
+    # Output files
+    paths.p_res_file = os.path.join(paths.res_dir, "production_results.xml")
+    paths.p_dens_file = os.path.join(paths.res_dir, "production_density.csv")
+
+    # Workspace (clones, datasets, history) lives under omniccg/cloned_repositories/<repo_name>
     repo_name = _derive_repo_name(settings)
-    base_dir = os.path.join("cloned_repositories", repo_name)
+    base_dir = os.path.join(pkg_root_str, "cloned_repositories", repo_name)
     paths.ws_dir = base_dir
     paths.repo_dir = os.path.join(base_dir, "repo")
     paths.data_dir = os.path.join(base_dir, "dataset")
     paths.prod_data_dir = os.path.join(paths.data_dir, "production")
     paths.hist_file = os.path.join(base_dir, "githistory.txt")
-    # --- END NEW
 
-    # Cleanup of previously results
+    # Ensure folders exist
+    os.makedirs(paths.res_dir, exist_ok=True)
+    os.makedirs(paths.clone_detector_dir, exist_ok=True)
+    os.makedirs(base_dir, exist_ok=True)
+    # --- 
+
+    # Cleanup previous results
     if os.path.isdir(paths.res_dir):
         shutil.rmtree(paths.res_dir)
-
 
     print("STARTING DATA COLLECTION SCRIPT\n")
     SetupRepo(ctx)
