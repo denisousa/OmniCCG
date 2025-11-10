@@ -3,6 +3,7 @@ import time
 import shutil
 import hashlib
 import requests
+import subprocess
 import re
 from dataclasses import dataclass, field
 from git import Repo
@@ -12,7 +13,7 @@ import xml.etree.ElementTree as ET
 import xml.etree.ElementTree as etree
 from datetime import datetime, timedelta
 from typing import Union, Dict, Any, List, Iterable, Optional, Tuple
-from analysis import Analysis, generateCloneLengthFiles
+from analysis import Analysis, count_java_methods_in_file
 
 # =========================
 # Print utilities
@@ -576,10 +577,6 @@ def find_method_end(lines, decl_line, brace_col):
                     return li + 1
     return None
 
-from pathlib import Path
-import shutil
-import subprocess
-
 def RunCloneDetection(ctx: "Context") -> None:
     s, p = ctx.settings, ctx.paths
     print("Starting clone detection:")
@@ -637,32 +634,13 @@ def RunCloneDetection(ctx: "Context") -> None:
 
     if tool == "simian":
         print(" >>> Running Simian...")
-        jar = tools_dir / "simian" / "simian-4.0.0.jar"
-        if not jar.exists():
-            raise FileNotFoundError(f"Simian JAR not found: {jar}")
-
-        # Collect files recursively for the chosen language
-        files = sorted(Path(prod_data_dir).rglob(f"*.{s.language}"))
-        if not files:
-            print(f"   No '*.{s.language}' files found in {prod_data_dir}. Writing empty result.")
-            out_xml.write_text("", encoding="utf-8")
-            return
-
-        # Run Simian and write stdout directly to the XML (no shell redirection)
-        with open(out_xml, "w", encoding="utf-8", newline="") as fh:
-            subprocess.run(
-                ["java", "-jar", str(jar), "-formatter=xml", *[str(f) for f in files]],
-                check=True,
-                stdout=fh,
-            )
-
-        # Normalize/parse Simian output (assumes this function exists elsewhere)
-        parse_simian_to_clones(str(out_xml))
-
-        print("Finished clone detection.\n")
+        java_jar_command = f'java -jar {p.tools_dir}/simian/simian-4.0.0.jar'  # absolute
+        options_command = "-formatter=xml"
+        simian_command = f'{java_jar_command} {options_command} "{p.prod_data_dir}"/*.{s.language} > "{p.clone_detector_xml}"'
+        os.system(simian_command)
+        parse_simian_to_clones(p.clone_detector_xml)
         return
-
-    print("No clone detector selected. Output folder was cleaned.")
+    
     print("Finished clone detection.\n")
 
 
