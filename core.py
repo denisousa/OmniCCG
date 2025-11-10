@@ -1,19 +1,38 @@
 import os
+import json
 import time
 import shutil
 import hashlib
-import requests
-import subprocess
 import re
+import platform
+import subprocess
 from dataclasses import dataclass, field
-from git import Repo
 from pathlib import Path
 from xml.dom import minidom
 import xml.etree.ElementTree as ET
-import xml.etree.ElementTree as etree
 from datetime import datetime, timedelta
 from typing import Union, Dict, Any, List, Iterable, Optional, Tuple
-from analysis import Analysis, count_java_methods_in_file
+from git import Repo
+try:
+    from .analysis import Analysis, count_java_methods_in_file
+except:
+    from analysis import Analysis, count_java_methods_in_file
+
+# =========================
+# Cross‑platform helpers
+# =========================
+
+def run_cmd(cmd: List[str], cwd: Optional[Union[str, Path]] = None, check: bool = False) -> subprocess.CompletedProcess:
+    return subprocess.run(cmd, cwd=str(cwd) if cwd else None, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=check)
+
+
+def which(exe: str) -> Optional[str]:
+    return shutil.which(exe)
+
+
+def is_windows() -> bool:
+    return platform.system().lower().startswith("win")
+
 
 # =========================
 # Print utilities
@@ -39,18 +58,19 @@ def printInfo(message):
 class Settings:
     git_url: str = ""
     local_path: str = ""
-    language: str = "java"  # "java" or "c"
     clone_detector_tool: Optional[str] = None  # "nicad" | "simian" | None
+    detection_api: Optional[str] = None        # <—— NEW
 
-    # Temporal scope / commit selection
+    # Temporal scope / commit selection (mutually exclusive)
     from_begin: bool = False
-    specific_commit: str = ""  # when provided, uses SPECIFIC..HEAD as range
-    use_merge_commits: bool = False
+    specific_commit: str = ""   # when provided, uses SPECIFIC..HEAD as range
     use_days: bool = False
     days: Optional[int] = None
+
+    # Defaults: not used unless explicitly provided
+    use_merge_commits: bool = False
     use_leaps: bool = False
     commit_leaps: Optional[int] = None
-
 
 @dataclass
 class Paths:
@@ -95,7 +115,6 @@ class CloneFragment:
         self.file = file.replace("/dataset/production", "/repo")
         self.ls = ls
         self.le = le
-        self.function_hash = fh
         self.hash = hashlib.sha256(f"{self.file}{self.ls}{self.le}".encode("utf-8")).hexdigest()[:7]
 
     def contains(self, other):
@@ -124,8 +143,12 @@ class CloneClass:
     def __init__(self):
         self.fragments: List[CloneFragment] = []
 
-    def contains(self, fragment: CloneFragment):
-        return any(f.matches(fragment) for f in self.fragments)
+    def contains(self, fragment):
+        for f in self.fragments:
+            if f.matches(fragment):
+                return True
+        return False
+
 
     def matches(self, cc: "CloneClass"):
         n = 0
@@ -232,7 +255,7 @@ def parseLineageFile(filename):
     lineages = []
     with open(filename, "r+", encoding="utf-8") as file:
         try:
-            file_xml = etree.parse(file)
+            file_xml = ET.parse(file)
             for lineage in file_xml.getroot():
                 lin = Lineage()
                 versions = list(lineage)
@@ -342,9 +365,10 @@ def GetPattern(v1: CloneVersion, v2: CloneVersion):
 
 
 # =========================
-# Pipeline (no globals)
+# Git & dataset pipeline
 # =========================
-def SetupRepo(ctx: Context):
+
+def SetupRepo(ctx: "Context"):
     s, p = ctx.settings, ctx.paths
 
     # Local path: copy as-is
@@ -362,42 +386,35 @@ def SetupRepo(ctx: Context):
     repo_git_dir = os.path.join(p.repo_dir, ".git")
 
     if os.path.isdir(repo_git_dir):
-        # Always fetch first
-        os.system(f'git -C "{p.repo_dir}" fetch --all --prune')
-
-        # Discover current branch (skip if detached)
-        head = os.popen(f'git -C "{p.repo_dir}" rev-parse --abbrev-ref HEAD').read().strip()
-        if head and head != "HEAD":
-            # Check if upstream is configured without using @{u}
-            remote = os.popen(f'git -C "{p.repo_dir}" config --get branch.{head}.remote').read().strip()
-            merge  = os.popen(f'git -C "{p.repo_dir}" config --get branch.{head}.merge').read().strip()
-
-            if not remote or not merge:
-                # If there's an 'origin' remote, set upstream to origin/<branch>
-                has_origin = (os.system(f'git -C "{p.repo_dir}" remote get-url origin >NUL 2>&1') == 0) \
-                             or (os.system(f'git -C "{p.repo_dir}" remote get-url origin >/dev/null 2>&1') == 0)
-                if has_origin:
-                    os.system(f'git -C "{p.repo_dir}" branch --set-upstream-to "origin/{head}" "{head}" >NUL 2>&1 || true')
-                    os.system(f'git -C "{p.repo_dir}" branch --set-upstream-to "origin/{head}" "{head}" >/dev/null 2>&1 || true')
-
-            # Fast-forward only; ignore non-FF errors
-            os.system(f'git -C "{p.repo_dir}" pull --ff-only >NUL 2>&1 || true')
-            os.system(f'git -C "{p.repo_dir}" pull --ff-only >/dev/null 2>&1 || true')
-        else:
-            printInfo("Detached HEAD or no branch; fetched refs only.")
+        # Open with GitPython and fetch/pull safely (cross‑platform)
+        repo = Repo(p.repo_dir)
+        try:
+            # Fetch all remotes
+            for remote in repo.remotes:
+                remote.fetch(prune=True)
+            # Try fast-forward pull on active branch (if not detached)
+            if not repo.head.is_detached:
+                try:
+                    repo.git.pull("--ff-only")
+                except Exception:
+                    printInfo("Pull --ff-only skipped (non-FF or no upstream). Fetched refs only.")
+            else:
+                printInfo("Detached HEAD or no branch; fetched refs only.")
+        except Exception as e:
+            printWarning(f"Git fetch/pull encountered an issue: {e}")
         return
 
     # Not a git repo but folder exists → clean it
     if os.path.isdir(p.repo_dir):
         shutil.rmtree(p.repo_dir, ignore_errors=True)
 
-    # Clone fresh
+    # Clone fresh (GitPython)
     os.makedirs(p.ws_dir, exist_ok=True)
-    os.system(f'git clone "{s.git_url}" "{p.repo_dir}"')
+    Repo.clone_from(s.git_url, p.repo_dir)
     print(" Repository setup complete.\n")
 
 
-def PrepareGitHistory(ctx: Context):
+def PrepareGitHistory(ctx: "Context"):
     print("Getting git history")
     s, p = ctx.settings, ctx.paths
     now = datetime.now()
@@ -431,7 +448,7 @@ def PrepareGitHistory(ctx: Context):
     print(f"Wrote {len(lines)} commit(s) to {p.hist_file}")
 
 
-def GetHashes(ctx: Context) -> List[str]:
+def GetHashes(ctx: "Context") -> List[str]:
     p = ctx.paths
     hashes: List[str] = []
     if not os.path.exists(p.hist_file):
@@ -450,7 +467,8 @@ def GetHashes(ctx: Context) -> List[str]:
     hashes.reverse()
     return hashes
 
-def PrepareSourceCode(ctx: Context) -> bool:
+
+def PrepareSourceCode(ctx: "Context") -> bool:
     s, p = ctx.settings, ctx.paths
     print("Preparing source code")
     found = False
@@ -468,23 +486,15 @@ def PrepareSourceCode(ctx: Context) -> bool:
     os.makedirs(p.data_dir, exist_ok=True)
     os.makedirs(p.prod_data_dir, exist_ok=True)
 
-    lang = (s.language or "").lower().strip().lstrip(".")  # e.g., "java" or "c"
-    if not lang:
-        printError("Language not set.")
-        return False
-
     repo_path = Path(repo_root)
 
-    # Recursively pick files by extension; skip .git and files with "test" in the filename
-    for src in repo_path.rglob(f"*.{lang}"):
-        # Skip anything inside .git
+    # Pick only .java files; skip .git and *test* files
+    for src in repo_path.rglob("*.java"):
         if any(part == ".git" for part in src.parts):
             continue
-        # Skip files whose name contains "test" (case-insensitive)
         if "test" in src.name.lower():
             continue
 
-        # Relative dir of the source; root files go directly into production/
         rel_dir = os.path.relpath(str(src.parent), repo_root)
         dst_dir = p.prod_data_dir if rel_dir == "." else os.path.join(p.prod_data_dir, rel_dir)
 
@@ -495,8 +505,7 @@ def PrepareSourceCode(ctx: Context) -> bool:
     print("Source code ready for clone analysis.\n")
     return found
 
-
-def StartFromPreviousVersion(ctx: Context) -> int:
+def StartFromPreviousVersion(ctx: "Context") -> int:
     p = ctx.paths
     if not os.path.exists(p.res_dir):
         os.makedirs(p.res_dir, exist_ok=True)
@@ -562,6 +571,7 @@ def parse_simian_to_clones(simian_xml: str) -> None:
     with open(simian_xml, "w", encoding="utf-8") as f:
         f.write(result_xml)
 
+
 def find_method_end(lines, decl_line, brace_col):
     depth = 0
     for li in range(decl_line - 1, len(lines)):
@@ -577,7 +587,18 @@ def find_method_end(lines, decl_line, brace_col):
                     return li + 1
     return None
 
-def RunCloneDetection(ctx: "Context") -> None:
+
+# =========================
+# Clone detection (cross‑platform)
+# =========================
+
+import os
+import shutil
+import subprocess
+from pathlib import Path
+import requests
+
+def RunCloneDetection(ctx: "Context", current_hash: str):
     s, p = ctx.settings, ctx.paths
     print("Starting clone detection:")
 
@@ -597,56 +618,79 @@ def RunCloneDetection(ctx: "Context") -> None:
 
     tool = (s.clone_detector_tool or "").lower()
 
+    out_dir = Path(p.clone_detector_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for item in out_dir.iterdir():
+        if item.is_file():
+            item.unlink()
+
+    det_api = s.detection_api
+    if isinstance(det_api, str) and det_api.strip():
+        sha = current_hash
+        repo = s.git_url
+        url = det_api.rstrip("/") + "/clone-detection/trigger"
+        try:
+            print(f" >>> GET {url}?sha={sha}&repo={repo}")
+            r = requests.get(url, params={"sha": sha, "repo": repo}, timeout=15)
+            if 200 <= r.status_code < 300:
+                os.makedirs(os.path.dirname(p.clone_detector_xml), exist_ok=True)
+                with open(p.clone_detector_xml, "wb") as f:
+                    f.write(r.content)
+                print("External detection API trigger accepted. Result written.\n")
+                return
+            else:
+                print(f"External detection API failed (HTTP {r.status_code}). Falling back...")
+        except Exception as e:
+            print("External detection API error.")
+            print("Starting to use Nicad.")
+            s.clone_detector_tool = "nicad"
+
+
+    tool = (s.clone_detector_tool or "").casefold()
     if tool == "nicad":
-        print(" >>> Running NiCad...")
-        nicad_root = tools_dir / "NiCad"
-        # Try common executable names on Linux/Windows
-        nicad_execs = [nicad_root / "nicad6", nicad_root / "nicad6.bat", nicad_root / "nicad6.exe"]
-        nicad_exec = next((str(x) for x in nicad_execs if x.exists()), None)
-        if not nicad_exec:
-            raise FileNotFoundError(f"NiCad executable not found in: {nicad_root}")
+        print(" >>> Running nicad6...")
+        os.makedirs(p.cur_res_dir, exist_ok=True)
 
-        # Run NiCad with absolute paths; no shell
-        subprocess.run(
-            [nicad_exec, "functions", s.language, str(prod_data_dir)],
-            cwd=str(nicad_root),
-            check=True,
-        )
+        subprocess.run(["./nicad6", "functions", "java", p.prod_data_dir],
+                    cwd=Path(p.tools_dir) / "NiCad",
+                    check=True)
 
-        # Locate NiCad output XML (threshold suffix may vary)
-        nicad_xml_dir = Path(f"{prod_data_dir}_functions-clones")
-        candidates = sorted(nicad_xml_dir.glob("*-classes.xml"))
-        if not candidates:
-            raise FileNotFoundError(f"No NiCad classes XML found in: {nicad_xml_dir}")
-        shutil.move(str(candidates[0]), str(out_xml))
+        nicad_xml = f"{p.prod_data_dir}_functions-clones/production_functions-clones-0.30-classes.xml"
+        shutil.move(nicad_xml, p.clone_detector_xml)
+        clones_dir = Path(f"{p.prod_data_dir}_functions-clones")
+        shutil.rmtree(clones_dir, ignore_errors=True)
 
-        # Cleanup NiCad temp/output and logs (cross-platform)
-        if nicad_xml_dir.exists():
-            shutil.rmtree(nicad_xml_dir, ignore_errors=True)
-        for log in Path(data_dir).glob("*.log"):
+        data_dir = Path(ctx.paths.data_dir)
+        for log_file in data_dir.glob("*.log"):
             try:
-                log.unlink()
+                log_file.unlink()
             except FileNotFoundError:
                 pass
+            except PermissionError:
+                pass
 
-        print("Finished clone detection.\n")
+        xml_path = Path(p.clone_detector_xml)
+        new_xml_data = xml_path.read_text(encoding="utf-8")
+        xml_path.write_text(new_xml_data, encoding="utf-8")
         return
 
     if tool == "simian":
         print(" >>> Running Simian...")
-        java_jar_command = f'java -jar {p.tools_dir}/simian/simian-4.0.0.jar'  # absolute
+        java_jar_command = f"java -jar {os.path.join(p.tools_dir, 'simian', 'simian-4.0.0.jar')}"
         options_command = "-formatter=xml"
-        simian_command = f'{java_jar_command} {options_command} "{p.prod_data_dir}"/*.{s.language} > "{p.clone_detector_xml}"'
+        simian_command = f'{java_jar_command} {options_command} "{p.prod_data_dir}"/*.java > "{p.clone_detector_xml}"'
         os.system(simian_command)
         parse_simian_to_clones(p.clone_detector_xml)
+        print("Finished clone detection.\n")
         return
-    
+
+    for f in Path(p.clone_detector_dir).iterdir():
+        if f.is_file():
+            f.unlink()
     print("Finished clone detection.\n")
 
 
-
-def parseCloneClassFile(ctx: Context, cloneclass_filename: str) -> List[CloneClass]:
-    print(cloneclass_filename)
+def parseCloneClassFile(ctx: "Context", cloneclass_filename: str) -> List[CloneClass]:
     cloneclasses: List[CloneClass] = []
     try:
         file_xml = ET.parse(cloneclass_filename)
@@ -689,10 +733,50 @@ def CheckDoubleMatch(cc_original: CloneClass, cc1: CloneClass, cc2: CloneClass) 
     return 0
 
 
-def RunDensityAnalysis(ctx: Context, commitNr: int, pcloneclasses: List[CloneClass]):
+# =========================
+# Metrics (cloc cross‑platform)
+# =========================
+
+def _cloc_total_loc(path: str) -> int:
+    """Try to compute total LOC using cloc --json. Fallback to manual counting."""
+    # Prefer cloc under tools/cloc; otherwise use PATH
+    candidates = [
+        os.path.join(Path(path).parents[2], "tools", "cloc", "cloc-1.72.pl"),  # original layout
+        which("cloc"),  # cloc exe
+    ]
+    cloc_path = next((c for c in candidates if c and os.path.exists(str(c))), None)
+
+    if cloc_path:
+        # Try JSON output to avoid grep/pipe
+        try:
+            if cloc_path.endswith(".pl"):
+                perl = which("perl")
+                if not perl:
+                    raise FileNotFoundError("Perl not found for cloc-1.72.pl; will use Python fallback.")
+                proc = run_cmd([perl, cloc_path, "--json", path])
+            else:
+                proc = run_cmd([cloc_path, "--json", path])
+            data = json.loads(proc.stdout or '{}')
+            if "SUM" in data and isinstance(data["SUM"], dict):
+                # JSON has code/comment/blank
+                return int(data["SUM"].get("code", 0)) + int(data["SUM"].get("comment", 0)) + int(data["SUM"].get("blank", 0))
+        except Exception as e:
+            printWarning(f"cloc JSON parsing failed, using fallback: {e}")
+
+    # Fallback: manual LOC (non-empty lines)
+    total = 0
+    for file in Path(path).rglob("*"):
+        if file.is_file():
+            try:
+                with open(file, "r", encoding="utf-8", errors="ignore") as f:
+                    total += sum(1 for line in f)
+            except Exception:
+                pass
+    return total
+
+
+def RunDensityAnalysis(ctx: "Context", commitNr: int, pcloneclasses: List[CloneClass]):
     s, p, st = ctx.settings, ctx.paths, ctx.state
-    print("Starting density analysis:")
-    print(" > Production code...")
     if not os.path.exists(p.clone_detector_xml):
         st.p_dens_data.append((commitNr, 0, 0))
         return
@@ -719,25 +803,17 @@ def RunDensityAnalysis(ctx: Context, commitNr: int, pcloneclasses: List[CloneCla
     except Exception:
         density_f_p = 0.0
 
-    cloc_p_out = (
-        os.popen(f'perl {ctx.paths.tools_dir}/cloc/cloc-1.72.pl {ctx.paths.prod_data_dir}/ | grep "SUM"').read().split()
-    )
-    if len(cloc_p_out) >= 3:
-        total_amount_of_p_loc = int(cloc_p_out[-1]) + int(cloc_p_out[-2]) + int(cloc_p_out[-3])
-    else:
-        total_amount_of_p_loc = 0
+    total_amount_of_p_loc = _cloc_total_loc(ctx.paths.prod_data_dir)
 
     amount_of_cloned_p_loc = sum(cc.countLOC() for cc in pcloneclasses)
     density_loc_p = 100 * (float(amount_of_cloned_p_loc) / total_amount_of_p_loc) if total_amount_of_p_loc else 0.0
 
     st.p_dens_data.append((commitNr, density_f_p, density_loc_p))
-    print(" Finished density analysis.\n")
 
 
-def RunGenealogyAnalysis(ctx: Context, commitNr: int, hash_: str):
+def RunGenealogyAnalysis(ctx: "Context", commitNr: int, hash_: str):
     s, p, st = ctx.settings, ctx.paths, ctx.state
-    print("Starting genealogy analysis:")
-    print(" > Production code...")
+    print(f"Extract Code Code Genealogy (CCG) - Hash Commit {hash_}")
     pcloneclasses = parseCloneClassFile(ctx, p.clone_detector_xml)
 
     if not st.p_lin_data:
@@ -784,8 +860,8 @@ def RunGenealogyAnalysis(ctx: Context, commitNr: int, hash_: str):
                 l.versions.append(v)
                 st.p_lin_data.append(l)
 
-    print(" Finished genealogy analysis.\n")
     RunDensityAnalysis(ctx, commitNr, pcloneclasses)
+
 
 def build_no_clones_message(detector: Optional[str]) -> str:
     detector_name = (detector or "unspecified").strip() or "unspecified"
@@ -793,9 +869,6 @@ def build_no_clones_message(detector: Optional[str]) -> str:
     root = ET.Element("result")
     ET.SubElement(root, "status").text = "no_clones_found"
     ET.SubElement(root, "detector").text = detector_name
-    ET.SubElement(root, "message").text = (
-        f"No clones were found across the analyzed commits using the '{detector_name}' detector."
-    )
 
     # Try modern pretty print (Python 3.9+)
     try:
@@ -806,6 +879,7 @@ def build_no_clones_message(detector: Optional[str]) -> str:
         rough = ET.tostring(root, encoding="utf-8")
         reparsed = minidom.parseString(rough)
         return reparsed.toprettyxml(indent="  ", encoding="utf-8").decode("utf-8")
+
 
 def build_genealogy_xml(lineages_xml: str, metrics_xml: str) -> str:
     def _normalize_whitespace(elem):
@@ -845,7 +919,7 @@ def build_genealogy_xml(lineages_xml: str, metrics_xml: str) -> str:
         return dom.toprettyxml(indent="  ", encoding="utf-8").decode("utf-8")
 
 
-def WriteLineageFile(ctx: Context, lineages: List[Lineage], filename: str):
+def WriteLineageFile(ctx: "Context", lineages: List[Lineage], filename: str):
     xml_txt = "<lineages>\n"
 
     with open(filename, "w+", encoding="utf-8") as output_file:
@@ -858,7 +932,8 @@ def WriteLineageFile(ctx: Context, lineages: List[Lineage], filename: str):
 
     return xml_txt
 
-def WriteDensityFile(ctx: Context, densitys: List[Tuple[int, float, float]], filename: str):
+
+def WriteDensityFile(ctx: "Context", densitys: List[Tuple[int, float, float]], filename: str):
     with open(filename, "w+", encoding="utf-8") as output_file:
         for density in densitys:
             output_file.write(f"{density[0]}, {density[1]}, {density[2]}\n")
@@ -877,7 +952,7 @@ def timeToString(seconds):
     return result
 
 
-def insert_parent_hash(ctx: Context, parent_hash: str):
+def insert_parent_hash(ctx: "Context", parent_hash: str):
     for lineage in ctx.state.p_lin_data:
         lineage.versions[-1].parent_hash = parent_hash
 
@@ -889,37 +964,46 @@ def insert_parent_hash(ctx: Context, parent_hash: str):
 def init_settings_from_user(general_settings: Dict[str, Any]) -> Settings:
     user = general_settings.get("user_settings", {}) or {}
 
-    # correct field names
     git_repository = general_settings.get("git_repository", "")
     local_path = general_settings.get("local_path", "")
-    language = user.get("language") or general_settings.get("language", "java")
+    detection_api = general_settings.get("detection-api") or None  # string URL or None
 
+    # Read raw selectors
     from_first_commit = bool(user.get("from_first_commit"))
-    specific_commit = user.get("from_a_specific_commit") or ""
+    specific_commit = (user.get("from_a_specific_commit") or "").strip()
     days_prior = user.get("days_prior")  # may be None or int
 
-    merge_commit = user.get("merge_commit")  # optional
-    fixed_leaps = user.get("fixed_leaps")    # optional
+    # Enforce single selection with default = from_first_commit True
+    fac_ok = bool(specific_commit)
+    dp_ok = isinstance(days_prior, int) and days_prior > 0
+    chosen = (1 if from_first_commit else 0) + (1 if fac_ok else 0) + (1 if dp_ok else 0)
+    if chosen == 0:
+        from_first_commit = True
+        specific_commit = ""
+        days_prior = None
 
-    clone_detector = user.get("clone_detector")  # REQUIRED by your rule
+    merge_commit = user.get("merge_commit")     # optional
+    fixed_leaps = user.get("fixed_leaps")       # optional
+
+    clone_detector = user.get("clone_detector")  # optional now; ignored if detection_api set
 
     s = Settings(
         git_url=git_repository,
         local_path=local_path,
-        language=language,
         clone_detector_tool=clone_detector,
+        detection_api=detection_api,
 
         from_begin=from_first_commit,
         specific_commit=specific_commit or "",
-        use_days=days_prior is not None,
-        days=days_prior,
+        use_days=dp_ok,
+        days=days_prior if dp_ok else None,
 
+        # defaults = not used unless provided
         use_merge_commits=bool(merge_commit),
         use_leaps=bool(fixed_leaps),
         commit_leaps=fixed_leaps,
     )
     return s
-
 
 def _derive_repo_name(settings: Settings) -> str:
     """
@@ -941,15 +1025,6 @@ def _derive_repo_name(settings: Settings) -> str:
 # =========================
 
 def validate_user_input_or_raise(general_settings: Dict[str, Any]) -> None:
-    """
-    Rules:
-    - Required: git_repository (root) and clone_detector (inside user_settings)
-    - Select exactly ONE among:
-        * from_first_commit (bool True)
-        * from_a_specific_commit (non-empty string)
-        * days_prior (int > 0)
-    - merge_commit and fixed_leaps are optional.
-    """
     if not isinstance(general_settings, dict):
         raise ValueError("Invalid configuration: root object must be a dictionary.")
 
@@ -960,36 +1035,21 @@ def validate_user_input_or_raise(general_settings: Dict[str, Any]) -> None:
     if not git_repo or not isinstance(git_repo, str) or not git_repo.strip():
         raise ValueError("Missing required field: 'git_repository'.")
 
-    clone_detector = user.get("clone_detector")
-    if not clone_detector or not isinstance(clone_detector, str) or not clone_detector.strip():
-        raise ValueError("Missing required field in 'user_settings': 'clone_detector'.")
-
-    # Exclusivity among the three selectors
+    # Exclusivity among the three selectors (allow zero; we'll default later)
     ffc = bool(user.get("from_first_commit"))
     fac = user.get("from_a_specific_commit")
     fac_ok = isinstance(fac, str) and fac.strip() != ""
     dp = user.get("days_prior")
     dp_ok = isinstance(dp, int) and dp > 0
 
-    chosen = sum([1 if ffc else 0, 1 if fac_ok else 0, 1 if dp_ok else 0])
-
-    if chosen == 0:
-        raise ValueError(
-            "You must provide exactly ONE of "
-            "'from_first_commit', 'from_a_specific_commit', or 'days_prior'."
-        )
+    chosen = (1 if ffc else 0) + (1 if fac_ok else 0) + (1 if dp_ok else 0)
     if chosen > 1:
         raise ValueError(
             "Invalid configuration: provide only ONE of "
             "'from_first_commit', 'from_a_specific_commit', or 'days_prior' (mutually exclusive)."
         )
-
-    # If days_prior is present but invalid (0, negative, non-int)
     if dp is not None and not dp_ok:
         raise ValueError("'days_prior' must be an integer > 0 when provided.")
-
-    # Others (merge_commit, fixed_leaps) are optional; no strict validation here.
-
 
 def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     validate_user_input_or_raise(general_settings)
@@ -1034,6 +1094,7 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     # Cleanup previous results
     if os.path.isdir(paths.res_dir):
         shutil.rmtree(paths.res_dir)
+        os.makedirs(paths.res_dir, exist_ok=True)
 
     print("STARTING DATA COLLECTION SCRIPT\n")
     SetupRepo(ctx)
@@ -1044,26 +1105,34 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     analysis_index = 0
     total_time = 0
 
+    repo = Repo(paths.repo_dir)
+
     for hash_index in range(len(hashes)):
         iteration_start_time = time.time()
         analysis_index += 1
         current_hash = hashes[hash_index]
         hi_plus = hash_index + 1
 
-        printInfo("Analyzing commit nr." + str(hi_plus) + " with hash " + current_hash)
+        printInfo("Analyzing commit nr." + str(hi_plus) + " with hash " + current_hash + f"| total commits: {len(hashes)}")
         paths.cur_res_dir = os.path.join(paths.res_dir, f"{hi_plus}_{current_hash}")
 
         # Ensure we are at the correct commit
-        show_out = os.popen(f"git --git-dir {paths.repo_dir}/.git show --oneline -s").read()
-        if current_hash not in show_out:
-            os.system(f"(cd {paths.repo_dir}; git checkout {current_hash} -f > /dev/null 2>&1)")
-            time.sleep(1)
+        try:
+            head_short = repo.git.rev_parse("--short", "HEAD")
+        except Exception:
+            head_short = ""
+        if current_hash not in head_short:
+            try:
+                repo.git.checkout(current_hash, f=True)
+            except Exception as e:
+                raise RuntimeError(f"git checkout {current_hash} failed: {e}")
+            time.sleep(0.5)
 
         # Prepare source and run detection
         if not PrepareSourceCode(ctx):
             continue
 
-        RunCloneDetection(ctx)
+        RunCloneDetection(ctx, current_hash)
         RunGenealogyAnalysis(ctx, hi_plus, current_hash)
         WriteLineageFile(ctx, ctx.state.p_lin_data, paths.p_res_file)
 
@@ -1088,7 +1157,7 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
         print(" >>> Estimated remaining time: " + timeToString(remaining))
 
         WriteLineageFile(ctx, ctx.state.p_lin_data, paths.p_res_file)
-        time.sleep(1)
+        time.sleep(0.5)
 
     # If nothing was accumulated, return a clear XML message
     if len(ctx.state.p_lin_data) == 0:
@@ -1101,4 +1170,4 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     genealogy_xml = build_genealogy_xml(lineages_xml, metrics_xml)
 
     print("\nDONE")
-    return genealogy_xml
+    return genealogy_xml, lineages_xml, metrics_xml
