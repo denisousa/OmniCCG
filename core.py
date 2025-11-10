@@ -12,6 +12,7 @@ from xml.dom import minidom
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from typing import Union, Dict, Any, List, Iterable, Optional, Tuple
+from get_method_name import get_enclosing_java_method
 from git import Repo
 try:
     from .metrics import generate_detailed_report
@@ -112,11 +113,12 @@ class Context:
 # =========================
 
 class CloneFragment:
-    def __init__(self, file, ls, le, fh=0):
+    def __init__(self, file, ls, le, fn=""):
         # replace /dataset/production with /repo to keep compatibility with the original pipeline
         self.file = file.replace("/dataset/production", "/repo")
         self.ls = ls
         self.le = le
+        self.function_name = fn
         self.hash = hashlib.sha256(f"{self.file}{self.ls}{self.le}".encode("utf-8")).hexdigest()[:7]
 
     def contains(self, other):
@@ -126,8 +128,8 @@ class CloneFragment:
         return self.file == other.file and self.ls == other.ls and self.le == other.le
 
     def matches(self, other):
-        return self.hash == other.hash
-
+        return self.file == other.file and self.function_name == other.function_name
+    
     def matchesStrictly(self, other):
         return self.file == other.file and (self.ls == other.ls or self.function_hash == other.function_hash)
 
@@ -177,7 +179,6 @@ class CloneVersion:
     def __init__(self, cc=None, h=None, n=None, evo="None", chan="None"):
         self.cloneclass = cc
         self.hash = h
-        self.parent_hash = ""
         self.nr = n
         self.evolution_pattern = evo
         self.change_pattern = chan
@@ -190,12 +191,11 @@ class CloneVersion:
         return s
 
     def toXML(self):
-        s = '\t<version nr="%d" hash="%s" evolution="%s" change="%s" parent_hash="%s">\n' % (
+        s = '\t<version nr="%d" hash="%s" evolution="%s" change="%s">\n' % (
             self.nr,
             self.hash,
             self.evolution_pattern,
             self.change_pattern,
-            self.parent_hash,
         )
         try:
             s += self.cloneclass.toXML()
@@ -273,7 +273,7 @@ def parseLineageFile(filename):
                                 fragment.get("file"),
                                 int(fragment.get("startline")),
                                 int(fragment.get("endline")),
-                                fragment.get("function"),
+                                fragment.get("function_name"),
                                 int(fragment.get("hash")),
                             )
                         )
@@ -700,7 +700,8 @@ def parseCloneClassFile(ctx: "Context", cloneclass_filename: str) -> List[CloneC
                 file_path = fragment.get("file")
                 startline = int(fragment.get("startline"))
                 endline = int(fragment.get("endline"))
-                cf = CloneFragment(file_path, startline, endline)
+                method_name = get_enclosing_java_method(file_path, startline, endline)
+                cf = CloneFragment(file_path, startline, endline, method_name)
                 cf.function_hash = hash(GetCloneFragment(cf.file, cf.ls, cf.le))
                 cc.fragments.append(cf)
             cloneclasses.append(cc)
@@ -812,6 +813,11 @@ def RunGenealogyAnalysis(ctx: "Context", commitNr: int, hash_: str):
     print(f"Extract Code Code Genealogy (CCG) - Hash Commit {hash_}")
     pcloneclasses = parseCloneClassFile(ctx, p.clone_detector_xml)
 
+    if commitNr == 3:
+        print('')
+
+    if commitNr == 4:
+        print('')
     if not st.p_lin_data:
         for pcc in pcloneclasses:
             v = CloneVersion(pcc, hash_, commitNr)
@@ -946,11 +952,6 @@ def timeToString(seconds):
         result += str(minutes) + " minutes, "
     result += str(seconds) + " seconds"
     return result
-
-
-def insert_parent_hash(ctx: "Context", parent_hash: str):
-    for lineage in ctx.state.p_lin_data:
-        lineage.versions[-1].parent_hash = parent_hash
 
 
 # =========================
@@ -1133,9 +1134,6 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
         RunGenealogyAnalysis(ctx, hi_plus, current_hash)
         WriteLineageFile(ctx, ctx.state.p_lin_data, paths.p_res_file)
 
-        if hi_plus != 1:
-            insert_parent_hash(ctx, hashes[hi_plus - 1])
-
         # Cleanup
         try:
             shutil.rmtree(paths.cur_res_dir, ignore_errors=True)
@@ -1158,7 +1156,7 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
 
     # If nothing was accumulated, return a clear XML message
     if len(ctx.state.p_lin_data) == 0:
-        return build_no_clones_message(settings.clone_detector_tool)
+        return build_no_clones_message(settings.clone_detector_tool), None, None
 
     # Otherwise, finalize outputs
     WriteDensityFile(ctx, ctx.state.p_dens_data, paths.p_dens_file)

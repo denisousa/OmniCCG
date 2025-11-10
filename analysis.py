@@ -48,7 +48,6 @@ def count_java_methods_in_file(java_file_path: str) -> int:
     cleaned = _strip_comments_and_strings(code)
     return sum(1 for _ in METHOD_REGEX.finditer(cleaned))
 
-
 # Output functions
 def printWarning(message):
     print('\033[93m WARNING: ' + message + '\033[0m')
