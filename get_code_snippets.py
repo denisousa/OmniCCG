@@ -42,26 +42,57 @@ def _read_text_with_fallback(path: str) -> str:
     return data.decode("utf-8", errors="ignore")
 
 def _safe_repo_path(repo_dir: str, incoming_path: str) -> Path:
+    """
+    Safely resolve a file path from XML to an actual file in the cloned repo.
+    Handles paths in various formats:
+    - Absolute paths with /dataset/production (from NiCad/analysis)
+    - Paths already containing /repo
+    - Relative paths
+    """
     repo_dir_abs = Path(repo_dir).resolve()
-    p = Path(incoming_path)
+    
+    # Normalize the incoming path: replace /dataset/production with /repo
+    normalized_path = incoming_path.replace("/dataset/production", "/repo")
+    normalized_path = normalized_path.replace("\\dataset\\production", "\\repo")
+    
+    p = Path(normalized_path)
+    
     if not p.is_absolute():
+        # Simple relative path - just join with repo_dir
         candidate = (repo_dir_abs / p).resolve()
     else:
-        # If XML provides an absolute path, try to map it into repo_dir if it's already inside
-        candidate = Path(incoming_path).resolve()
-        # If it's not under repo_dir, try to make it relative to the repo root name tail
+        # Absolute path - try to extract relative part after /repo
+        candidate = Path(normalized_path).resolve()
+        
+        # Try to keep as-is if it's already inside repo_dir
         try:
-            # Prefer keeping as-is if it's already inside repo_dir
             candidate.relative_to(repo_dir_abs)
-        except Exception:
-            # Fallback: try to strip until the last "repo" segment
-            parts = list(candidate.parts)
+        except ValueError:
+            # Not inside repo_dir, try to extract the part after /repo or last /repo segment
+            parts = list(Path(normalized_path).parts)
+            
             if "repo" in parts:
-                idx = parts.index("repo")
-                candidate = (repo_dir_abs / Path(*parts[idx+1:])).resolve()
+                # Find the last occurrence of "repo" and take everything after it
+                repo_indices = [i for i, part in enumerate(parts) if part == "repo"]
+                idx = repo_indices[-1]  # Use last occurrence
+                relative_parts = parts[idx+1:]
+                if relative_parts:
+                    candidate = (repo_dir_abs / Path(*relative_parts)).resolve()
+                else:
+                    # If nothing after /repo, just use the filename
+                    candidate = repo_dir_abs / Path(normalized_path).name
+            else:
+                # No "repo" in path, try to use just the filename
+                candidate = repo_dir_abs / Path(normalized_path).name
 
-    # Final safety: must be inside repo_dir
-    candidate.relative_to(repo_dir_abs)
+    # Final safety check: must be inside repo_dir
+    try:
+        candidate.relative_to(repo_dir_abs)
+    except ValueError:
+        raise ValueError(
+            f"Path '{incoming_path}' resolves to '{candidate}' which is outside repo directory '{repo_dir_abs}'"
+        )
+    
     return candidate
 
 def _slice_lines(text: str, startline: int, endline: int) -> str:
