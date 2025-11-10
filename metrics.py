@@ -127,6 +127,8 @@ def build_results_xml(
     - EXCLUDES 'None' labels from the *version-level* distributions as they mark lineage origin.
     - Formats ALL float metrics with two decimals.
     """
+    clones_density = _dedup_consecutive_by_density(clones_density, tol=1e-9)
+
     total_lineages = len(lineages)
     ages = [i.age_versions for i in lineages]
     is_dead_flags = [i.is_dead for i in lineages]
@@ -271,6 +273,32 @@ def build_results_xml(
         )
 
     return _pretty_xml(root)
+
+def _dedup_consecutive_by_density(points: List[Tuple[int, float, float]], tol: float = 1e-9):
+    """
+    Remove pontos consecutivos cuja densidade (2º elemento) repete.
+    Mantém o primeiro da sequência e descarta os seguintes repetidos.
+    Ex.: [(1, 5.4, ...), (2, 5.4, ...)] -> remove o segundo.
+    """
+    out = []
+    prev_dens = None
+    has_prev = False
+    for tup in points or []:
+        dens = tup[1] if len(tup) > 1 else None
+        # Se não há densidade, mantemos o ponto
+        if dens is None or not has_prev:
+            out.append(tup)
+            prev_dens = dens
+            has_prev = True
+            continue
+        # Compara com tolerância para floats
+        if prev_dens is not None and abs(float(dens) - float(prev_dens)) <= tol:
+            # densidade repetida em sequência -> descarta
+            continue
+        out.append(tup)
+        prev_dens = dens
+    return out
+
 
 # --------- Public entry-point ---------
 def generate_detailed_report(
