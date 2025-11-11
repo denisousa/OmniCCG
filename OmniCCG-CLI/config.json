@@ -1,0 +1,10 @@
+{
+  "git_repository": "https://github.com/PBH-BTN/PeerBanHelper.git",
+  "user_settings": {
+    "from_first_commit": true,
+    "from_a_specific_commit": null,
+    "days_prior": null,
+    "merge_commit": null,
+    "fixed_leaps": 1000
+  }
+}
