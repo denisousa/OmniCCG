@@ -1,10 +1,11 @@
 {
-  "git_repository": "https://github.com/PBH-BTN/PeerBanHelper.git",
+  "git_repository": "https://github.com/alibaba/spring-ai-alibaba",
   "user_settings": {
     "from_first_commit": true,
     "from_a_specific_commit": null,
     "days_prior": null,
     "merge_commit": null,
-    "fixed_leaps": 1000
-  }
+    "fixed_leaps": 200
+  },
+  "clone_detector": "nicad"
 }
