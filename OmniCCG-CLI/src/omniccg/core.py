@@ -12,14 +12,17 @@ from xml.dom import minidom
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from typing import Union, Dict, Any, List, Iterable, Optional, Tuple
-from get_method_name import get_enclosing_java_method
 from git import Repo
 try:
+    from .get_method_name import get_enclosing_java_method
     from .metrics import generate_detailed_report
     from .analysis import count_java_methods_in_file
+    from .compute_time import timed
 except:
+    from get_method_name import get_enclosing_java_method
     from metrics import generate_detailed_report
     from analysis import count_java_methods_in_file
+    from compute_time import timed
 
 # =========================
 # Cross‑platform helpers
@@ -1048,6 +1051,7 @@ def validate_user_input_or_raise(general_settings: Dict[str, Any]) -> None:
     if dp is not None and not dp_ok:
         raise ValueError("'days_prior' must be an integer > 0 when provided.")
 
+@timed()
 def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     validate_user_input_or_raise(general_settings)
     settings = init_settings_from_user(general_settings)
@@ -1055,27 +1059,19 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     state = State()
     ctx = Context(settings=settings, paths=paths, state=state)
 
-    # --- NEW: make all folders live inside the installed package directory ---
+    # --- NOVO layout: tudo do run fica dentro de cloned_repositories/<repo_name> ---
     pkg_root = Path(__file__).resolve().parent            # .../omniccg
     pkg_root_str = str(pkg_root)
 
-    # Tools / scripts
+    # Ferramentas/ scripts (continuam na pasta do pacote)
     paths.tools_dir = os.path.join(pkg_root_str, "tools")
     paths.script_dir = os.path.join(pkg_root_str, "scripts")
 
-    # Results & detector output
-    paths.res_dir = os.path.join(pkg_root_str, "results")
-    paths.cur_res_dir = os.path.join(paths.res_dir, "0000000")
-    paths.clone_detector_dir = os.path.join(pkg_root_str, "clone_detector_result")
-    paths.clone_detector_xml = os.path.join(paths.clone_detector_dir, "result.xml")
-
-    # Output files
-    paths.p_res_file = os.path.join(paths.res_dir, "production_results.xml")
-    paths.p_dens_file = os.path.join(paths.res_dir, "production_density.csv")
-
-    # Workspace (clones, datasets, history) lives under omniccg/cloned_repositories/<repo_name>
+    # Workspace e resultados dentro de cloned_repositories/<repo_name>
     repo_name = _derive_repo_name(settings)
     base_dir = os.path.join(pkg_root_str, "cloned_repositories", repo_name)
+
+    # Workspace (repo/dataset/hist/metrics) dentro de base_dir
     paths.ws_dir = base_dir
     paths.repo_dir = os.path.join(base_dir, "repo")
     paths.data_dir = os.path.join(base_dir, "dataset")
@@ -1083,13 +1079,24 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     paths.hist_file = os.path.join(base_dir, "githistory.txt")
     paths.metrics_xml = os.path.join(base_dir, "metrics.xml")
 
-    # Ensure folders exist
+    # Saídas (results) também dentro de base_dir
+    paths.res_dir = os.path.join(base_dir, "results")
+    paths.cur_res_dir = os.path.join(paths.res_dir, "0000000")
+
+    # Detector também dentro de base_dir
+    paths.clone_detector_dir = os.path.join(base_dir, "clone_detector_result")
+    paths.clone_detector_xml = os.path.join(paths.clone_detector_dir, "result.xml")
+
+    # Arquivos finais
+    paths.p_res_file = os.path.join(paths.res_dir, "production_results.xml")
+    paths.p_dens_file = os.path.join(paths.res_dir, "production_density.csv")
+
+    # Garantir estrutura
+    os.makedirs(base_dir, exist_ok=True)
     os.makedirs(paths.res_dir, exist_ok=True)
     os.makedirs(paths.clone_detector_dir, exist_ok=True)
-    os.makedirs(base_dir, exist_ok=True)
-    # --- 
 
-    # Cleanup previous results
+    # Limpa apenas os resultados anteriores sob base_dir/results
     if os.path.isdir(paths.res_dir):
         shutil.rmtree(paths.res_dir)
         os.makedirs(paths.res_dir, exist_ok=True)
@@ -1114,7 +1121,7 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
         printInfo("Analyzing commit nr." + str(hi_plus) + " with hash " + current_hash + f"| total commits: {len(hashes)}")
         paths.cur_res_dir = os.path.join(paths.res_dir, f"{hi_plus}_{current_hash}")
 
-        # Ensure we are at the correct commit
+        # Garantir checkout do commit
         try:
             head_short = repo.git.rev_parse("--short", "HEAD")
         except Exception:
@@ -1126,7 +1133,7 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
                 raise RuntimeError(f"git checkout {current_hash} failed: {e}")
             time.sleep(0.5)
 
-        # Prepare source and run detection
+        # Produção do dataset + detecção
         if not PrepareSourceCode(ctx):
             continue
 
@@ -1134,7 +1141,7 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
         RunGenealogyAnalysis(ctx, hi_plus, current_hash)
         WriteLineageFile(ctx, ctx.state.p_lin_data, paths.p_res_file)
 
-        # Cleanup
+        # Limpeza por iteração
         try:
             shutil.rmtree(paths.cur_res_dir, ignore_errors=True)
         except Exception:
@@ -1154,11 +1161,11 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
         WriteLineageFile(ctx, ctx.state.p_lin_data, paths.p_res_file)
         time.sleep(0.5)
 
-    # If nothing was accumulated, return a clear XML message
+    # Caso não tenha acumulado nada
     if len(ctx.state.p_lin_data) == 0:
         return build_no_clones_message(settings.clone_detector_tool), None, None
 
-    # Otherwise, finalize outputs
+    # Finaliza saídas
     WriteDensityFile(ctx, ctx.state.p_dens_data, paths.p_dens_file)
     lineages_xml = WriteLineageFile(ctx, ctx.state.p_lin_data, paths.p_res_file)
     metrics_xml = generate_detailed_report(lineages_xml, len(hashes), ctx.state.p_dens_data)

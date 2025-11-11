@@ -93,7 +93,7 @@ def main(config, git_repo, from_first_commit, from_commit, days_prior,
 
     try:
         genealogy_xml, lineages_xml, metrics_xml = execute_omniccg(settings)
-        write_xml_result(lineages_xml, metrics_xml)        
+        write_xml_result(lineages_xml, metrics_xml)
         return 
     except ValueError as e:
         raise click.UsageError(str(e))

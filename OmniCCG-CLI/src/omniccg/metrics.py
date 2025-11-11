@@ -35,12 +35,13 @@ def fmt2(x) -> str:
 
 def parse_lineages(xml_text: str, last_version: int) -> Tuple[List[LineageInfo], List[str], List[str]]:
     """
-    Parse the lineage XML and compute for each lineage:
+    Parse o XML de linhagens e computa, para cada linhagem:
       - first_nr, last_nr
-      - age in versions (inclusive span)
-      - is_dead (True iff last_nr != last_version)
-      - list of 'change' labels across its versions
-    Also returns flattened lists of all 'evolution' and 'change' labels (per version).
+      - age em versões (intervalo inclusivo)
+      - is_dead (True se last_nr != last_version)
+      - lista de rótulos 'change' por versão (incluindo 'Same' para lacunas)
+    Também retorna listas achatadas de todos os rótulos 'evolution' e 'change' por versão
+    (incluindo 'Same' para lacunas e 'None' no ponto de origem).
     """
     root = ET.fromstring(xml_text)
     infos: List[LineageInfo] = []
@@ -49,22 +50,40 @@ def parse_lineages(xml_text: str, last_version: int) -> Tuple[List[LineageInfo],
 
     for lin in root.findall("lineage"):
         versions = lin.findall("version")
-        nrs = [int(v.attrib.get("nr")) for v in versions]
-        if not nrs:
+        if not versions:
             continue
+
+        # Ordena por número de versão
+        versions_sorted = sorted(versions, key=lambda v: int(v.attrib.get("nr")))
+        nrs = [int(v.attrib.get("nr")) for v in versions_sorted]
 
         first_nr = min(nrs)
         last_nr = max(nrs)
         age = (last_nr - first_nr) + 1
         is_dead = (last_nr != last_version)
 
-        lineage_change = []
-        for v in versions:
+        lineage_change: List[str] = []
+
+        prev_nr = None
+        for v in versions_sorted:
+            nr = int(v.attrib.get("nr"))
+
+            # Preenche lacunas entre versões consecutivas com "Same"
+            if prev_nr is not None and nr > prev_nr + 1:
+                gap = nr - prev_nr - 1
+                for _ in range(gap):
+                    evolution_values.append("Same")
+                    change_values.append("Same")
+                    lineage_change.append("Same")
+
             evo = _norm(v.attrib.get("evolution"))
             chg = _norm(v.attrib.get("change"))
+
             evolution_values.append(evo if evo else "None")
             change_values.append(chg if chg else "None")
             lineage_change.append(chg if chg else "None")
+
+            prev_nr = nr
 
         infos.append(LineageInfo(first_nr, last_nr, age, is_dead, lineage_change))
 

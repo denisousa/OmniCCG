@@ -12,12 +12,13 @@ from xml.dom import minidom
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from typing import Union, Dict, Any, List, Iterable, Optional, Tuple
-from get_method_name import get_enclosing_java_method
 from git import Repo
 try:
+    from .get_method_name import get_enclosing_java_method
     from .metrics import generate_detailed_report
     from .analysis import count_java_methods_in_file
 except:
+    from get_method_name import get_enclosing_java_method
     from metrics import generate_detailed_report
     from analysis import count_java_methods_in_file
 
