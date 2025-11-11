@@ -4,6 +4,40 @@ import subprocess
 from pathlib import Path
 
 
+def _clean_git_locks(repo_path: str) -> None:
+    """Remove Git lock files that may prevent operations."""
+    git_dir = Path(repo_path) / '.git'
+    
+    if not git_dir.exists():
+        return
+    
+    # Common Git lock files
+    lock_files = [
+        git_dir / 'index.lock',
+        git_dir / 'HEAD.lock',
+        git_dir / 'config.lock',
+        git_dir / 'shallow.lock',
+    ]
+    
+    for lock_file in lock_files:
+        if lock_file.exists():
+            try:
+                lock_file.unlink()
+                print(f"Removed lock file: {lock_file}")
+            except Exception as e:
+                print(f"Warning: Could not remove lock file {lock_file}: {e}")
+    
+    # Check refs directory for lock files
+    refs_dir = git_dir / 'refs'
+    if refs_dir.exists():
+        for lock_file in refs_dir.rglob('*.lock'):
+            try:
+                lock_file.unlink()
+                print(f"Removed lock file: {lock_file}")
+            except Exception as e:
+                print(f"Warning: Could not remove lock file {lock_file}: {e}")
+
+
 def _derive_repo_name(git_url: str) -> str:
     tail = (git_url or "").rstrip("/").split("/")[-1]
     if tail.endswith(".git"):
@@ -19,17 +53,31 @@ def _ensure_repo(git_url: str, base_root: str = "cloned_repositories") -> str:
 
     git_dir = os.path.join(repo_dir, ".git")
     if os.path.isdir(git_dir):
-        subprocess.run(["git", "-C", repo_dir, "fetch", "--all", "--prune"], check=False)
+        # Clean locks before git operations
+        _clean_git_locks(repo_dir)
+        subprocess.run(["git", "-C", repo_dir, "fetch", "--all", "--prune"], 
+                      check=False, stdin=subprocess.DEVNULL)
         return os.path.abspath(repo_dir)
 
     # Fresh clone
     if os.path.isdir(repo_dir):
         shutil.rmtree(repo_dir, ignore_errors=True)
-    subprocess.run(["git", "clone", git_url, repo_dir], check=True)
+    subprocess.run(["git", "clone", git_url, repo_dir], 
+                  check=True, stdin=subprocess.DEVNULL)
     return os.path.abspath(repo_dir)
 
 def _checkout(repo_dir: str, commit: str) -> None:
-    subprocess.run(["git", "-C", repo_dir, "checkout", "-f", commit], check=True)
+    # Clean locks before checkout
+    _clean_git_locks(repo_dir)
+    try:
+        subprocess.run(["git", "-C", repo_dir, "checkout", "-f", commit], 
+                      check=True, stdin=subprocess.DEVNULL)
+    except subprocess.CalledProcessError as e:
+        # Retry once after cleaning locks again
+        print(f"Checkout failed, retrying after cleaning locks...")
+        _clean_git_locks(repo_dir)
+        subprocess.run(["git", "-C", repo_dir, "checkout", "-f", commit], 
+                      check=True, stdin=subprocess.DEVNULL)
 
 def _read_text_with_fallback(path: str) -> str:
     with open(path, "rb") as f:

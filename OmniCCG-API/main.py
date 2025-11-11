@@ -2,7 +2,7 @@ from flask_cors import CORS
 from core import execute_omniccg
 import subprocess
 from flask import Flask, Response, request, jsonify
-from get_code_snippets import _ensure_repo, _checkout, _safe_repo_path, _slice_lines, _read_text_with_fallback
+from get_code_snippets import _ensure_repo, _checkout, _safe_repo_path, _slice_lines, _read_text_with_fallback, _clean_git_locks
 from pathlib import Path
 
 app = Flask(__name__)
@@ -34,7 +34,17 @@ def snippets():
         repo_dir = _ensure_repo(git_url)
         _checkout(repo_dir, commit)
     except subprocess.CalledProcessError as e:
-        return jsonify({"error": f"Git operation failed: {e}"}), 500
+        error_msg = f"Git operation failed: {e}"
+        if "index.lock" in str(e) or "another git process" in str(e).lower():
+            error_msg += "\nGit lock file issue - attempting to clean and retry..."
+            try:
+                # Try to clean locks and retry
+                _clean_git_locks(repo_dir)
+                _checkout(repo_dir, commit)
+            except Exception as retry_error:
+                return jsonify({"error": f"Git retry failed: {retry_error}"}), 500
+        else:
+            return jsonify({"error": error_msg}), 500
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
