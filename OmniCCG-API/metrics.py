@@ -285,15 +285,13 @@ def _dedup_consecutive_by_density(points: List[Tuple[int, float, float]], tol: f
     has_prev = False
     for tup in points or []:
         dens = tup[1] if len(tup) > 1 else None
-        # Se não há densidade, mantemos o ponto
         if dens is None or not has_prev:
             out.append(tup)
             prev_dens = dens
             has_prev = True
             continue
-        # Compara com tolerância para floats
+
         if prev_dens is not None and abs(float(dens) - float(prev_dens)) <= tol:
-            # densidade repetida em sequência -> descarta
             continue
         out.append(tup)
         prev_dens = dens

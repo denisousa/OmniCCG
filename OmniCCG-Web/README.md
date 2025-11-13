@@ -1,19 +1,6 @@
-# OmniCCG Frontend - Code Clone Genealogy Visualization
+# OmniCCG-Web
 
-A modern web interface for visualizing and analyzing code clone genealogies, built with React, TypeScript, and shadcn/ui components.
-
-## About Code Clone Genealogy
-
-Code clone genealogy tracks the evolution of code clones (duplicated code fragments) across multiple versions of a software system. This tool helps researchers and developers understand:
-
-- How clones evolve over time (Added, Removed, Unchanged)
-- Which clones persist across versions (alive vs dead lineages)
-- Clone change patterns (consistent, inconsistent, stable)
-- Clone density and volatility metrics
-- The lifespan and survival rate of clone genealogies
-
-## Features
-
+## Pages
 ### 🏠 Home Page
 - Configure analysis parameters
 - Input repository URL
@@ -67,119 +54,30 @@ Comprehensive metrics dashboard displaying:
 - **Routing**: React Router DOM
 - **State Management**: React hooks (useState, useEffect)
 
-## Getting Started
 
-### Prerequisites
+## Requirements to Execute
 
 - Node.js 18+ and npm (install via [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
-- OmniCCG Backend API running on `http://127.0.0.1:5000`
+- **`OmniCCG-API`** running on `http://127.0.0.1:5000`
 
-### Installation
+## Steps to Install
+Download the [repository](https://anonymous.4open.science/r/OmniCCG-660A/):
 
-```sh
-# Clone the repository
-git clone <YOUR_GIT_URL>
-cd clone-roots
+Go to **`OmniCCG-Web`**:
+```
+cd OmniCCG/OmniCCG-Web
+```
 
-# Install dependencies
+Install dependencies with Poetry:
+```
 npm install
+```
 
-# Start development server
+## Steps to Execute
+Run the application:
+```
 npm run dev
 ```
 
-The application will be available at `http://localhost:8080`
+The platform will be available at `http://localhost:5050`
 
-### Production Build
-
-```sh
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── genealogy/          # Genealogy visualization components
-│   │   ├── LineageGraph.tsx       # Cytoscape graph renderer
-│   │   ├── NodeDetailsPanel.tsx   # Node information sidebar
-│   │   └── CodeSnippetModal.tsx   # Code viewer modal
-│   └── ui/                 # shadcn/ui components
-├── pages/
-│   ├── Home.tsx           # Configuration page
-│   ├── Visualize.tsx      # Genealogy visualization
-│   ├── Metrics.tsx        # Metrics dashboard
-│   └── NotFound.tsx       # 404 page
-├── services/
-│   └── api.ts             # API client
-└── types/
-    └── index.ts           # TypeScript type definitions
-```
-
-## API Integration
-
-The frontend communicates with the OmniCCG backend API:
-
-- `POST /detect_clones` - Start clone detection analysis
-- `GET /clone_genealogy/{taskId}` - Retrieve genealogy results
-- `GET /get_metrics/{taskId}` - Fetch metrics data
-- `POST /get_code_snippets` - Retrieve source code snippets
-
-## Development
-
-### Code Style
-
-- TypeScript strict mode enabled
-- ESLint for code linting
-- Prettier for code formatting (via shadcn/ui conventions)
-
-### Key Components
-
-**LineageGraph**: Renders interactive genealogy graphs using Cytoscape
-- Preserves zoom/pan when clicking nodes
-- Color-coded nodes based on evolution/change patterns
-- DAG layout (left-to-right flow)
-
-**NodeDetailsPanel**: Displays detailed information
-- Version metadata (hash, evolution, change)
-- Source code locations
-- Integrated code snippet viewer
-
-**Metrics Page**: Comprehensive analytics
-- XML-based metrics parsing
-- Interactive charts and visualizations
-- Clone density trends
-- K-volatile survival analysis
-
-## Contributing
-
-When working on this project:
-
-1. Keep the genealogy visualization responsive and performant
-2. Ensure all metrics are accurately parsed from XML
-3. Maintain accessibility (ARIA labels, keyboard navigation)
-4. Test with various repository sizes
-5. Handle API errors gracefully with user-friendly messages
-
-## License
-
-This project is part of the OmniCCG (Code Clone Genealogy) research tool.
-
-## Related Projects
-
-- **OmniCCG Backend**: Python-based clone detection and genealogy analysis
-- **NiCad**: Clone detection tool integration
-- **Simian**: Alternative clone detector
-
-## Support
-
-For issues or questions:
-- Check the backend API logs for errors
-- Verify the repository URL is accessible
-- Ensure the selected clone detector is properly configured
-- Review browser console for frontend errors

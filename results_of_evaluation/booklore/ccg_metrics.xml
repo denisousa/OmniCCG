@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<results>
+  <clone_density>
+    <point>
+      <version>1</version>
+      <clones_density>3.85</clones_density>
+    </point>
+    <point>
+      <version>2</version>
+      <clones_density>5.41</clones_density>
+    </point>
+    <point>
+      <version>4</version>
+      <clones_density>19.23</clones_density>
+    </point>
+    <point>
+      <version>5</version>
+      <clones_density>12.24</clones_density>
+    </point>
+    <point>
+      <version>6</version>
+      <clones_density>11.48</clones_density>
+    </point>
+    <summary>
+      <versions_count_present>5</versions_count_present>
+      <avg_density_present>10.44</avg_density_present>
+      <avg_density_full_range>8.70</avg_density_full_range>
+    </summary>
+  </clone_density>
+  <total_clone_lineages>20</total_clone_lineages>
+  <total_amount_of_versions>1.65</total_amount_of_versions>
+  <change_patterns_of_lineages>
+    <consistent>5.00</consistent>
+    <same>90.00</same>
+    <inconsistent>5.00</inconsistent>
+  </change_patterns_of_lineages>
+  <status_of_clone_lineages>
+    <alive>
+      <count>14</count>
+      <percentage>70.00</percentage>
+    </alive>
+    <dead>
+      <count>6</count>
+      <percentage>30.00</percentage>
+    </dead>
+  </status_of_clone_lineages>
+  <length_of_dead_clone_lineages>
+    <min>1</min>
+    <avg>1.67</avg>
+    <max>3</max>
+  </length_of_dead_clone_lineages>
+  <evolution_pattern_of_versions>
+    <add>7.69</add>
+    <same>92.31</same>
+  </evolution_pattern_of_versions>
+  <change_pattern_of_versions>
+    <consistent>7.69</consistent>
+    <same>84.62</same>
+    <inconsistent>7.69</inconsistent>
+  </change_pattern_of_versions>
+  <kvolatile last_version="6">
+    <point k="0" count="0" cdf_dead="0.00" rvolatile="0.00"/>
+    <point k="1" count="3" cdf_dead="0.50" rvolatile="0.15"/>
+    <point k="2" count="5" cdf_dead="0.83" rvolatile="0.25"/>
+    <point k="3" count="6" cdf_dead="1.00" rvolatile="0.30"/>
+    <point k="4" count="6" cdf_dead="1.00" rvolatile="0.30"/>
+    <point k="5" count="6" cdf_dead="1.00" rvolatile="0.30"/>
+    <point k="6" count="6" cdf_dead="1.00" rvolatile="0.30"/>
+  </kvolatile>
+</results>

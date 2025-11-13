@@ -11,13 +11,19 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Settings } from "lucide-react";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { genericExamples, preliminaryExamples } from "@/lib/examplesData";
+import { formatTime } from "@/lib/utils";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-type DetectionTool = "nicad" | "ccfinder" | "conqat" | "simian" | "pmd";
+// agora inclui "other"
+type DetectionTool = "nicad" | "simian" | "other";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+const API_URL = API_BASE_URL + "/detect_clones";
+const STOP_API_URL = API_BASE_URL + "/stop_detect_clones"; // ⬅ novo
 
-const API_URL = "http://127.0.0.1:5000/detect_clones";
 
 // ---------- Loading Overlay (full-screen) ----------
 const LoadingOverlay = ({
@@ -53,7 +59,11 @@ const Configure = () => {
   const [includeLeaps, setIncludeLeaps] = useState(false);
   const [leapCount, setLeapCount] = useState("");
   const [includeMerge, setIncludeMerge] = useState(false);
+
   const [detectionTool, setDetectionTool] = useState<DetectionTool | "">("");
+  // novo input para "Other"
+  const [detectionApi, setDetectionApi] = useState("");
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Validação
@@ -74,6 +84,11 @@ const Configure = () => {
     // detector obrigatório
     if (!detectionTool) {
       nextErrors.tool = "Please select a clone detection tool";
+    }
+
+    // se for Other, o input detectionApi é obrigatório
+    if (detectionTool === "other" && !detectionApi.trim()) {
+      nextErrors.tool = "Please enter the clone detector API";
     }
 
     // bloco "Analyze the repository commits from:"
@@ -106,17 +121,25 @@ const Configure = () => {
       return;
     }
 
+    // monta o user_settings normalmente
+    const userSettings: any = {
+      from_first_commit: analysisType === "first",
+      from_a_specific_commit:
+        analysisType === "specific" ? commitHash.trim() : null,
+      days_prior: analysisType === "days" ? Number(daysAgo) : null,
+      merge_commit: includeMerge ? true : null,
+      fixed_leaps: includeLeaps ? Number(leapCount) : null,
+      clone_detector: detectionTool,
+    };
+
+    // se a pessoa escolheu "Other", adiciona "detection-api" com valor do input
+    if (detectionTool === "other") {
+      userSettings["detection-api"] = detectionApi.trim();
+    }
+
     const payload = {
       git_repository: repoUrl,
-      user_settings: {
-        from_first_commit: analysisType === "first",
-        from_a_specific_commit:
-          analysisType === "specific" ? commitHash.trim() : null,
-        days_prior: analysisType === "days" ? Number(daysAgo) : null,
-        merge_commit: includeMerge ? true : null, // pode combinar com leaps
-        fixed_leaps: includeLeaps ? Number(leapCount) : null,
-        clone_detector: detectionTool,
-      },
+      user_settings: userSettings,
     };
 
     const controller = new AbortController();
@@ -143,7 +166,7 @@ const Configure = () => {
       navigate("/visualize", { state: { xml: text, config: payload } });
     } catch (error) {
       if ((error as any)?.name === "AbortError") {
-        toast.message("Analysis canceled");
+        toast.message("Extraction canceled");
       } else {
         toast.error(
           "Failed to start analysis: " +
@@ -156,6 +179,34 @@ const Configure = () => {
       setAbortCtrl(null);
     }
   };
+
+  const handleStopDetection = async () => {
+    try {
+      // 1) avisa o backend para parar de monitorar esse repositório
+      await fetch(STOP_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // o backend está usando "gir_url", então seguimos isso:
+        body: JSON.stringify({ gir_url: repoUrl }),
+      });
+    } catch (err) {
+      console.error("Failed to notify stop_detect_clones:", err);
+      // não precisa dar erro pro usuário, o principal é abortar o fetch
+    } finally {
+      // 2) aborta a requisição atual de /detect_clones (se existir)
+      abortCtrl?.abort();
+
+      // 3) reseta estado de loading e controller
+      setIsSubmitting(false);
+      setAbortCtrl(null);
+
+      // 4) feedback visual
+      toast.message("Clone detection stopped");
+    }
+  };
+
 
   if (!repoUrl) {
     navigate("/");
@@ -246,7 +297,9 @@ const Configure = () => {
                             ? "border-destructive focus-visible:ring-destructive"
                             : ""
                         }`}
-                        aria-invalid={analysisType === "specific" && !!errors.commitHash}
+                        aria-invalid={
+                          analysisType === "specific" && !!errors.commitHash
+                        }
                         required={analysisType === "specific"}
                       />
                     </div>
@@ -282,13 +335,16 @@ const Configure = () => {
                             ? "border-destructive focus-visible:ring-destructive"
                             : ""
                         }`}
-                        aria-invalid={analysisType === "days" && !!errors.daysAgo}
+                        aria-invalid={
+                          analysisType === "days" && !!errors.daysAgo
+                        }
                         min={1}
                         required={analysisType === "days"}
                       />
                     </div>
                     <p className="text-xs text-muted-foreground ml-6">
-                      The genealogy is built starting from the first commit made within the last N days
+                      The genealogy is built starting from the first commit made
+                      within the last N days
                     </p>
                   </div>
                 </RadioGroup>
@@ -296,7 +352,10 @@ const Configure = () => {
 
               {/* Clone Detection Tool */}
               <div className="bg-card border border-border rounded-xl p-6 shadow-[var(--shadow-card)]">
-                <Label htmlFor="tool" className="text-base font-medium mb-4 block">
+                <Label
+                  htmlFor="tool"
+                  className="text-base font-medium mb-4 block"
+                >
                   Select a clone detection tool:{" "}
                   <span className="text-destructive">*</span>
                 </Label>
@@ -305,6 +364,10 @@ const Configure = () => {
                   onValueChange={(v: DetectionTool) => {
                     setDetectionTool(v);
                     setErrors((prev) => ({ ...prev, tool: undefined }));
+                    // se trocar de "other" para outro, limpa o input
+                    if (v !== "other") {
+                      setDetectionApi("");
+                    }
                   }}
                 >
                   <SelectTrigger
@@ -321,24 +384,49 @@ const Configure = () => {
                   <SelectContent>
                     <SelectItem value="nicad">NiCad</SelectItem>
                     <SelectItem value="simian">Simian</SelectItem>
-                    {/* adicione outras opções se quiser */}
+                    <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
+
+                {/* Input extra quando "Other" for selecionado */}
+                {detectionTool === "other" && (
+                  <div className="mt-4">
+                    <Label
+                      htmlFor="detection-api"
+                      className="text-sm font-normal"
+                    >
+                      Clone detection API endpoint
+                    </Label>
+                    <Input
+                      id="detection-api"
+                      placeholder="Enter the endpoint of your API that performs clone detection. (e.g., https://my-api.com)"
+                      value={detectionApi}
+                      onChange={(e) => setDetectionApi(e.target.value)}
+                      className={`mt-1 h-10 ${
+                        errors.tool
+                          ? "border-destructive focus-visible:ring-destructive"
+                          : ""
+                      }`}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      This endpoint will be called for each commit extracted.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Refine Your Analysis Section (múltiplas seleções, input inline) */}
+          {/* Refine Your Analysis Section */}
           <div>
             <h2 className="text-xl font-semibold mb-4">Refine your analysis</h2>
             <div className="bg-card border border-border rounded-xl p-6 shadow-[var(--shadow-card)]">
-              {/* Título com mesmo tamanho das outras seções */}
               <Label className="text-base font-medium mb-4 block">
                 You can enable any combination of the options below:
               </Label>
 
               <div className="space-y-4">
-                {/* Leaps (input ao lado; dica embaixo) */}
+                {/* Leaps */}
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <Checkbox
@@ -350,7 +438,10 @@ const Configure = () => {
                         if (!v) setLeapCount("");
                       }}
                     />
-                    <Label htmlFor="leaps" className="font-normal cursor-pointer">
+                    <Label
+                      htmlFor="leaps"
+                      className="font-normal cursor-pointer"
+                    >
                       Analyze commits in leaps
                     </Label>
                     <Input
@@ -365,19 +456,25 @@ const Configure = () => {
                     />
                   </div>
                   <p className="text-xs text-muted-foreground pl-7">
-                    The genealogy is built with a fixed step N, selecting one commit every N
+                    The genealogy is built with a fixed step N, selecting one
+                    commit every N
                   </p>
                 </div>
 
-                {/* Merge (inline) */}
+                {/* Merge */}
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
                     <Checkbox
                       id="merge"
                       checked={includeMerge}
-                      onCheckedChange={(val) => setIncludeMerge(Boolean(val))}
+                      onCheckedChange={(val) =>
+                        setIncludeMerge(Boolean(val))
+                      }
                     />
-                    <Label htmlFor="merge" className="font-normal cursor-pointer">
+                    <Label
+                      htmlFor="merge"
+                      className="font-normal cursor-pointer"
+                    >
                       Analyze only merge commits
                     </Label>
                   </div>
@@ -389,34 +486,183 @@ const Configure = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-end gap-4 mt-8">
-            <Button
-              type="button"
-              variant="outline"
-              size="lg"
-              onClick={() => navigate("/")}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              size="lg"
-              className="bg-gradient-to-r from-primary to-accent hover:opacity-90"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? "Starting Extraction..." : "Start Extraction"}
-            </Button>
+          <div className="flex items-center justify-between gap-4 mt-8">
+            <div className="flex items-center gap-6">
+            {/* Generic Examples (black text) */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <a className="text-base text-black underline cursor-pointer font-medium">
+                  Generic Examples
+                </a>
+              </DialogTrigger>
+
+              <DialogContent>
+                <DialogTitle className="text-2xl">Generic Examples</DialogTitle>
+                <DialogDescription className="text-base">
+                  Examples of git repositories and configurations you can use
+                </DialogDescription>
+
+                <div className="mt-4 max-h-[60vh] overflow-auto space-y-4 text-base">
+                  {genericExamples.map((group, gi) => (
+                    <div key={gi} className="space-y-3">
+                      {group.title && (
+                        <h4 className="font-semibold text-lg mb-2">
+                          {group.title}
+                        </h4>
+                      )}
+
+                      {group.items.map((it, i) => (
+                        <div key={i} className="p-3 border rounded-md bg-card">
+                          <div className="font-semibold text-lg">
+                            {it.name}
+                          </div>
+
+                          {it.git && (
+                            <div className="text-sm text-muted-foreground mt-1">
+                              URL:{" "}
+                              <span className="font-mono text-sm">
+                                {it.git}
+                              </span>
+                            </div>
+                          )}
+
+                          {typeof it.from_lasy_days !== "undefined" && (
+                            <div className="text-sm text-muted-foreground mt-1">
+                              From last days: {it.from_lasy_days}
+                            </div>
+                          )}
+
+                          {it.from_specific_commit && (
+                            <div className="text-sm text-muted-foreground mt-1">
+                              Specific commit:{" "}
+                              <span className="font-mono text-xs">
+                                {it.from_specific_commit}
+                              </span>
+                            </div>
+                          )}
+
+                          {it.merge_commits && (
+                            <div className="text-sm text-muted-foreground mt-1">
+                              Merge: true
+                            </div>
+                          )}
+
+                          {typeof it.fixed_leaps !== "undefined" && (
+                            <div className="text-sm text-muted-foreground mt-1">
+                              Fixed leaps: {it.fixed_leaps}
+                            </div>
+                          )}
+
+                          {/* NOVO: Clone Detector */}
+                          {it.clone_detector && (
+                            <div className="text-sm text-muted-foreground mt-1">
+                              Clone Detector: {it.clone_detector}
+                            </div>
+                          )}
+
+                          {it.time && (
+                            <div className="text-sm text-muted-foreground mt-1">
+                              Time: {it.time}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            {/* Preliminary Evaluation */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <a className="text-base text-black underline cursor-pointer font-medium">
+                  Preliminary Evaluation
+                </a>
+              </DialogTrigger>
+
+              <DialogContent>
+                <DialogTitle className="text-2xl">
+                  Preliminary Evaluation
+                </DialogTitle>
+                <DialogDescription className="text-base">
+                  Git repositories and configurations used in preliminary
+                  evaluation.
+                </DialogDescription>
+                <div className="mt-4 max-h-[60vh] overflow-auto space-y-4 text-base">
+                  {preliminaryExamples.map((group, gi) => (
+                    <div key={gi}>
+                      {group.items.map((it, i) => (
+                        <div
+                          key={i}
+                          className="p-3 border rounded-md bg-card"
+                        >
+                          <div className="font-semibold text-lg">
+                            {it.name}
+                          </div>
+                          <div className="text-sm text-muted-foreground mt-1">
+                            URL:{" "}
+                            <span className="font-mono text-sm">
+                              {it.git}
+                            </span>
+                          </div>
+                          <div className="text-sm text-muted-foreground mt-1">
+                            Start Commit:{" "}
+                            {it.start_commit ??
+                              (it.from_first_commit ? "first" : "specific")}
+                          </div>
+                          <div className="text-sm text-muted-foreground mt-1">
+                            Fixed Leaps: {String(it.fixed_leaps ?? "-")}
+                          </div>
+
+                          {/* NOVO: Clone Detector */}
+                          {it.clone_detector && (
+                            <div className="text-sm text-muted-foreground mt-1">
+                              Clone Detector: {it.clone_detector}
+                            </div>
+                          )}
+
+                          <div className="text-sm text-muted-foreground mt-1">
+                            Time: {it.time}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </DialogContent>
+            </Dialog>
+
+
+            </div>
+
+            <div className="flex justify-end gap-4">
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                onClick={() => navigate("/")}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                size="lg"
+                className="bg-gradient-to-r from-primary to-accent hover:opacity-90"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Starting Extraction..." : "Start Extraction"}
+              </Button>
+            </div>
           </div>
         </form>
       </div>
 
-      {/* Overlay de loading enquanto isSubmitting for true */}
       {isSubmitting && (
         <LoadingOverlay
           text="Running clone detection. This may take a while..."
-          onCancel={() => abortCtrl?.abort()}
+          onCancel={handleStopDetection}
         />
       )}
     </div>

@@ -5,7 +5,9 @@ import shutil
 import hashlib
 import re
 import platform
+import requests
 import subprocess
+import stat
 from dataclasses import dataclass, field
 from pathlib import Path
 from xml.dom import minidom
@@ -13,16 +15,18 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from typing import Union, Dict, Any, List, Iterable, Optional, Tuple
 from git import Repo
+from git.exc import BadName
+
 try:
+    from .compute_time import timed
     from .get_method_name import get_enclosing_java_method
     from .metrics import generate_detailed_report
     from .analysis import count_java_methods_in_file
-    from .compute_time import timed
 except:
+    from compute_time import timed
     from get_method_name import get_enclosing_java_method
     from metrics import generate_detailed_report
     from analysis import count_java_methods_in_file
-    from compute_time import timed
 
 # =========================
 # Cross‑platform helpers
@@ -38,6 +42,117 @@ def which(exe: str) -> Optional[str]:
 
 def is_windows() -> bool:
     return platform.system().lower().startswith("win")
+
+
+def remove_readonly(func, path, excinfo):
+    """Remove readonly attribute and retry deletion."""
+    try:
+        os.chmod(path, stat.S_IWRITE)
+        func(path)
+    except Exception:
+        # If Python fails, try OS-level commands
+        try:
+            if is_windows():
+                subprocess.run(['attrib', '-R', path], check=False, capture_output=True)
+                subprocess.run(['del', '/F', '/Q', path], shell=True, check=False, capture_output=True)
+            else:
+                subprocess.run(['chmod', '+w', path], check=False, capture_output=True)
+                subprocess.run(['rm', '-f', path], check=False, capture_output=True)
+        except Exception:
+            pass
+
+
+def force_remove_directory(path: Path) -> bool:
+    """Force remove directory using OS commands."""
+    try:
+        if is_windows():
+            # Try Windows rmdir command
+            result = subprocess.run(['rmdir', '/s', '/q', str(path)], 
+                                  shell=True, capture_output=True, text=True)
+            if result.returncode == 0:
+                return True
+            # Try PowerShell as fallback
+            ps_cmd = f'Remove-Item -Path "{path}" -Recurse -Force -ErrorAction SilentlyContinue'
+            result = subprocess.run(['powershell', '-Command', ps_cmd], 
+                                  capture_output=True, text=True)
+            return result.returncode == 0
+        else:
+            # Linux/Unix rm command
+            result = subprocess.run(['rm', '-rf', str(path)], 
+                                  capture_output=True, text=True)
+            return result.returncode == 0
+    except Exception:
+        return False
+
+
+def safe_rmtree(path: Union[str, Path], max_retries: int = 5) -> None:
+    """Safely remove directory tree with multiple retry strategies."""
+    path = Path(path)
+    if not path.exists():
+        return
+    
+    # Pre-emptively make files writable
+    try:
+        for root, dirs, files in os.walk(path):
+            for fname in files:
+                fpath = Path(root) / fname
+                try:
+                    os.chmod(fpath, stat.S_IWRITE | stat.S_IREAD)
+                except Exception:
+                    pass
+    except Exception:
+        pass
+    
+    # Try shutil.rmtree with error handler
+    for attempt in range(max_retries):
+        try:
+            shutil.rmtree(path, onerror=remove_readonly)
+            if not path.exists():
+                return
+        except Exception as e:
+            if attempt < max_retries - 1:
+                time.sleep(0.5 * (attempt + 1))
+            else:
+                # Last resort: OS commands
+                if force_remove_directory(path):
+                    return
+                # If all methods fail, just warn instead of crashing
+                print(f"Warning: Could not completely remove directory {path}: {e}")
+
+
+def clean_git_locks(repo_path: Union[str, Path]) -> None:
+    """Remove Git lock files that may prevent operations."""
+    repo_path = Path(repo_path)
+    git_dir = repo_path / '.git'
+    
+    if not git_dir.exists():
+        return
+    
+    # Common Git lock files
+    lock_files = [
+        git_dir / 'index.lock',
+        git_dir / 'HEAD.lock',
+        git_dir / 'config.lock',
+        git_dir / 'shallow.lock',
+    ]
+    
+    for lock_file in lock_files:
+        if lock_file.exists():
+            try:
+                lock_file.unlink()
+                print(f"Removed lock file: {lock_file}")
+            except Exception as e:
+                print(f"Warning: Could not remove lock file {lock_file}: {e}")
+    
+    # Check refs directory for lock files
+    refs_dir = git_dir / 'refs'
+    if refs_dir.exists():
+        for lock_file in refs_dir.rglob('*.lock'):
+            try:
+                lock_file.unlink()
+                print(f"Removed lock file: {lock_file}")
+            except Exception as e:
+                print(f"Warning: Could not remove lock file {lock_file}: {e}")
 
 
 # =========================
@@ -382,7 +497,7 @@ def SetupRepo(ctx: "Context"):
         dest = Path(p.repo_dir)
         dest.parent.mkdir(parents=True, exist_ok=True)
         if dest.exists():
-            shutil.rmtree(dest)
+            safe_rmtree(dest)
         shutil.copytree(src, dest)
         return
 
@@ -394,6 +509,9 @@ def SetupRepo(ctx: "Context"):
         # Open with GitPython and fetch/pull safely (cross‑platform)
         repo = Repo(p.repo_dir)
         try:
+            # Clean Git locks before operations
+            clean_git_locks(p.repo_dir)
+            
             # Fetch all remotes
             for remote in repo.remotes:
                 remote.fetch(prune=True)
@@ -411,7 +529,8 @@ def SetupRepo(ctx: "Context"):
 
     # Not a git repo but folder exists → clean it
     if os.path.isdir(p.repo_dir):
-        shutil.rmtree(p.repo_dir, ignore_errors=True)
+        clean_git_locks(p.repo_dir)
+        safe_rmtree(p.repo_dir)
 
     # Clone fresh (GitPython)
     os.makedirs(p.ws_dir, exist_ok=True)
@@ -422,16 +541,23 @@ def SetupRepo(ctx: "Context"):
 def PrepareGitHistory(ctx: "Context"):
     print("Getting git history")
     s, p = ctx.settings, ctx.paths
-    now = datetime.now()
     repo = Repo(p.repo_dir)
 
     rev = "HEAD"
     iter_kwargs: Dict[str, Any] = {}
 
     if s.specific_commit:
-        rev = f"{s.specific_commit}..HEAD"
+        try:
+            target_commit = repo.commit(s.specific_commit)
+        except BadName:
+            raise RuntimeError(
+                f"Specific commit '{s.specific_commit}' not found in repository {p.repo_dir}"
+            )
+        rev = f"{target_commit.hexsha}..HEAD"
     elif s.use_days and s.days is not None:
-        iter_kwargs = {"since": (now - timedelta(days=int(s.days or 0))).strftime('%Y-%m-%d %H:%M:%S')}
+        rev = "--all"
+        cutoff_datetime = datetime.now() - timedelta(days=int(s.days or 0))
+        iter_kwargs = {"since": cutoff_datetime}
     elif s.from_begin:
         rev = "--all"
 
@@ -485,7 +611,7 @@ def PrepareSourceCode(ctx: "Context") -> bool:
 
     # Reset output dirs
     if os.path.exists(p.data_dir):
-        shutil.rmtree(p.data_dir, ignore_errors=True)
+        safe_rmtree(p.data_dir)
     os.makedirs(p.res_dir, exist_ok=True)
     os.makedirs(p.clone_detector_dir, exist_ok=True)
     os.makedirs(p.data_dir, exist_ok=True)
@@ -601,6 +727,7 @@ def RunCloneDetection(ctx: "Context", current_hash: str):
     s, p = ctx.settings, ctx.paths
     print("Starting clone detection:")
 
+
     # Normalize paths
     out_dir = Path(p.clone_detector_dir)
     out_xml = Path(p.clone_detector_xml)
@@ -638,11 +765,14 @@ def RunCloneDetection(ctx: "Context", current_hash: str):
                 print("External detection API trigger accepted. Result written.\n")
                 return
             else:
-                print(f"External detection API failed (HTTP {r.status_code}). Falling back...")
+                print(f"External detection API failed (HTTP {r.status_code}). Falling back to configured tool...")
         except Exception as e:
-            print("External detection API error.")
-            print("Starting to use Nicad.")
-            s.clone_detector_tool = "nicad"
+            print(f"External detection API error: {e}")
+            print("Falling back to configured clone detection tool...")
+            # Don't force nicad - use whatever tool was configured
+            if not s.clone_detector_tool:
+                print("No clone detector configured, defaulting to nicad")
+                s.clone_detector_tool = "nicad"
 
 
     tool = (s.clone_detector_tool or "").casefold()
@@ -1059,19 +1189,27 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     state = State()
     ctx = Context(settings=settings, paths=paths, state=state)
 
-    # --- NOVO layout: tudo do run fica dentro de cloned_repositories/<repo_name> ---
+    # --- NEW: make all folders live inside the installed package directory ---
     pkg_root = Path(__file__).resolve().parent            # .../omniccg
     pkg_root_str = str(pkg_root)
 
-    # Ferramentas/ scripts (continuam na pasta do pacote)
+    # Tools / scripts
     paths.tools_dir = os.path.join(pkg_root_str, "tools")
     paths.script_dir = os.path.join(pkg_root_str, "scripts")
 
-    # Workspace e resultados dentro de cloned_repositories/<repo_name>
+    # Results & detector output
+    paths.res_dir = os.path.join(pkg_root_str, "results")
+    paths.cur_res_dir = os.path.join(paths.res_dir, "0000000")
+    paths.clone_detector_dir = os.path.join(pkg_root_str, "clone_detector_result")
+    paths.clone_detector_xml = os.path.join(paths.clone_detector_dir, "result.xml")
+
+    # Output files
+    paths.p_res_file = os.path.join(paths.res_dir, "production_results.xml")
+    paths.p_dens_file = os.path.join(paths.res_dir, "production_density.csv")
+
+    # Workspace (clones, datasets, history) lives under omniccg/cloned_repositories/<repo_name>
     repo_name = _derive_repo_name(settings)
     base_dir = os.path.join(pkg_root_str, "cloned_repositories", repo_name)
-
-    # Workspace (repo/dataset/hist/metrics) dentro de base_dir
     paths.ws_dir = base_dir
     paths.repo_dir = os.path.join(base_dir, "repo")
     paths.data_dir = os.path.join(base_dir, "dataset")
@@ -1079,26 +1217,15 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     paths.hist_file = os.path.join(base_dir, "githistory.txt")
     paths.metrics_xml = os.path.join(base_dir, "metrics.xml")
 
-    # Saídas (results) também dentro de base_dir
-    paths.res_dir = os.path.join(base_dir, "results")
-    paths.cur_res_dir = os.path.join(paths.res_dir, "0000000")
-
-    # Detector também dentro de base_dir
-    paths.clone_detector_dir = os.path.join(base_dir, "clone_detector_result")
-    paths.clone_detector_xml = os.path.join(paths.clone_detector_dir, "result.xml")
-
-    # Arquivos finais
-    paths.p_res_file = os.path.join(paths.res_dir, "production_results.xml")
-    paths.p_dens_file = os.path.join(paths.res_dir, "production_density.csv")
-
-    # Garantir estrutura
-    os.makedirs(base_dir, exist_ok=True)
+    # Ensure folders exist
     os.makedirs(paths.res_dir, exist_ok=True)
     os.makedirs(paths.clone_detector_dir, exist_ok=True)
+    os.makedirs(base_dir, exist_ok=True)
+    # --- 
 
-    # Limpa apenas os resultados anteriores sob base_dir/results
+    # Cleanup previous results
     if os.path.isdir(paths.res_dir):
-        shutil.rmtree(paths.res_dir)
+        safe_rmtree(paths.res_dir)
         os.makedirs(paths.res_dir, exist_ok=True)
 
     print("STARTING DATA COLLECTION SCRIPT\n")
@@ -1121,19 +1248,27 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
         printInfo("Analyzing commit nr." + str(hi_plus) + " with hash " + current_hash + f"| total commits: {len(hashes)}")
         paths.cur_res_dir = os.path.join(paths.res_dir, f"{hi_plus}_{current_hash}")
 
-        # Garantir checkout do commit
+        # Ensure we are at the correct commit
         try:
             head_short = repo.git.rev_parse("--short", "HEAD")
         except Exception:
             head_short = ""
         if current_hash not in head_short:
             try:
+                # Clean Git locks before checkout
+                clean_git_locks(paths.repo_dir)
                 repo.git.checkout(current_hash, f=True)
             except Exception as e:
-                raise RuntimeError(f"git checkout {current_hash} failed: {e}")
+                # Retry once after cleaning locks
+                try:
+                    clean_git_locks(paths.repo_dir)
+                    time.sleep(1)
+                    repo.git.checkout(current_hash, f=True)
+                except Exception:
+                    raise RuntimeError(f"git checkout {current_hash} failed: {e}")
             time.sleep(0.5)
 
-        # Produção do dataset + detecção
+        # Prepare source and run detection
         if not PrepareSourceCode(ctx):
             continue
 
@@ -1141,11 +1276,8 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
         RunGenealogyAnalysis(ctx, hi_plus, current_hash)
         WriteLineageFile(ctx, ctx.state.p_lin_data, paths.p_res_file)
 
-        # Limpeza por iteração
-        try:
-            shutil.rmtree(paths.cur_res_dir, ignore_errors=True)
-        except Exception:
-            pass
+        # Cleanup
+        safe_rmtree(paths.cur_res_dir)
 
         # Timing
         iteration_end_time = time.time()
@@ -1161,11 +1293,11 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
         WriteLineageFile(ctx, ctx.state.p_lin_data, paths.p_res_file)
         time.sleep(0.5)
 
-    # Caso não tenha acumulado nada
+    # If nothing was accumulated, return a clear XML message
     if len(ctx.state.p_lin_data) == 0:
         return build_no_clones_message(settings.clone_detector_tool), None, None
 
-    # Finaliza saídas
+    # Otherwise, finalize outputs
     WriteDensityFile(ctx, ctx.state.p_dens_data, paths.p_dens_file)
     lineages_xml = WriteLineageFile(ctx, ctx.state.p_lin_data, paths.p_res_file)
     metrics_xml = generate_detailed_report(lineages_xml, len(hashes), ctx.state.p_dens_data)

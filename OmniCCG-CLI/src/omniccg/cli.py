@@ -92,11 +92,14 @@ def main(config, git_repo, from_first_commit, from_commit, days_prior,
         settings["user_settings"]["clone_detector"] = clone_detector
 
     try:
-        genealogy_xml, lineages_xml, metrics_xml = execute_omniccg(settings)
+        _, lineages_xml, metrics_xml = execute_omniccg(settings)
+        if lineages_xml is None and metrics_xml is None:
+            click.echo(f"Don't have code clone genealogy to {settings['git_repository']}")
+            return 
         write_xml_result(lineages_xml, metrics_xml)
         return 
     except ValueError as e:
-        raise click.UsageError(str(e))
+        raise click.UsageError(e)
 
 
 if __name__ == "__main__":

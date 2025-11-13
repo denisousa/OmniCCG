@@ -69,9 +69,6 @@ function parseXml(xmlStr: string): ParsedLineage[] {
   return lineages;
 }
 
-/** Mapeia o XML parseado para o formato esperado pelo grafo.
- *  Se o seu GenealogyData tiver outra estrutura, ajuste aqui.
- */
 function toGenealogyData(parsed: ParsedLineage[]): GenealogyData {
   return {
     lineages: parsed.map((lin, idx) => ({
@@ -112,6 +109,10 @@ const Visualize = () => {
   const [status, setStatus] = useState<AnalysisStatus | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const [noClonesInfo, setNoClonesInfo] = useState<{
+    detector?: string | null;
+  } | null>(null);
 
   // Suporte a XML direto (via state ou sessionStorage, p/ sobreviver a refresh)
   const [xml, setXml] = useState<string | null>(xmlFromState ?? null);
@@ -163,6 +164,29 @@ const Visualize = () => {
     if (!taskId && xml) {
       try {
         setIsLoading(true);
+
+        // NEW: checa se é um XML de "no_clones_found"
+        const doc = new DOMParser().parseFromString(xml, "application/xml");
+        const parserError = doc.querySelector("parsererror");
+        if (parserError) {
+          throw new Error(parserError.textContent || "XML parse error");
+        }
+
+        const statusNode = doc.querySelector("status");
+        const detectorNode = doc.querySelector("detector");
+
+        if (statusNode?.textContent?.trim() === "no_clones_found") {
+          const detector =
+            detectorNode?.textContent?.trim() || "configured clone detector";
+
+          setNoClonesInfo({ detector });
+          // Genealogy vazia, para cair no fluxo da mensagem no render
+          setGenealogyData({ lineages: [] } as unknown as GenealogyData);
+          setIsLoading(false);
+          return;
+        }
+
+        // XML "normal" com lineages => segue fluxo anterior
         const parsed = parseXml(xml);
         const mapped = toGenealogyData(parsed);
         setGenealogyData(mapped);
@@ -259,8 +283,41 @@ const Visualize = () => {
 
   if (!genealogyData) return null;
 
+  // NEW: caso especial – nenhum clone encontrado
+  if (!genealogyData.lineages || genealogyData.lineages.length === 0) {
+    const projectName =
+      config?.projectName || config?.git_repository || config?.repoUrl || "this project";
+    const detector =
+      noClonesInfo?.detector || config?.detectorName || "configured clone detector";
+
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-background to-accent/5 flex items-center justify-center p-4">
+        <Alert className="max-w-xl">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            <p className="font-medium">
+              No code clones were found in {projectName} using the {detector} clone
+              detector and settings provided.
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              You can try analyzing another repository or adjusting the clone detector
+              configuration.
+            </p>
+            <div className="mt-4 flex gap-2">
+              <Button onClick={() => navigate("/")} variant="outline" className="gap-2">
+                <ArrowLeft className="w-4 h-4" />
+                Analyze another repository
+              </Button>
+            </div>
+          </AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
+  // ✅ CASO NORMAL – existem lineages/clones: renderiza o grafo
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background  to-accent/5">
+    <div className="min-h-screen bg-gradient-to-br from-background to-accent/5">
       <div className="container mx-auto px-4 py-6 h-screen flex flex-col">
         {/* Header */}
         <header className="mb-6">
@@ -269,9 +326,7 @@ const Visualize = () => {
               <div className="flex items-center gap-3">
                 <GitBranch className="w-8 h-8 text-primary" />
                 <div>
-                  <h1 className="text-3xl font-bold">
-                    Code Clone Genealogy
-                  </h1>
+                  <h1 className="text-3xl font-bold">Code Clone Genealogy</h1>
                   {config?.repoUrl && (
                     <p className="text-sm text-muted-foreground">{config.repoUrl}</p>
                   )}
@@ -288,15 +343,18 @@ const Visualize = () => {
                   }
                   try {
                     const metricsXml = await api.getMetricsXml(repoUrl);
-                    navigate("/metrics", { 
-                      state: { 
+                    navigate("/metrics", {
+                      state: {
                         xml: metricsXml,
                         config,
-                        repoUrl 
-                      } 
+                        repoUrl,
+                      },
                     });
                   } catch (error) {
-                    toast.error("Failed to load metrics: " + (error instanceof Error ? error.message : "Unknown error"));
+                    toast.error(
+                      "Failed to load metrics: " +
+                        (error instanceof Error ? error.message : "Unknown error")
+                    );
                   }
                 }}
                 variant="default"

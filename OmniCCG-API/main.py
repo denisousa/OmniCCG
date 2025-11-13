@@ -4,19 +4,33 @@ import subprocess
 from flask import Flask, Response, request, jsonify
 from get_code_snippets import _ensure_repo, _checkout, _safe_repo_path, _slice_lines, _read_text_with_fallback, _clean_git_locks
 from pathlib import Path
+from control import git_repos_to_control
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)   
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
 
+
 @app.post("/detect_clones")
 def detect_clones():
     general_settings = request.get_json(silent=True)
+    git_repository = general_settings.get("git_repository")
+    git_repos_to_control.append(git_repository)
     xml_obj, _, _  = execute_omniccg(general_settings) 
     return Response(xml_obj, status=200, mimetype="application/xml")
+
+
+@app.post("/stop_detect_clones")
+def stop_detect_clones():
+    git_url = request.get_json(silent=True).get("gir_url")
+    git_repos_to_control.remove(git_url)
+    return jsonify({
+        "message": f"Stop genealogy extraction from the repository: {git_url}",
+    }), 200
+
 
 @app.post("/get_code_snippets")
 def snippets():
@@ -24,6 +38,8 @@ def snippets():
     git_url = payload.get("git_url", "")
     commit = payload.get("commit", "")
     sources = payload.get("sources") or payload.get("items") or []
+
+    git_repos_to_control.append(git_url)
 
     if not git_url or not commit or not isinstance(sources, list):
         return jsonify({
@@ -54,8 +70,9 @@ def snippets():
         startline = src.get("startline") or src.get("start") or src.get("ls")
         endline = src.get("endline") or src.get("end") or src.get("le")
 
+        repo_name = git_url.split('/')[-1]
         item = {
-            "file": fpath,
+            "file": fpath.split(f'{repo_name}/repo/')[-1],
             "startline": startline,
             "endline": endline,
         }
@@ -82,6 +99,7 @@ def snippets():
         "snippets": results
     }), 200
 
+
 @app.post("/get_metrics")
 def get_metrics():
     payload = request.get_json(silent=True) or {}
@@ -95,6 +113,4 @@ def get_metrics():
 
 
 if __name__ == "__main__":
-    # https://chatgpt.com/share/690d2d88-8e70-800d-b9c1-052e508baf89
     app.run(host="0.0.0.0", port=5000, debug=True)
-

@@ -1,11 +1,11 @@
 {
-  "git_repository": "https://github.com/alibaba/spring-ai-alibaba",
+  "git_repository": "git-repo https://github.com/apple/pkl",
   "user_settings": {
     "from_first_commit": true,
     "from_a_specific_commit": null,
-    "days_prior": null,
-    "merge_commit": null,
-    "fixed_leaps": 200
+    "days_prior": 7,
+    "merge_commit": true,
+    "fixed_leaps": null
   },
   "clone_detector": "nicad"
 }

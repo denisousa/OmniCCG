@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<results>
+  <clone_density>
+    <point>
+      <version>1</version>
+      <clones_density>14.82</clones_density>
+    </point>
+    <point>
+      <version>2</version>
+      <clones_density>19.96</clones_density>
+    </point>
+    <point>
+      <version>3</version>
+      <clones_density>22.25</clones_density>
+    </point>
+    <point>
+      <version>4</version>
+      <clones_density>21.42</clones_density>
+    </point>
+    <summary>
+      <versions_count_present>4</versions_count_present>
+      <avg_density_present>19.61</avg_density_present>
+      <avg_density_full_range>19.61</avg_density_full_range>
+    </summary>
+  </clone_density>
+  <total_clone_lineages>81</total_clone_lineages>
+  <total_amount_of_versions>1.89</total_amount_of_versions>
+  <change_patterns_of_lineages>
+    <consistent>6.17</consistent>
+    <same>91.36</same>
+    <inconsistent>2.47</inconsistent>
+  </change_patterns_of_lineages>
+  <status_of_clone_lineages>
+    <alive>
+      <count>29</count>
+      <percentage>35.80</percentage>
+    </alive>
+    <dead>
+      <count>52</count>
+      <percentage>64.20</percentage>
+    </dead>
+  </status_of_clone_lineages>
+  <length_of_dead_clone_lineages>
+    <min>1</min>
+    <avg>1.12</avg>
+    <max>2</max>
+  </length_of_dead_clone_lineages>
+  <evolution_pattern_of_versions>
+    <add>13.59</add>
+    <same>73.79</same>
+    <subtract>12.62</subtract>
+  </evolution_pattern_of_versions>
+  <change_pattern_of_versions>
+    <consistent>37.86</consistent>
+    <same>60.19</same>
+    <inconsistent>1.94</inconsistent>
+  </change_pattern_of_versions>
+  <kvolatile last_version="4">
+    <point k="0" count="0" cdf_dead="0.00" rvolatile="0.00"/>
+    <point k="1" count="46" cdf_dead="0.88" rvolatile="0.57"/>
+    <point k="2" count="52" cdf_dead="1.00" rvolatile="0.64"/>
+    <point k="3" count="52" cdf_dead="1.00" rvolatile="0.64"/>
+    <point k="4" count="52" cdf_dead="1.00" rvolatile="0.64"/>
+  </kvolatile>
+</results>
