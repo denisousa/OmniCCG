@@ -1,9 +1,8 @@
 # OmniCCG
-This is the replication package for the paper **OmniCCG: Agnostic Code Clone Genealogy Extractor**.
+This is the replication package for the paper *OmniCCG: Agnostic Code Clone Genealogy Extractor*.
 
 **OmniCCG** is a code clone genealogy extractor that is agnostic to clone detectors.
 Given a Git repository and user settings, **OmniCCG** extracts the entire clone genealogy from the repository.
-
 
 ## Usage
 OmniCCG offers two ways to use it.
@@ -48,23 +47,7 @@ After the clone detector finishes, the developer’s API must return the code cl
 
 ## Preliminary Evaluation
 We performed a preliminary evaluation of **OmniCCG** to showcase its main functionalities.
-
 The **`results_of_evaluation/`** directory contains the results obtained in our evaluation.
 
-## Instructions
+## How to install and run OmniCCG as a web application and as a console application?
 To learn how to install and run **`OmniCCG-API`**, **`OmniCCG-Web`**, and **`OmniCCG-CLI`**, you can read the README.md file for each project.
-          
-## Installation and use		
-> For exact instructions, check the README files for each subfolder. Below is a general installation guide.
-### Prerequisites
-- Python 3.12+
-- Node.js 18+ and npm
-- Poetry (for Python dependency management)
-- Java 17+ (required by NiCad / Simian clone detectors)
-- Git
-
-## Lincense
-This project is part of the **OmniCCG** for studying code clone genealogies. All rights reserved by the maintainers.
-
-## Authors/Contact
-[nome dos desenvolvedores + link do contato]
