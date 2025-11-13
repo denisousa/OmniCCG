@@ -79,5 +79,5 @@ Run the application:
 npm run dev
 ```
 
-The platform will be available at `http://localhost:5050`
+The platform will be available at `http://localhost:8080`
 

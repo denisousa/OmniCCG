@@ -30,7 +30,7 @@ Run the application:
 python main.py
 ```
 
-The platform will be available at `http://localhost:5050`
+The platform will be available at `http://localhost:5000`
 
 
 ## Output: Code Clone Genealogies and Metrics

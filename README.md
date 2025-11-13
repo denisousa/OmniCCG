@@ -25,7 +25,7 @@ In its current implementation, **OmniCCG** provides built-in clone detection thr
 
 ## Clone Detection (Custom Integration)
 **OmniCCG** is detector-agnostic because it is designed to integrate with any clone detector chosen by the user. This is achieved through a simple HTTP-based integration API.
-To do this, the user must implement an API that has the target Git repository locally cloned and provides an endpoint that accepts a commit hash in the query string. **OmniCCG** issues an HTTP request using the [`requests`](https://pypi.org/project/requests/) library to the following route:
+To do this, the user must implement an API that has the target Git repository locally cloned and provides an endpoint that accepts a commit hash in the query string. **OmniCCG** issues an HTTP request to the following route:
 
 ```http
 GET /<user-api>/clone-detection/?sha=<hash>
