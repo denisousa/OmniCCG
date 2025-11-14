@@ -1,15 +1,17 @@
 # OmniCCG
-This is the replication package for the paper *OmniCCG: Agnostic Code Clone Genealogy Extractor*.
+This is the replication package for the paper **OmniCCG: Agnostic Code Clone Genealogy Extractor**.
 
 **OmniCCG** is a code clone genealogy extractor that is agnostic to clone detectors.
 Given a Git repository and user settings, **OmniCCG** extracts the entire clone genealogy from the repository.
+
 
 ## Usage
 OmniCCG offers two ways to use it.
 1. Graphical user interface
 OmniCCG can be used through a modern, responsive web interface that makes it easy to explore and track clone genealogies in a repository.
 You may either:
-= Use the hosted online platform through the following [link](https://omniccg-ipwd.vercel.app/)
+
+- Use the online platform through the following [link](https://omniccg-ipwd.vercel.app/)
 - Use the platform locally by installing and executing **`OmniCCG-API`** and **`OmniCCG-Web`**.
 
 2. Console application
@@ -25,7 +27,7 @@ In its current implementation, **OmniCCG** provides built-in clone detection thr
 
 ## Clone Detection (Custom Integration)
 **OmniCCG** is detector-agnostic because it is designed to integrate with any clone detector chosen by the user. This is achieved through a simple HTTP-based integration API.
-To do this, the user must implement an API that has the target Git repository locally cloned and provides an endpoint that accepts a commit hash in the query string. **OmniCCG** issues an HTTP request to the following route:
+To do this, the user must implement an API that has the target Git repository locally cloned and provides an endpoint that accepts a commit hash in the query string. **OmniCCG** issues an HTTP request using the [`requests`](https://pypi.org/project/requests/) library to the following route:
 
 ```http
 GET /<user-api>/clone-detection/?sha=<hash>
@@ -47,7 +49,9 @@ After the clone detector finishes, the developer’s API must return the code cl
 
 ## Preliminary Evaluation
 We performed a preliminary evaluation of **OmniCCG** to showcase its main functionalities.
+
 The **`results_of_evaluation/`** directory contains the results obtained in our evaluation.
 
-## How to install and run OmniCCG as a web application and as a console application?
+## Instructions for installing and executes OmniCCG
 To learn how to install and run **`OmniCCG-API`**, **`OmniCCG-Web`**, and **`OmniCCG-CLI`**, you can read the README.md file for each project.
+

@@ -2,11 +2,27 @@
 # OmniCCG-API
 
 ## Requirements to Execute
+For OmniCCG execute:
 - [Python](https://www.python.org/) >= 3.12
 - [Poetry](https://python-poetry.org/)
+- [Pip](https://pypi.org/project/pip/)
 - [Git](https://git-scm.com/install/windows)
-- [Java](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) >= 17
-- [Txl](https://txl.ca/)
+- [Cygwing](https://www.cygwin.com/) or [MinGW](https://sourceforge.net/projects/mingw/) - If you are using Windows, you need to perform all the installation and execution steps using one of these tools.
+
+For Clone detectors execute:
+- [Java](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) >= 17 - It is necessary for the Simian execution.
+- [Txl](https://txl.ca/) - It is necessary for the Nicad execution.
+
+### Installation tip:
+You can run these commands to install Txl:
+```sh
+curl -L -o /tmp/freetxl.tar.gz https://txl.ca/download/25536-txl10.8b.linux64.tar.gz && \
+    mkdir -p /opt/txl && \
+    tar -xzf /tmp/freetxl.tar.gz -C /opt/txl --strip-components=1 && \
+    chmod +x /opt/txl/bin/txl && \
+    ln -sf /opt/txl/bin/txl /usr/local/bin/txl && \
+    rm /tmp/freetxl.tar.gz
+```
 
 ### Note
 If you are using Windows, you need to perform all the installation and execution steps in [Cygwing](https://www.cygwin.com/) or [MinGW](https://sourceforge.net/projects/mingw/). This is due to Nicad restrictions. If you prefer to use only Simian, follow the instructions normally.

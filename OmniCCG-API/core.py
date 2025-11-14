@@ -600,7 +600,6 @@ def GetHashes(ctx: "Context") -> List[str]:
     hashes.reverse()
     return hashes
 
-
 def PrepareSourceCode(ctx: "Context") -> bool:
     s, p = ctx.settings, ctx.paths
     print("Preparing source code")
@@ -621,22 +620,39 @@ def PrepareSourceCode(ctx: "Context") -> bool:
 
     repo_path = Path(repo_root)
 
-    # Pick only .java files; skip .git and *test* files
-    for src in repo_path.rglob("*.java"):
+    # Pick only files that end with .java; skip .git and *test* files
+    for src in repo_path.rglob("*"):
+        if not src.is_file():
+            continue
+
         if any(part == ".git" for part in src.parts):
             continue
-        if "test" in src.name.lower():
+
+        name_lower = src.name.lower()
+
+        # Must end with .java (and not just contain ".java" in the middle)
+        if not name_lower.endswith(".java"):
+            continue
+
+        # Skip test files
+        if "test" in name_lower:
             continue
 
         rel_dir = os.path.relpath(str(src.parent), repo_root)
         dst_dir = p.prod_data_dir if rel_dir == "." else os.path.join(p.prod_data_dir, rel_dir)
 
         os.makedirs(dst_dir, exist_ok=True)
-        shutil.copy2(str(src), os.path.join(dst_dir, src.name))
-        found = True
+        try:
+            shutil.copy2(str(src), os.path.join(dst_dir, src.name))
+        except:
+            # Ignore copy errors
+            pass
+        else:
+            found = True
 
     print("Source code ready for clone analysis.\n")
     return found
+
 
 def StartFromPreviousVersion(ctx: "Context") -> int:
     p = ctx.paths
@@ -808,8 +824,8 @@ def RunCloneDetection(ctx: "Context", current_hash: str):
     if tool == "simian":
         print(" >>> Running Simian...")
         java_jar_command = f"java -jar {os.path.join(p.tools_dir, 'simian', 'simian-4.0.0.jar')}"
-        options_command = "-formatter=xml"
-        simian_command = f'{java_jar_command} {options_command} "{p.prod_data_dir}"/*.java > "{p.clone_detector_xml}"'
+        options_command = "-format  ter=xml -threshold=20"
+        simian_command = f'{java_jar_command} {options_command} "{p.prod_data_dir}"/**/*.java > "{p.clone_detector_xml}"'
         os.system(simian_command)
         parse_simian_to_clones(p.clone_detector_xml)
         print("Finished clone detection.\n")

@@ -4,6 +4,22 @@ export const genericExamples = [
     title: 'Generic Examples',
     items: [
       {
+        name: 'pkl',
+        git: 'https://github.com/apple/pkl',
+        from_first_commit: true,
+        merge_commits: true,
+        time: '4 seconds',
+        clone_detector: 'simian',
+      },
+      {
+        name: 'shopping-cart',
+        git: 'https://github.com/shashirajraja/shopping-cart',
+        from_first_commit: true,
+        fixed_leaps: 5,
+        time: '13 seconds',
+        clone_detector: 'simian',
+      },
+      {
         name: 'avro',
         git: 'https://github.com/apache/avro',
         from_lasy_days: 360,

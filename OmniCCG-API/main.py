@@ -20,6 +20,7 @@ def detect_clones():
     git_repository = general_settings.get("git_repository")
     git_repos_to_control.append(git_repository)
     xml_obj, _, _  = execute_omniccg(general_settings) 
+    git_repos_to_control.remove(git_repository)
     return Response(xml_obj, status=200, mimetype="application/xml")
 
 
