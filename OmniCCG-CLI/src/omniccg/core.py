@@ -598,7 +598,6 @@ def GetHashes(ctx: "Context") -> List[str]:
     hashes.reverse()
     return hashes
 
-
 def PrepareSourceCode(ctx: "Context") -> bool:
     s, p = ctx.settings, ctx.paths
     print("Preparing source code")
@@ -619,22 +618,39 @@ def PrepareSourceCode(ctx: "Context") -> bool:
 
     repo_path = Path(repo_root)
 
-    # Pick only .java files; skip .git and *test* files
-    for src in repo_path.rglob("*.java"):
+    # Pick only files that end with .java; skip .git and *test* files
+    for src in repo_path.rglob("*"):
+        if not src.is_file():
+            continue
+
         if any(part == ".git" for part in src.parts):
             continue
-        if "test" in src.name.lower():
+
+        name_lower = src.name.lower()
+
+        # Must end with .java (and not just contain ".java" in the middle)
+        if not name_lower.endswith(".java"):
+            continue
+
+        # Skip test files
+        if "test" in name_lower:
             continue
 
         rel_dir = os.path.relpath(str(src.parent), repo_root)
         dst_dir = p.prod_data_dir if rel_dir == "." else os.path.join(p.prod_data_dir, rel_dir)
 
         os.makedirs(dst_dir, exist_ok=True)
-        shutil.copy2(str(src), os.path.join(dst_dir, src.name))
-        found = True
+        try:
+            shutil.copy2(str(src), os.path.join(dst_dir, src.name))
+        except:
+            # Ignore copy errors
+            pass
+        else:
+            found = True
 
     print("Source code ready for clone analysis.\n")
     return found
+
 
 def StartFromPreviousVersion(ctx: "Context") -> int:
     p = ctx.paths
@@ -806,8 +822,8 @@ def RunCloneDetection(ctx: "Context", current_hash: str):
     if tool == "simian":
         print(" >>> Running Simian...")
         java_jar_command = f"java -jar {os.path.join(p.tools_dir, 'simian', 'simian-4.0.0.jar')}"
-        options_command = "-formatter=xml"
-        simian_command = f'{java_jar_command} {options_command} "{p.prod_data_dir}"/*.java > "{p.clone_detector_xml}"'
+        options_command = "-formatter=xml -threshold=20"
+        simian_command = f'{java_jar_command} {options_command} "{p.prod_data_dir}/**/*.java" > "{p.clone_detector_xml}"'
         os.system(simian_command)
         parse_simian_to_clones(p.clone_detector_xml)
         print("Finished clone detection.\n")
@@ -1197,16 +1213,6 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     paths.tools_dir = os.path.join(pkg_root_str, "tools")
     paths.script_dir = os.path.join(pkg_root_str, "scripts")
 
-    # Results & detector output
-    paths.res_dir = os.path.join(pkg_root_str, "results")
-    paths.cur_res_dir = os.path.join(paths.res_dir, "0000000")
-    paths.clone_detector_dir = os.path.join(pkg_root_str, "clone_detector_result")
-    paths.clone_detector_xml = os.path.join(paths.clone_detector_dir, "result.xml")
-
-    # Output files
-    paths.p_res_file = os.path.join(paths.res_dir, "production_results.xml")
-    paths.p_dens_file = os.path.join(paths.res_dir, "production_density.csv")
-
     # Workspace (clones, datasets, history) lives under omniccg/cloned_repositories/<repo_name>
     repo_name = _derive_repo_name(settings)
     base_dir = os.path.join(pkg_root_str, "cloned_repositories", repo_name)
@@ -1216,6 +1222,14 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     paths.prod_data_dir = os.path.join(paths.data_dir, "production")
     paths.hist_file = os.path.join(base_dir, "githistory.txt")
     paths.metrics_xml = os.path.join(base_dir, "metrics.xml")
+    paths.p_res_file = os.path.join(base_dir, "genealogy.xml")
+    paths.p_dens_file = os.path.join(base_dir, "density.csv")
+
+    # Results & detector output
+    paths.res_dir = os.path.join(base_dir, "final_result")
+    paths.cur_res_dir = os.path.join(paths.res_dir, "0000000")
+    paths.clone_detector_dir = os.path.join(base_dir, "aggregated_results")
+    paths.clone_detector_xml = os.path.join(paths.clone_detector_dir, "result.xml")
 
     # Ensure folders exist
     os.makedirs(paths.res_dir, exist_ok=True)

@@ -3,6 +3,9 @@ workspace/repo
 workspace/githistory.txt
 workspace/dataset
 
+/**/ccg_data.xml
+/**/ccg_metrics.xml
+
 cloned_repositories
 c/
 java/

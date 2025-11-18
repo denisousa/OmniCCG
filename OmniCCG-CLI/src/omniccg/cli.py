@@ -17,8 +17,13 @@ import json
               help="Built-in clone detector to use when 'detection-api' is absent (default: nicad)")
 @click.option("--detection-api",
               help="HTTP endpoint of the external detection API; if set, 'clone_detector' is ignored")
+@click.option(
+    "--output-path", "-o",
+    type=click.Path(file_okay=False, dir_okay=True),
+    help="Directory where result XML files will be written (default: current directory)",
+)
 def main(config, git_repo, from_first_commit, from_commit, days_prior,
-         merge_commit, fixed_leaps, clone_detector, detection_api):
+         merge_commit, fixed_leaps, clone_detector, detection_api, output_path):
     """OmniCCG CLI — enforce single selection; default from_first_commit=True; optional detection-api."""
 
     # --- 1) Config file path provided ---
@@ -51,10 +56,15 @@ def main(config, git_repo, from_first_commit, from_commit, days_prior,
         us.setdefault("merge_commit", None)
         us.setdefault("fixed_leaps", None)
 
+        # --- output path (config + CLI override) ---
+        cfg_output_path = settings.get("output_path")
+        result_path = output_path or cfg_output_path or "."
+        settings["output_path"] = result_path  # deixa disponível para outras partes, se necessário
+
         try:
             genealogy_xml, lineages_xml, metrics_xml = execute_omniccg(settings)
-            write_xml_result(lineages_xml, metrics_xml)
-            return 
+            write_xml_result(lineages_xml, metrics_xml, result_path)
+            return
         except ValueError as e:
             raise click.UsageError(str(e))
 
@@ -77,9 +87,13 @@ def main(config, git_repo, from_first_commit, from_commit, days_prior,
     # Enforce single selector; default to from_first_commit=True if none given
     enforce_single_selector(us)
 
+    # --- output path vindo só da CLI nesse caso ---
+    result_path = output_path or "."
+
     settings = {
         "git_repository": git_repo,
-        "user_settings": us
+        "user_settings": us,
+        "output_path": result_path,
     }
 
     # detection-api (CLI) takes precedence; do NOT set clone_detector if present
@@ -95,11 +109,11 @@ def main(config, git_repo, from_first_commit, from_commit, days_prior,
         _, lineages_xml, metrics_xml = execute_omniccg(settings)
         if lineages_xml is None and metrics_xml is None:
             click.echo(f"Don't have code clone genealogy to {settings['git_repository']}")
-            return 
-        write_xml_result(lineages_xml, metrics_xml)
-        return 
+            return
+        write_xml_result(lineages_xml, metrics_xml, result_path)
+        return
     except ValueError as e:
-        raise click.UsageError(e)
+        raise click.UsageError(str(e))
 
 
 if __name__ == "__main__":
