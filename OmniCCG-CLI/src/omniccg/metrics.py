@@ -276,9 +276,9 @@ def build_results_xml(
 
 def _dedup_consecutive_by_density(points: List[Tuple[int, float, float]], tol: float = 1e-9):
     """
-    Remove pontos consecutivos cuja densidade (2º elemento) repete.
-    Mantém o primeiro da sequência e descarta os seguintes repetidos.
-    Ex.: [(1, 5.4, ...), (2, 5.4, ...)] -> remove o segundo.
+    Remove consecutive points whose density (2nd element) repeats.
+    Keeps the first in the sequence and discards the following repeated ones.
+    E.g.: [(1, 5.4, ...), (2, 5.4, ...)] -> removes the second.
     """
     out = []
     prev_dens = None

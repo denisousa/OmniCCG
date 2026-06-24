@@ -1,7 +1,36 @@
-from .core import execute_omniccg
-from .cli_operations import write_xml_result, enforce_single_selector, is_valid_url
+from core import execute_omniccg
+from cli_operations import write_xml_result, enforce_single_selector, is_valid_url
 import click
 import json
+from copy import deepcopy
+
+
+DEFAULT_SETTINGS = {
+    "git_repository": "https://github.com/quay/quay",
+    "user_settings": {
+        "from_first_commit": True,
+        "from_a_specific_commit": None,
+        "days_prior": 475,
+        "merge_commit": True,
+        "fixed_leaps": None,
+        "language": "py",
+    },
+    "clone_detector": "nicad",
+}
+
+
+def build_default_settings(output_path, language):
+    settings = deepcopy(DEFAULT_SETTINGS)
+    user_settings = settings.setdefault("user_settings", {})
+
+    if user_settings.get("days_prior") or user_settings.get("from_a_specific_commit"):
+        user_settings["from_first_commit"] = False
+
+    user_settings.setdefault("clone_detector", settings.get("clone_detector", "nicad"))
+    user_settings["language"] = language or user_settings.get("language")
+    settings["output_path"] = output_path or "."
+
+    return settings
 
 @click.command()
 @click.option("--config", "-c",
@@ -22,8 +51,11 @@ import json
     type=click.Path(file_okay=False, dir_okay=True),
     help="Directory where result XML files will be written (default: current directory)",
 )
+@click.option("--language", "-l",
+              default=None,
+              help="Programming language of the repository (e.g. java, python, c, cs)")
 def main(config, git_repo, from_first_commit, from_commit, days_prior,
-         merge_commit, fixed_leaps, clone_detector, detection_api, output_path):
+         merge_commit, fixed_leaps, clone_detector, detection_api, output_path, language):
     """OmniCCG CLI — enforce single selection; default from_first_commit=True; optional detection-api."""
 
     # --- 1) Config file path provided ---
@@ -56,6 +88,10 @@ def main(config, git_repo, from_first_commit, from_commit, days_prior,
         us.setdefault("merge_commit", None)
         us.setdefault("fixed_leaps", None)
 
+        # language: CLI flag overrides config
+        cfg_language = us.get("language")
+        us["language"] = language or cfg_language
+
         # --- output path (config + CLI override) ---
         cfg_output_path = settings.get("output_path")
         result_path = output_path or cfg_output_path or "."
@@ -70,7 +106,17 @@ def main(config, git_repo, from_first_commit, from_commit, days_prior,
 
     # --- 2) No config file: build from CLI flags ---
     if not git_repo:
-        raise click.UsageError("Git repository URL is required (use --git-repo or --config).")
+        settings = build_default_settings(output_path, language)
+
+        try:
+            _, lineages_xml, metrics_xml = execute_omniccg(settings)
+            if lineages_xml is None and metrics_xml is None:
+                click.echo(f"Don't have code clone genealogy to {settings['git_repository']}")
+                return
+            write_xml_result(lineages_xml, metrics_xml, settings["output_path"])
+            return
+        except ValueError as e:
+            raise click.UsageError(str(e))
 
     # Build user_settings from CLI
     us = {
@@ -82,6 +128,8 @@ def main(config, git_repo, from_first_commit, from_commit, days_prior,
         # defaults: not used unless explicitly passed
         "merge_commit": merge_commit,
         "fixed_leaps": fixed_leaps,
+
+        "language": language,
     }
 
     # Enforce single selector; default to from_first_commit=True if none given

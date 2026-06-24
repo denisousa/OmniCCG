@@ -16,17 +16,17 @@ from datetime import datetime, timedelta
 from typing import Union, Dict, Any, List, Iterable, Optional, Tuple
 from git import Repo
 from git.exc import BadName
-
-try:
-    from .compute_time import timed
-    from .get_method_name import get_enclosing_java_method
-    from .metrics import generate_detailed_report
-    from .analysis import count_java_methods_in_file
-except:
-    from compute_time import timed
-    from get_method_name import get_enclosing_java_method
-    from metrics import generate_detailed_report
-    from analysis import count_java_methods_in_file
+from omniccg.process_languages.clean_cs_code import process_directory_cs
+from omniccg.process_languages.clean_rb_code import process_directory_rb
+from omniccg.process_languages.clean_py_code import process_directory_py
+from omniccg.domain.Lineage import Lineage
+from omniccg.domain.CloneFragment import CloneFragment
+from omniccg.domain.CloneClass import CloneClass
+from omniccg.domain.CloneVersion import CloneVersion
+from omniccg.compute_time import timed
+from omniccg.get_method_name import get_enclosing_java_method
+from omniccg.metrics import generate_detailed_report
+from omniccg.analysis import count_functions_in_file
 
 # =========================
 # Cross‑platform helpers
@@ -193,6 +193,8 @@ class Settings:
     use_leaps: bool = False
     commit_leaps: Optional[int] = None
 
+    language: Optional[str] = None 
+
 @dataclass
 class Paths:
     script_dir: str = "scripts"
@@ -224,125 +226,6 @@ class Context:
     settings: Settings
     paths: Paths
     state: State
-
-
-# =========================
-# Domain classes
-# =========================
-
-class CloneFragment:
-    def __init__(self, file, ls, le, fn=""):
-        # replace /dataset/production with /repo to keep compatibility with the original pipeline
-        self.file = file.replace("/dataset/production", "/repo")
-        self.ls = ls
-        self.le = le
-        self.function_name = fn
-        self.hash = hashlib.sha256(f"{self.file}{self.ls}{self.le}".encode("utf-8")).hexdigest()[:7]
-
-    def contains(self, other):
-        return self.file == other.file and self.ls <= other.ls and self.le >= other.le
-
-    def __eq__(self, other):
-        return self.file == other.file and self.ls == other.ls and self.le == other.le
-
-    def matches(self, other):
-        return self.file == other.file and self.function_name == other.function_name
-    
-    def matchesStrictly(self, other):
-        return self.file == other.file and (self.ls == other.ls or self.function_hash == other.function_hash)
-
-    def __hash__(self):
-        return hash(self.file + str(self.ls))
-
-    def toXML(self):
-        return '\t\t\t<source file="%s" startline="%d" endline="%d" hash="%d"></source>\n' % (self.file, self.ls, self.le, self.function_hash)
-
-    def countLOC(self):
-        return self.le - self.ls
-
-
-class CloneClass:
-    def __init__(self):
-        self.fragments: List[CloneFragment] = []
-
-    def contains(self, fragment):
-        for f in self.fragments:
-            if f.matches(fragment):
-                return True
-        return False
-
-
-    def matches(self, cc: "CloneClass"):
-        n = 0
-        for fragment in cc.fragments:
-            if self.contains(fragment):
-                n += 1
-        return (n == len(cc.fragments)) or (n == len(self.fragments))
-
-    def toXML(self):
-        s = '\t\t<class nclones="%d">\n' % (len(self.fragments))
-        for fragment in self.fragments:
-            try:
-                s += fragment.toXML()
-            except Exception:
-                pass
-        s += "\t\t</class>\n"
-        return s
-
-    def countLOC(self):
-        return sum(f.countLOC() for f in self.fragments)
-
-
-class CloneVersion:
-    def __init__(self, cc=None, h=None, n=None, evo="None", chan="None"):
-        self.cloneclass = cc
-        self.hash = h
-        self.nr = n
-        self.evolution_pattern = evo
-        self.change_pattern = chan
-        self.removed_fragments: List[CloneFragment] = []
-
-    def toXMLRemoved(self):
-        s = ""
-        for f in self.removed_fragments:
-            s += f.toXML()
-        return s
-
-    def toXML(self):
-        s = '\t<version nr="%d" hash="%s" evolution="%s" change="%s">\n' % (
-            self.nr,
-            self.hash,
-            self.evolution_pattern,
-            self.change_pattern,
-        )
-        try:
-            s += self.cloneclass.toXML()
-        except Exception:
-            pass
-        s += "\t</version>\n"
-        if self.removed_fragments:
-            s += self.toXMLRemoved()
-        return s
-
-
-class Lineage:
-    def __init__(self):
-        self.versions: List[CloneVersion] = []
-
-    def matches(self, cc: CloneClass):
-        # matches if any fragment of the cloneclass exists in the last version
-        for fragment in cc.fragments:
-            if self.versions[-1].cloneclass.contains(fragment):
-                return True
-        return False
-
-    def toXML(self):
-        s = "<lineage>\n"
-        for version in self.versions:
-            s += version.toXML()
-        s += "</lineage>\n"
-        return s
-
 
 # =========================
 # Auxiliary parsers
@@ -628,8 +511,7 @@ def PrepareSourceCode(ctx: "Context") -> bool:
 
         name_lower = src.name.lower()
 
-        # Must end with .java (and not just contain ".java" in the middle)
-        if not name_lower.endswith(".java"):
+        if not name_lower.endswith(f".{s.language}"):
             continue
 
         # Skip test files
@@ -792,11 +674,18 @@ def RunCloneDetection(ctx: "Context", current_hash: str):
 
 
     tool = (s.clone_detector_tool or "").casefold()
+    if s.language == "py":
+        process_directory_py(p.prod_data_dir)
+    elif s.language == "cs":
+        process_directory_cs(p.prod_data_dir)
+    elif s.language == "rb":
+        process_directory_rb(p.prod_data_dir)
+
     if tool == "nicad":
         print(" >>> Running nicad6...")
         os.makedirs(p.cur_res_dir, exist_ok=True)
 
-        subprocess.run(["./nicad6", "functions", "java", p.prod_data_dir],
+        subprocess.run(["./nicad6", "functions", s.language, p.prod_data_dir],
                     cwd=Path(p.tools_dir) / "NiCad",
                     check=True)
 
@@ -937,7 +826,7 @@ def RunDensityAnalysis(ctx: "Context", commitNr: int, pcloneclasses: List[CloneC
         for fr in clone.fragments:
             all_paths.add(fr.file)
 
-    total_amount_of_p_functions = sum([count_java_methods_in_file(path) for path in all_paths])
+    total_amount_of_p_functions = sum([count_functions_in_file(path, s.language) for path in all_paths])
 
     all_sources: List[CloneFragment] = []
     for clone in current_clones:
@@ -1148,6 +1037,8 @@ def init_settings_from_user(general_settings: Dict[str, Any]) -> Settings:
         use_merge_commits=bool(merge_commit),
         use_leaps=bool(fixed_leaps),
         commit_leaps=fixed_leaps,
+
+        language=user.get("language"),
     )
     return s
 
@@ -1205,15 +1096,12 @@ def execute_omniccg(general_settings: Dict[str, Any]) -> str:
     state = State()
     ctx = Context(settings=settings, paths=paths, state=state)
 
-    # --- NEW: make all folders live inside the installed package directory ---
-    pkg_root = Path(__file__).resolve().parent            # .../omniccg
-    pkg_root_str = str(pkg_root)
-
-    # Tools / scripts
+    # Resolve package assets relative to this module instead of the process cwd.
+    pkg_root_str = str(Path(__file__).resolve().parent)
     paths.tools_dir = os.path.join(pkg_root_str, "tools")
     paths.script_dir = os.path.join(pkg_root_str, "scripts")
 
-    # Workspace (clones, datasets, history) lives under omniccg/cloned_repositories/<repo_name>
+    # Workspace (clones, datasets, history) lives under <project>/omniccg/cloned_repositories/<repo_name>
     repo_name = _derive_repo_name(settings)
     base_dir = os.path.join(pkg_root_str, "cloned_repositories", repo_name)
     paths.ws_dir = base_dir
